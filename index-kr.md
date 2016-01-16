@@ -1,6 +1,6 @@
 ---
 layout: page
-title: R for reproducible scientific analysis
+title: 재현가능한 R for reproducible scientific analysis
 --- 
 
 Introduction to R for non-programmers using gapminder data.
