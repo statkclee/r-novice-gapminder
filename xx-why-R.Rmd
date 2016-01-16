@@ -14,7 +14,7 @@ gapminder <- tbl_df(read.csv("data/gapminder-FiveYearData.csv"))
 #gapminder <- read.csv("data/gapminder-FiveYearData.csv", header=TRUE, sep=',')
 ```
 
-> ### Learning Objectives {.objectives}
+> ### 학습목표 {.objectives}
 >
 > * To get a taste of R's powerful visualisation capabilities
 > * To get a taste of R's powerful statistical analysis capabilities
