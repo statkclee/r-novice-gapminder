@@ -1,26 +1,26 @@
 ---
 layout: page
-title: 재현가능한 R for reproducible scientific analysis
+title: 재현가능한 과학적 분석을 위한 R (Gapminder)
 --- 
 
-Introduction to R for non-programmers using gapminder data.
+Gapminder 데이터를 사용한 초보자를 위한 R 언어 소개.
 
-The goal of this lesson is to teach novice programmers to write modular code
-and best practices for using R for data analysis. R is commonly used in many
-scientific disciplines for statistical analysis and its array of third-party
-packages. We find that many scientists who come to Software Carpentry workshops
-use R and want to learn more. The emphasis of these materials is to give
-attendees a strong foundation in the fundamentals of R, and to teach best
-practices for scientific computing: breaking down analyses into modular units,
-task automation, and encapsulation.
+자료분석에 활용되는 R을 효과적으로 사용하는데 필요한 
+모범 활용사례를 소개하고, 
+모듈 방식으로 코드를 작성하는 방법을 초보 프로그래머에게 교육시키는게 목표다.
+많은 과학분야에서 R이 통계분석과 제3자 팩키지 형태로 흔히 사용된다.
+소프트웨어 카펜트리에 관심을 갖는 많은 과학자들이 R을 사용하고 있고,
+좀더 학습하고자 워크샵에 참석하는 것을 발견했다.
+본 학습교재에서 강조하는 것은 워크샵 참여자에게 R 언어 기본기를 함양하고,
+과학 컴퓨팅에 대한 모범 활용사례를 전수함에 있다: 분석작업을 모듈 단위로 쪼개고,
+작업을 자동화하고, 캡슐화한다.
 
-Note that this workshop will focus on teaching the fundamentals of the 
-programming language R, and will not teach statistical analysis.
+소프트웨어 카펜트리 워크샵은 프로그래밍 언어 R 기본기를 가르치는데 집중하고,
+통계분석을 가르치지 않는다.
 
-A variety of third party packages are used throughout this workshop. These
-are not necessarily the best, nor are they comprehensive, but they are 
-packages we find useful, and have been chosen primarily for their 
-usability.
+다양한 제3자 팩키지가 워크샵을 통해 사용된다.
+여기에서 소개되는 팩키지가 필히 가장 최고는 아니고, 포괄적인 것도 아니다.
+하지만, 유용하다고 판단되는 팩키지로, 주로 사용편의성에 초점을 맞춰 선택되었다.
 
 > ## 전제조건 {.prereq}
 >
@@ -46,7 +46,8 @@ usability.
 |14. [`tidyr` 팩키지로 데이터프레임 솜씨있게 조작](14-tidyr-kr.html)           | 14. [Dataframe manipulation with tidyr](14-tidyr.html) |
 |15. [요약정리](15-wrap-up-kr.html)                                                      | 15. [Wrapping up](15-wrap-up.html) |
 
-## 참고자료
+## 추가 학습교재       
 
-*   [Reference](reference.html)
-*   [Instructor's Guide](instructors.html)
+*   [참고문헌](reference.html)
+*   [강사 안내서](instructors.html)
+
