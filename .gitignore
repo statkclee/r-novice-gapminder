@@ -5,7 +5,6 @@ DESIGN.html
 CONTRIBUTING.html
 CONDUCT.html
 *.html
-*.md
 *~
 *.pyc
 _site
