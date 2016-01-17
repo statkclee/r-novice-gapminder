@@ -28,6 +28,7 @@ Gapminder 데이터를 사용한 초보자를 위한 R 언어 소개.
 >
 
 ## 학습주제
+
 |   한국어(Korean)      |    영어(English)            |
 |--------------------------------|-----------------------------------|
 |1.  [R과 RStudio 소개](01-rstudio-intro-kr.html)                                  | 1.  [Introduction to R and RStudio](01-rstudio-intro.html) |

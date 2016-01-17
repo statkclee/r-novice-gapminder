@@ -174,156 +174,153 @@ R이 "[1]" 다음에 정답을 출력한다.
 
 ## 수학 함수
 
-R has many built in mathematical functions. To call a function,
-we simply type its name, followed by  open and closing parentheses.
-Anything we type inside the parentheses is called the function's
-arguments:
+R에는 수많은 내장 수학함수가 존재한다.
+함수를 호출하려면, 함수명을 단순히 타이핑하고,
+괄호를 열고 닫으면 된다. 
+괄호안에 타이핑하는 것을 *함수 인자*라고 부른다:
 
 ```{r}
-sin(1)  # trigonometry functions
+sin(1)  # 삼각함수
 ```
 
 ```{r}
-log(1)  # natural logarithm
+log(1)  # 자연로그
 ```
 
 ```{r}
-log10(10) # base-10 logarithm
+log10(10) # 지수가 10인 로그
 ```
 
 ```{r}
 exp(0.5) # e^(1/2)
 ```
 
-Don't worry about trying to remember every function in R. You
-can simply look them up on google, or if you can remember the
-start of the function's name, use the tab completion in RStudio.
+R에 나온 함수 모두를 기억해야 된다는 걱정은 하지마라.
+구글이나 네이버, 다음에서 검색하면 된다.
+함수명 앞 글자를 기억하고 있다면 RStudio에서 탭 자동완성 기능을 사용한다.
 
-This is one advantage that RStudio has over R on its own, it
-has autocompletion abilities that allow you to more easily
-look up functions, their arguments, and the values that they
-take.
+탭 자동완성이 R 자체 엔진보다 RStudio가 우월성을 갖는 분야로,
+자동완성 기능이 함수, 함수 인자, 함수가 전달받을 수 있는 값을 더 쉽게 찾을 수 있게 한다.
 
-Typing a `?` before the name of a command will open the help page
-for that command. As well as providing a detailed description of
-the command and how it works, scrolling ot the bottom of the
-help page will usually show a collection of code examples which
-illustrate command usage. We'll go through an example later.
+명령문 앞에 `?`을 타이핑하고 엔터를 치면 해당 명령어에 대한 도움말 페이지가 열린다.
+명령어에 대한 기술과 동작방식에 대한 정보를 제공할 뿐만 아니라,
+도움말 페이지 하단으로 스크롤해서 쭉 내리면 해당 명령어 사용법을 시연하는 
+코드 예제가 나와 있다. 나중에 예제를 통해서 살펴볼 것이다.
 
-## Comparing things
+## 다양한 객체 비교하기
 
-We can also do comparison in R:
+R에서 비교 작업도 수행할 수 있다:
 
 ```{r}
-1 == 1  # equality (note two equals signs, read as "is equal to")
+1 == 1  # 같음 ("is equal to"로 읽음)
 ```
 
 ```{r}
-1 != 2  # inequality (read as "is not equal to")
+1 != 2  # 같지 않음 ("is not equal to"로 읽음)
 ```
 
 ```{r}
-1 <  2  # less than
+1 <  2  # 보다 작음
 ```
 
 ```{r}
-1 <= 1  # less than or equal to
+1 <= 1  # 작거나 같음
 ```
 
 ```{r}
-1 > 0  # greater than
+1 > 0  # 보다 큼
 ```
 
 ```{r}
-1 >= -9 # greater than or equal to
+1 >= -9 # 같거나 큼
 ```
 
-> ## Tip: Comparing Numbers {.callout}
+> ## Tip: 숫자 비교 {.callout}
 >
-> A word of warning about comparing numbers: you should
-> never use `==` to compare two numbers unless they are
-> integers (a data type which can specifically represent
-> only whole numbers).
+> 숫자 비교할 때 주의 사항: 정수가 아닌 경우, 절대로 `==` 비교를 사용하지 않는다.
+> 정수는 구체적으로 자연수만 표현할 수 있는 자료형이다.
 >
-> Computers may only represent decimal numbers with a
-> certain degree of precision, so two numbers which look
-> the same when printed out by R, may actually have
-> different underlying representations and therefore be
-> different by a small margin of error (called Machine
-> numeric tolerance).
+> 컴퓨터는 일정 정확도를 갖는 소수만 표현할 수 있다.
+> 그래서, R로 출력할 때 같아 보이는 두 숫자는 사실 겉으로 드러나지 않는 
+> 표현이 다를 수 있다. 
+> 따라서, 작은 오차범위(컴퓨터 허용오차, Machine Numberic Tolerance)만큼 차이가 난다
 >
-> Instead you should use the `all.equal` function.
+> 대신에, `all.equal` 함수를 사용한다.
 >
-> Further reading: [http://floating-point-gui.de/](http://floating-point-gui.de/)
+> 자세한 사항은 [http://floating-point-gui.de/](http://floating-point-gui.de/) 웹사이트 참조.
 >
 
-## Variables and assignment
+## 변수와 대입
 
-We can store values in variables using the assignment operator `<-`, like this:
+할당 연산자(Assignment Operator), `<-`를 사용해서 변수에 값을 저장할 수 있다.
+예를 들어:
 
 ```{r}
 x <- 1/40
 ```
 
-Notice that assignment does not print a value. Instead, we stored it for later
-in something called a **variable**. `x` now contains the **value** `0.025`:
+변수에 할당하면, 값을 출력하지 않음에 유의한다.
+대신에, 나중에 사용하려고 **변수**라는 곳에 저장한다.
+`x` 변수에는 **값** `0.025`가 담겨있다:
 
 ```{r}
 x
 ```
 
-More precisely, the stored value is a *decimal approximation* of
-this fraction called a [floating point number](http://en.wikipedia.org/wiki/Floating_point).
+좀더 구체적으로, 저장된 값은 [부동소수점 수](http://en.wikipedia.org/wiki/Floating_point)라고 불리는
+해당 분수를 *소수 근사*한 것이다.
 
-Look for the `Environment` tab in one of the panes of RStudio, and you will see that `x` and its value
-have appeared. Our variable `x` can be used in place of a number in any calculation that expects a number:
+RStudio 우측 상단 창에서 `Environment` 탭을 클릭하면,
+변수`x`와 값이 저장된 것을 확인할 수 있다.
+변수 `x`는 숫자가 예상되는 어떤 연산작업에도 숫자자리에 사용될 수 있다:
+
 
 ```{r}
 log(x)
 ```
 
-Notice also that variables can be reassigned:
+변수가 다시 할당될 수도 있음에 주목한다:
 
 ```{r}
 x <- 100
 ```
 
-`x` used to contain the value 0.025 and and now it has the value 100.
+`x` 변수에 0.025 값이 담겼지만, 현재는 담긴 값이 `100` 이 된다.
 
-Assignment values can contain the variable being assigned to:
+변수에 대입되는 값에는 대입되는 변수도 포함될 수 있다:
 
 ```{r}
-x <- x + 1 #notice how RStudio updates its description of x on the top right tab
+x <- x + 1 # 우측 상단 탭에서 RStudio가 x에 대한 정보가 어떻게 바뀌는지 주목한다.
 ```
 
-The right hand side of the assignment can be any valid R expression.
-The right hand side is *fully evaluated* before the assignment occurs.
+할당하는 우측편은 어떤 적법한 R 표현식도 될 수 있다.
+우측편은 대입이 일어나기 전에 *완전한 평가*가 이루어 진다.
 
-Variable names can contain letters, numbers, underscores and periods. They
-cannot start with a number nor contain spaces at all. Different people use
-different conventions for long variable names, these include
+변수명에는 문자, 숫자, 밑줄, 구두점이 포함될 수 있다.
+변수명이 숫자로 시작되거나, 공백이 있으면 안된다.
+사람마다 긴 변수명에 대해 다른 관례를 사용한다. 다음에 관례가 나와있다.
 
-  * periods.between.words
-  * underscores\_between_words
-  * camelCaseToSeparateWords
+  * 단어.사이.구두점
+  * 단어_사이_밑줄
+  * 낙타대문자 : camelCaseToSeparateWords
 
-What you use is up to you, but **be consistent**.
+어떤 관례를 사용하든 여러분 취향이지만, **일관성을 유지하라**.
 
-It is also possible to use the `=` operator for assignment:
+변수에 대입할 때, 할당 `=` 연산자 사용도 가능하다:
 
 ```{r}
 x = 1/40
 ```
 
-But this is much less common among R users.  The most important thing is to
-**be consistent** with the operator you use. There are occasionally places
-where it is less confusing to use `<-` than `=`, and it is the most common
-symbol used in the community. So the recommendation is to use `<-`.
+하지만, R 사용자 사이 그다지 많이 활용되지 않는다.
+가장 중요한 것은 사용하는 연산자에 **일관성 유지**하라.
+`=` 보다 `<-`을 사용하는 것이 덜 혼동스러운 경우가 있고,
+커뮤니티에서 가장 흔히 사용되는 기호다. 그래서 추천하는 것은 `<-` 이다.
 
-## Vectorization
+## 벡터화(Vectorization)
 
-One final thing to be aware of is that R is *vectorized*, meaning that
-variables and functions can have vectors as values. For example
+인지해야 되는 마지막 사항은 R은 `벡터화`되었다는 사실이다.
+변수와 함수는 값으로 벡터를 갖을 수 있다는 의미다. 예를 들어,
 
 ```{r}
 1:5
@@ -332,96 +329,87 @@ x <- 1:5
 2^x
 ```
 
-This is incredibly powerful; we will discuss this further in an
-upcoming lesson.
+놀랍도록 강력한 기능이다; 이점에 대해, 다음 수업에서 좀더 깊이 다룰 예정이다.
 
 
-## Managing your environment
+## 환경 설정
 
-There are a few useful commands you can use to interact with the R session.
+R 세션과 상호작용할 때 사용되는 몇가지 유용한 명령어가 있다.
 
-`ls` will list all of the variables and functions stored in the global environment
-(your working R session):
+`ls` 명령어는 전역환경(작업하고 있는 R 세션)에 저장된 모든 변수와 함수 목록을 출력한다:
+
 
 ```{r}
 ls()
 ```
 
-> ## Tip: hidden objects {.callout}
+> ## Tip: 숨긴 객체 {.callout}
 >
-> Just like in the shell, `ls` will hide any variables or functions starting
-> with a "." by default. To list all objects, type `ls(all.names=TRUE)`
-> instead
->
+> 유닉스 쉘처럼, `ls`는 기본디폴트 설정으로 "."으로 시작되는 함수와 변수를 숨긴다.
+> 모든 객체 목록을 보려면, `ls(all.names=TRUE)` 타이핑하면 된다.
 
-Note here that we didn't given any arguments to `ls`, but we still
-needed to give the parentheses to tell R to call the function.
+여기서 `ls` 명령어에 어떤 인자도 전달하지 않았음에 주목한다.
+하지만, R에 함수를 호출하려면 괄호는 여전히 전달해야 된다.
 
-If we type `ls` by itself, R will print out the source code for that function!
+`ls`만 그 자체로 타이핑하면, R은 해당 함수에 대한 소스코드만 출력한다!
 
 ```{r}
 ls
 ```
 
-You can use `rm` to delete objects you no longer need:
+`rm` 명령어를 사용해서 더이상 사용할 필요가 없는 객체를 삭제한다:
 
 ```{r}
 rm(x)
 ```
 
-If you have lots of things in your environment and want to delete all of them,
-you can pass the results of `ls` to the `rm` function:
+작업 환경에 너무 많은 객체가 있고, 전부 삭제하고자 한다면,
+`rm` 함수에 `ls` 결과를 전달하면 된다:
 
 ```{r}
 rm(list = ls())
 ```
 
-In this case we've combined the two. Just like the order of operations, anything
-inside the innermost parentheses is evaluated first, and so on.
+상기 예제에서, 명령어 두개를 조합했다.
+연산 우선순위처럼, 가장안쪽 괄호 내부에 있는 것이 먼저 평가되고, 쭉 이어서 평가된다.
 
-In this case we've specified that the results of `ls` should be used for the
-`list` argument in `rm`. When assigning values to arguments by name, you *must*
-use the `=` operator!!
+상기 예제에서, `ls` 결과가 `rm` 삭제 명령어 `list` 인자로 사용되도록 지정했다.
+값을 이름으로 인자에 할당할 때, `=` 연산자를 *사용해야만* 한다!
 
-If instead we use `<-`, there will be unintended side effects, or you may just
-get an error message:
+대신에 `<-`가 사용되면, 의도하지 못한 역효과가 발생되거나, 오류 메시지만 얻게 된다:
 
 ```{r, error=TRUE}
 rm(list <- ls())
 ```
 
-> ## Tip: Warnings vs. Errors {.callout}
+> ## Tip: 경고 vs.  오류 {.callout}
 >
-> Pay attention when R does something unexpected! Errors, like above,
-> are thrown when R cannot proceed with a calculation. Warnings on the
-> other hand usually mean that the function has run, but it probably
-> hasn't worked as expected.
+> R이 예상하지 못한 무언가 수행할 때 주위를 기울이다!
+> R이 연산작업을 더이상 진행할 수 없을 때 상기와 같이 오류를 던진다.
+> 다른 한편으로 경고는 일반적으로 함수는 실행된다. 하지만,
+> 함수는 아마도 예상한 것처럼 동작하지 않을 것이다.
+> 
+> 두가지 경우 몯, R이 출력해서 전해주는 메시지가 문제 해결에 대한 단서를 줄 것이다.
 >
-> In both cases, the message that R prints out usually give you clues
-> how to fix a problem.
+
+
+## R 팩키지
+
+팩키지를 작성하거나, 누군가 작성한 팩키지를 얻어 R에 함수추가도 가능하다.
+현 저작시점에, CRAN(comprehensive R archive network)에는 7,000개 이상 팩키지가 있다.
+R과 RStudio 모두 팩키지 관리 기능이 있다:
+
+* `installed.packages()` 타이핑하면, 어떤 팩키지가 설치되어 있는지 확인할 수 있다.
+* `install.packages("packagename")` 타이핑하면, 팩키지를 설치할 수 있다.
+   여기서 `packagename`은 팩키지명칭이 된다.
+* `update.packages()` 타이핑하면, 설치된 팩키지를 갱신할 수 있다.
+* `remove.packages("packagename")` 타이핑하면, 팩키지를 제거한다.
+* `library(packagename)` 명령어로 팩키지를 사용할 수 있게 한다.
+
+
+> ## 도전과제 1 {.challenge}
 >
-
-
-## R Packages
-
-It is possible to add functions to R by writing a package, or by
-obtaining a package written by someone else. As of this writing, there
-are over 7,000 packages available on CRAN (the comprehensive R archive
-network). R and RStudio have functionality for managing packages:
-
-* You can see what packages are installed by typing
-  `installed.packages()`
-* You can install packages by typing `install.packages("packagename")`,
-  where `packagename` is the package name, in quotes.
-* You can update installed packages by typing `update.packages()`
-* You can remove a package with `remove.packages("packagename")`
-* You can make a package available for use with `library(packagename)`
-
-
-> ## Challenge 1 {.challenge}
->
-> What will be the value of each  variable  after each
-> statement in the following program?
+> 다음 프로그램에 나온 각 문장을 실행하게 되면, 각 변수 값에는 무슨 값이 담겨있을까요?
 >
 > ```{r, eval=FALSE}
 > mass <- 47.5
@@ -431,19 +419,18 @@ network). R and RStudio have functionality for managing packages:
 > ```
 >
 
-> ## Challenge 2 {.challenge}
+> ## 도전과제 2 {.challenge}
 >
-> Run the code from the previous challenge, and write a command to
-> compare mass to age. Is mass larger than age?
->
-
-> ## Challenge 3 {.challenge}
->
-> Clean up your working environment by deleting the mass and age
-> variables.
+> 도전과제 1 코드를 실행하고 `mass`와 `age`를 비교하는 명령어를 작성한다.
+> `mass`가 `age` 보다 큰가요?
 >
 
-> ## Challenge 4 {.challenge}
+> ## 도전과제 3 {.challenge}
+>
+>  `mass`와 `age` 변수를 삭제해서 작업환경을 정리하세요.
+>
+
+> ## 도전과제 4 {.challenge}
 > 
-> Install the following packages: `ggplot2`, `plyr`, `gapminder`
+> `ggplot2`, `plyr`, `gapminder` 팩키지를 설치하세요.
 > 
