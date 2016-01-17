@@ -9,110 +9,107 @@ minutes: 30
 source("tools/chunk-options.R")
 ```
 
-> ## Learning Objectives {.objectives}
+> ## 학습 목표 {.objectives}
 >
-> * To be able to create self-contained projects in RStudio
-> * To be able to use git from within RStudio
+> * RStudio에 완비된 프로젝트를 생성할 수 있다.
+> * RStudio 내부에서 Git을 사용할 수 있다.
 >
 
-## Introduction
+## 들어가며
 
-The scientific process is naturally incremental, and many projects
-start life as random notes, some code, then a manuscript, and
-eventually everything is a bit mixed together.
+과학적 과정은 본질적으로 증분이다.
+프로젝트 대부분은 아무렇게 적은 노트필기, 일부 코드, 그리고 나서, 원고작성, 그리고 나면
+종국에 모든 것이 함께 섞여진다.
 
-<blockquote class="twitter-tweet"><p>Managing your projects in a reproducible fashion doesn't just make your science reproducible, it makes your life easier.</p>&mdash; Vince Buffalo (@vsbuffalo) <a href="https://twitter.com/vsbuffalo/status/323638476153167872">April 15, 2013</a></blockquote>
+<blockquote class="twitter-tweet"><p>재현가능한 방식으로 프로젝트를 관리하는 것이 과학을 재현가능하게 만들지는 않지만, 여러분의 삶을 더 쉽게는 만든다.</p>&mdash; Vince Buffalo (@vsbuffalo) <a href="https://twitter.com/vsbuffalo/status/323638476153167872">April 15, 2013</a></blockquote>
 <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
 
-Most people tend to organize their projects like this:
+대부분은 다음과 같이 프로젝트를 구조화하는 경향이 있다:
 
 ![](fig/bad_layout.png)
 
-There are many reasons why we should *ALWAYS* avoid this:
+*항상* 이런 방식을 회피해야 되는 이유는 많다:
 
-1. It is really hard to tell which version of your data is
-the original and which is the modified;
-2. It gets really messy because it mixes files with various
-extensions together;
-3. It probably takes you a lot of time to actually find
-things, and relate the correct figures to the exact code
-that has been used to generate it;
+1. 어느 데이터 버젼이 원본이고, 어느 데이터 버젼이 변경된 것인지 분간하기 정말 힘들다;
+2. 다양한 확장자를 갖는 파일과 뒤섞일 때, 정말 엉망이 된다;
+3. 아마도 실제 파일을 찾고, 해당 그래프를 생성하는데 사용된 정확한 프로그램 코드와 
+    맞는 그림을 연결시키는데 시간이 엄청 많이 소요될 것이다.
 
-A good project layout will ultimately make your life easier:
+프로젝트를 잘 배치하게 되면 궁극적으로 여러분의 삶을 편안하게 만들 것이다:
 
-* It will help ensure the integrity of your data;
-* It makes it simpler to share your code with someone else
-(a lab-mate, collaborator, or supervisor);
-* It allows you to easily upload your code with your manuscript submission;
-* It makes it easier to pick the project back up after a break.
+* 데이터 정합성을 보장할 것이다;
+* 작성한 코드를 다른 사람(연구실 동료, 공동연구자, 지도교수)과 더 단순하게 공유할 수 있게 만든다;
+* 논문 제출할 때 코드를 쉽게 업로드할 수 있게 한다;
+* 휴가 뒤에, 프로젝트 백업을 더 손쉽게 한다.
 
-## A possible solution
+## 가능한 해결책
 
-Fortunately, there are tools and packages which can help you manage your work effectively.
+다행스럽게도, 작업을 효과적으로 관리할 수 있게 도움이 되는 도구와 팩키지가 있다.
 
-One of the most powerful and useful aspects of RStudio is its project management
-functionality. We'll be using this today to create a self-contained, reproducible
-project.
+RStudio의 가장 강력하고 유용한 측면 중 하나가 프로젝트 관리 기능이다.
+프로젝트 관리 기능을 사용해서, 모든 것이 갖춘 재현가능한 프로젝트를 생성한다.
 
 
-> ## Challenge: Creating a self-contained project {.challenge}
+> ## 도전과제: 모든 것을 갖춘 프로젝슽 생성하기 {.challenge}
 >
-> We're going to create a new project in RStudio:
+> RStudio에서 새로운 프로젝트를 생성한다:
 >
-> 1. Click the "File" menu button, then "New Project".
-> 2. Click "New Directory".
-> 3. Click "Empty Project".
-> 4. Type in the name of the directory to store your project, e.g. "my_project".
-> 5. Make sure that the checkbox for "Create a git repository" is selected.
-> 6. Click the "Create Project" button.
+> 1. "File" 메뉴를 클릭하고 나서, "New Project" 선택한다.
+> 2. "New Directory"를 클릭한다.
+> 3. "Empty Project"를 클릭한다.
+> 4. 프로젝트를 저장할 디렉토리 명칭을 타이핑한다. 예를 들어, "my_project".
+> 5. "Create a git repository"에 대한 체크박스가 선택되었는지 확실히 한다.
+> 6. "Create Project" 버튼을 클릭한다.
 >
 
-Now when we start R in this project directory, or open this project with RStudio,
-all of our work on this project will be entirely self-contained in this directory.
+이제 프로젝트 디렉토리에서 R을 시작하거나, RStudio로 해당 프로젝트를 열게 되면,
+프로젝트에 모든 작업은 해당 디렉토리에 완전히 담겨진다.
 
-## Best practices for project organisation
+## 프로젝트 구성을 위한 모범 활용사례
 
-Although there is no "best" way to lay out a project, there are some general
-principles to adhere to that will make project management easier:
+프로젝트를 구성하는 "가장 최선의" 방식이 없지만, 프로젝트 관리를 더 수월하게 하는데
+준수해야 되는 일반적인 원칙이 몇가지 있다:
 
-## Treat data as read only
+## 데이터를 읽기 전용으로 다룬다.
 
-This is probably the most important goal of setting up a project. Data is
-typically time consuming and/or expensive to collect. Working with them
-interactively (e.g., in Excel) where they can be modified means you are never
-sure of where the data came from, or how it has been modified since collection.
-It is therefore a good idea to treat your data as "read-only".
+아마도 이것이 프로젝트 설정에 대한 가장 중요한 목적이다.
+데이터는 일반적으로 수집하는데 시간이 많이 걸리고 비용이 많이 든다.
+(엑셀처럼) 인터랙티브하게 데이터를 작업하게 되면, 필연적으로 데이터에 변형이 
+일어나고 데이터 출처와, 수집이 이루어진 뒤에 어떻게 
+변형되었는지 확인을 할 수 없게 된다.
+따라서, 데이터를 **"읽기-전용(Read-Only)"**으로 다룬다.
 
-## Data Cleaning
+## 데이터 정제
 
-In many cases your data will be "dirty": it will need significant preprocessing
-to get into a format R (or any other programming language) will find useful. This
-task is sometimes called "data munging". I find it useful to store these scripts
-in a separate folder, and create a second "read-only" data folder to hold the
-"cleaned" data sets.
+많은 경우에, 데이터가 "지저분하다":
+상당한 전처리 과정을 거쳐야 R 형식(혹은 다른 프로그래밍 언어)으로 유용하게 사용될 수 있다.
+이런 작업이 "데이터 정제작업"이라고 불린다. [^1]
+별도 디렉토리에 데이터 정제 스크립트를 보관하고,
+"정제된" 데이터셋을 보관하는 두번째 "읽기-전용" 데이터 디렉토리를 생성하는 것도 유용하다.
 
-## Treat generated output as disposable
+[^1]: Data Munging, Data Wrangling 이라고 부름.
 
-Anything generated by your scripts should be treated as disposable: it should
-all be able to be regenerated from your scripts.
+## 자동생성된 산출물은 일회용품처럼 다룬다.
 
-There are lots of different was to manage this output. I find it useful to
-have an output folder with different sub-directories for each separate
-analysis. This makes it easier later, as many of my analyses are exploratory
-and don't end up being used in the final project, and some of the analyses
-get shared between projects.
+작성한 스크립트로 자동생성된 어떤 것이든 일회용품처럼 처리해만 된다:
+작성한 스크립트가 모두 다시 자동생성할 수 있어야만 된다.
 
-> ## Tip: ProjectTemplate - a possible solution {.callout}
+자동출력된 산출물을 관리하는 다른 방식은 많다. 
+각기 다른 분석마다 다른 하위디렉토리에 출력결과를 저장하는 것이 유용하다.
+나중을 위해서 이런 접근법이 더 수월한데, 대부분의 분석이 탐색적이고, 최종 프로젝트에 
+채택되지도 않기 때문이고, 일부 분석 결과는 프로젝트 중간에 공유되기도 한다.
+
+> ## Tip: ProjectTemplate - 가능한 해결책 {.callout}
 >
-> One way to automate the management of projects is to install the third-party package, `ProjectTemplate`.
-> This package will set up an ideal directory structure for project management.
-> This is very useful as it enables you to have your analysis pipeline/workflow organised and structured.
-> Together with the default RStudio project functionality and Git you will be able to keep track of your
-> work as well as be able to share your work with collaborators.
+> 프로젝트 관리를 자동화하는 한 방식은 제3자 팩키지, `ProjectTemplate`을 설치하는 것이다.
+> 해당 팩키지는 프로젝트 관리에 대한 이상적인 디렉토리 구조를 설정해 놓는다.
+> 팩키지가 자동으로 분석 파이브라인/작업흐름을 구성해서 구조화해 놓는다.
+> RStudio 기본설정된 프로젝트 관리 기능과 Git을 섞어 사용하면, 작업을 기록할 뿐만 아니라,
+> 동료 연구원과 작업산출물 공유를 가능케 한다.
 >
-> 1. Install `ProjectTemplate`.
-> 2. Load the library
-> 3. Initialise the project:
+> 1. `ProjectTemplate`을 설치한다.
+> 2. 라이브러리를 불러 적재한다.
+> 3. 프로젝트를 초기화한다.
 >
 > ```{r, eval=FALSE}
 > install.packages("ProjectTemplate")
@@ -120,75 +117,70 @@ get shared between projects.
 > create.project("../my_project", merge.strategy = "allow.non.conflict")
 > ```
 >
-> For more information on ProjectTemplate and its functionality visit the
-> home page [ProjectTemplate](http://projecttemplate.net/index.html)
+> `ProjectTemplate`과 기능에 대한 자세한 사항은
+> [ProjectTemplate](http://projecttemplate.net/index.html) 홈페이지를 방문한다.
 >
 
-## Separate function definition and application
+## 재사용되는 함수와 응용 프로그램을 구별한다.
 
-The most effective way I find to work in R, is to play around in the interactive
-session, then copy commands across to a script file when I'm sure they work and
-do what I want. You can also save all the commands you've entered using the
-`history` command, but I don't find it useful because when I'm typing its 90%
-trial and error.
+R로 작업하는 가장 효과적인 방법이 인터랙티브 세션에서 여러가지 작업을 하다가,
+제대로 동작하고 원하는 기능이 구현되면 스크립트 파일로 명령어를 복사해서 넣는 것이다.
+`history` 명령어를 사용해서 지금까지 입력한 모든 명령어를 저장할 수도 있다.
+하지만, 명령어 90%가 시행착오라 그다지 유용하지 않을 수 있다.
 
-When your project is new and shiny, the script file usually contains many lines
-of directly executed code. As it matures, reusable chunks get pulled into their
-own functions. It's a good idea to separate these into separate folders; one
-to store useful functions that you'll reuse across analyses and projects, and
-one to store the analysis scripts.
+프로젝트가 새롭고 참신할 때, 스크립트 파일에 대체로 직접 실행되는 코드 라인이 많이 포함되어 있다.
+코드 성숙도가 높아짐에 따라, 재사용가능한 코드 덩어리를 함수로 뽑아낸다.
+이런 함수를 별도 디렉토리에 몰아 넣는 것도 좋은 아이디어다;
+여러 분석에 걸쳐 폭넓게 재사용되는 유용한 디렉토리와 분석 스크립트를 저장하는 디렉토리.
 
-> ## Tip: avoiding duplication {.callout}
+> ## Tip: 중복 회피하기 {.callout}
 >
-> You may find yourself using data or analysis scripts across several projects.
-> Typically you want to avoid duplication to save space and avoid having to
-> make updates to code in multiple places.
->
-> In this case I find it useful to make "symbolic links", which are essentially
-> shortcuts to files somewhere else on a filesystem. On Linux and OS X you can
-> use the `ln -s` command, and on windows you can either create a shortcut or
-> use the `mklink` command from the windows terminal.
+> 다수 프로젝트에서 데이터와 분석 스크립트를 사용하는 경우가 있다.
+> 일반적으로, 중복을 피해서, 공간도 절약하고, 여러 곳에 코드를 갱신하는 수고도 회피하고자 한다.
+> 
+>이런 경우, "기호 연결(Symbolic Link)"가 유용한다. 
+> 본질적으로 파이시스템 어딘가 있는 파일에 대한 단축키다.
+> 리눅스나 맥 OS X에서는 `ln -s` 명령어를 사용하고,
+> 윈도우에서는 단축키를 생성하거나, `mklink` 명령어를 윈도우 터미널에서 사용한다.
 >
 
-## Save the data in the data directory
+## 데이터 디렉토리에 데이터를 저장한다.
 
-Now we have a good directory structure we will now place/save the data file in the `data/` directory.
+이제 멋진 디렉토리 구조를 갖추어서, `data/` 디렉토리에 데이터 파일을 위치/저장한다.
 
-> ## Challenge 1 {.challenge}
-> Download the gapminder data from [here](https://raw.githubusercontent.com/resbaz/r-novice-gapminder-files/master/data/gapminder-FiveYearData.csv).
+> ## 도전 과제 1 {.challenge}
+> 
+> gapminder 데이터를 [웹사이트](https://raw.githubusercontent.com/resbaz/r-novice-gapminder-files/master/data/gapminder-FiveYearData.csv)
+> 에서 다운로드 한다.
 >
-> 1. Download the file (CTRL + S, right mouse click -> "Save as", or File -> "Save page as")
-> 2. Make sure it's saved under the name `gapminder-FiveYearData.csv`
-> 3. Save the file in the `data/` folder within your project.
+> 1. 파일을 다운로드한다 (CTRL + S, 마우스 우클릭 -> "Save as", 혹은 File -> "Save page as")
+> 2. `gapminder-FiveYearData.csv` 파일명으로 저장된 것인지 확인한다.
+> 3. 프로젝트 내부 `data/` 디렉토리에 파일을 저장한다.
 >
-> We will load and inspect these data later.
+> 나중에 데이터를 불러 적재하고 검사작업을 진행한다.
 
-## Version Control
+## 버젼 제어
 
-We also set up our project to integrate with git, putting it under version control.
-RStudio has a nicer interface to git than shell, but is very limited in what it can
-do, so you will find yourself occasionally needing to use the shell. Let's go
-through and make an initial commit of our template files.
+프로젝트를 설정해서, git을 통합시키고 버젼제어 아래 둔다.
+RStudio는 쉘보다 git에 더 멋진 인터페이스를 제공한다.
+하지만, 기능이 매우 제한되어서, 때때로 쉘을 사용할 필요가 있다.
+Git을 경험해 보고 템플릿 파일에 대한 최초 커밋작업을 수행해보자.
 
-The workspace/history pane has a tab for "Git". We can stage each file by checking the box:
-you will see a Green "A" next to stage files and folders, and yellow question marks next to
-files or folders git doesn't know about yet. RStudio also nicely shows you the difference
-between files from different commits.
+작업공간/이력창에 "Git" 탭이 있다.
+상자를 체크해서 파일 각각을 옮길 수 있다:
+stage 파일과 디렉토리 옆에 녹색 "A", git이 아직 알 수 없는 파일과 디렉토리 옆에는 
+노란색 물음표가 보인다.
+RStudio에는 또한 커밋 사이에 파일간에 차이를 비교하여 보여주는 기능이 훌륭하다.
 
-> ## Tip: versioning disposable output {.callout}
+> ## Tip: 일회성 출력산출물 버젼제어 {.callout}
 >
-> Generally you do not want to version disposable output (or read-only data).
-> You should modify the `.gitignore` file to tell git to ignore these files
-> and directories.
+> 일반적으로, 일회성 출력산출물 (혹은 읽기 전용 데이터)은 버젼제어 하지 않는다.
+> `.gitignore` 파일을 변경시켜서 이러한 파일과 디렉토리는 무시하도록 git에게 지시한다.
 >
 
-> ## Challenge 2 {.challenge}
+> ## 도전과제 2 {.challenge}
 >
-> 1. Create a directory within your project called `graphs`.
-> 2. Modify the `.gitignore` file to contain `graphs/`
-> so that this disposable output isn't versioned.
->
-> Add the newly created folders to version control using
-> the git interface.
->
+> 1. 프로젝트 내부에 `graphs`라는 디렉토리를 생성한다.
+> 2. `graphs/` 파일을 포함하도록 `.gitignore` 파일을 변경시켜서, 
+> 이러한 일회성 출력산출물이 버젼관리되지 않도록 만든다.
 >
