@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="generator" content="pandoc">
+    <title>Software Carpentry: 재현가능한 과학적 분석을 위한 R</title>
+    <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="css/bootstrap/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="css/bootstrap/bootstrap-theme.css" />
+    <link rel="stylesheet" type="text/css" href="css/swc.css" />
+    <link rel="alternate" type="application/rss+xml" title="Software Carpentry Blog" href="http://software-carpentry.org/feed.xml"/>
+    <meta charset="UTF-8" />
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body class="lesson">
+    <div class="container card">
+      <div class="banner">
+        <a href="http://software-carpentry.org" title="Software Carpentry">
+          <img alt="Software Carpentry banner" src="img/software-carpentry-banner.png" />
+        </a>
+      </div>
+      <article>
+      <div class="row">
+        <div class="col-md-10 col-md-offset-1">
+                    <a href="index.html"><h1 class="title">재현가능한 과학적 분석을 위한 R</h1></a>
+          <h2 class="subtitle">RStudio와 함께하는 프로젝트 관리</h2>
+          <section class="objectives panel panel-warning">
+<div class="panel-heading">
+<h2 id="학습-목표"><span class="glyphicon glyphicon-certificate"></span>학습 목표</h2>
+</div>
+<div class="panel-body">
+<ul>
+<li>RStudio에 완비된 프로젝트를 생성할 수 있다.</li>
+<li>RStudio 내부에서 Git을 사용할 수 있다.</li>
+</ul>
+</div>
+</section>
+<h2 id="들어가며">들어가며</h2>
+<p>과학적 과정은 본질적으로 증분이다. 프로젝트 대부분은 아무렇게 적은 노트필기, 일부 코드, 그리고 나서, 원고작성, 그리고 나면 종국에 모든 것이 함께 섞여진다.</p>
+<blockquote class="twitter-tweet">
+<p>
+재현가능한 방식으로 프로젝트를 관리하는 것이 과학을 재현가능하게 만들지는 않지만, 여러분의 삶을 더 쉽게는 만든다.
+</p>
+— Vince Buffalo (<span class="citation">@vsbuffalo</span>) <a href="https://twitter.com/vsbuffalo/status/323638476153167872">April 15, 2013</a>
+</blockquote>
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+<p>대부분은 다음과 같이 프로젝트를 구조화하는 경향이 있다:</p>
+<div class="figure">
+<img src="fig/bad_layout.png" />
+
+</div>
+<p><em>항상</em> 이런 방식을 회피해야 되는 이유는 많다:</p>
+<ol style="list-style-type: decimal">
+<li>어느 데이터 버젼이 원본이고, 어느 데이터 버젼이 변경된 것인지 분간하기 정말 힘들다;</li>
+<li>다양한 확장자를 갖는 파일과 뒤섞일 때, 정말 엉망이 된다;</li>
+<li>아마도 실제 파일을 찾고, 해당 그래프를 생성하는데 사용된 정확한 프로그램 코드와 맞는 그림을 연결시키는데 시간이 엄청 많이 소요될 것이다.</li>
+</ol>
+<p>프로젝트를 잘 배치하게 되면 궁극적으로 여러분의 삶을 편안하게 만들 것이다:</p>
+<ul>
+<li>데이터 정합성을 보장할 것이다;</li>
+<li>작성한 코드를 다른 사람(연구실 동료, 공동연구자, 지도교수)과 더 단순하게 공유할 수 있게 만든다;</li>
+<li>논문 제출할 때 코드를 쉽게 업로드할 수 있게 한다;</li>
+<li>휴가 뒤에, 프로젝트 백업을 더 손쉽게 한다.</li>
+</ul>
+<h2 id="가능한-해결책">가능한 해결책</h2>
+<p>다행스럽게도, 작업을 효과적으로 관리할 수 있게 도움이 되는 도구와 팩키지가 있다.</p>
+<p>RStudio의 가장 강력하고 유용한 측면 중 하나가 프로젝트 관리 기능이다. 프로젝트 관리 기능을 사용해서, 모든 것이 갖춘 재현가능한 프로젝트를 생성한다.</p>
+<section class="challenge panel panel-success">
+<div class="panel-heading">
+<h2 id="도전과제-모든-것을-갖춘-프로젝슽-생성하기"><span class="glyphicon glyphicon-pencil"></span>도전과제: 모든 것을 갖춘 프로젝슽 생성하기</h2>
+</div>
+<div class="panel-body">
+<p>RStudio에서 새로운 프로젝트를 생성한다:</p>
+<ol style="list-style-type: decimal">
+<li>“File” 메뉴를 클릭하고 나서, “New Project” 선택한다.</li>
+<li>“New Directory”를 클릭한다.</li>
+<li>“Empty Project”를 클릭한다.</li>
+<li>프로젝트를 저장할 디렉토리 명칭을 타이핑한다. 예를 들어, “my_project”.</li>
+<li>“Create a git repository”에 대한 체크박스가 선택되었는지 확실히 한다.</li>
+<li>“Create Project” 버튼을 클릭한다.</li>
+</ol>
+</div>
+</section>
+<p>이제 프로젝트 디렉토리에서 R을 시작하거나, RStudio로 해당 프로젝트를 열게 되면, 프로젝트에 모든 작업은 해당 디렉토리에 완전히 담겨진다.</p>
+<h2 id="프로젝트-구성을-위한-모범-활용사례">프로젝트 구성을 위한 모범 활용사례</h2>
+<p>프로젝트를 구성하는 “가장 최선의” 방식이 없지만, 프로젝트 관리를 더 수월하게 하는데 준수해야 되는 일반적인 원칙이 몇가지 있다:</p>
+<h2 id="데이터를-읽기-전용으로-다룬다.">데이터를 읽기 전용으로 다룬다.</h2>
+<p>아마도 이것이 프로젝트 설정에 대한 가장 중요한 목적이다. 데이터는 일반적으로 수집하는데 시간이 많이 걸리고 비용이 많이 든다. (엑셀처럼) 인터랙티브하게 데이터를 작업하게 되면, 필연적으로 데이터에 변형이 일어나고 데이터 출처와, 수집이 이루어진 뒤에 어떻게 변형되었는지 확인을 할 수 없게 된다. 따라서, 데이터를 <strong>“읽기-전용(Read-Only)”</strong>으로 다룬다.</p>
+<h2 id="데이터-정제">데이터 정제</h2>
+<p>많은 경우에, 데이터가 “지저분하다”: 상당한 전처리 과정을 거쳐야 R 형식(혹은 다른 프로그래밍 언어)으로 유용하게 사용될 수 있다. 이런 작업이 “데이터 정제작업”이라고 불린다. <a href="#fn1" class="footnoteRef" id="fnref1"><sup>1</sup></a> 별도 디렉토리에 데이터 정제 스크립트를 보관하고, “정제된” 데이터셋을 보관하는 두번째 “읽기-전용” 데이터 디렉토리를 생성하는 것도 유용하다.</p>
+<h2 id="자동생성된-산출물은-일회용품처럼-다룬다.">자동생성된 산출물은 일회용품처럼 다룬다.</h2>
+<p>작성한 스크립트로 자동생성된 어떤 것이든 일회용품처럼 처리해만 된다: 작성한 스크립트가 모두 다시 자동생성할 수 있어야만 된다.</p>
+<p>자동출력된 산출물을 관리하는 다른 방식은 많다. 각기 다른 분석마다 다른 하위디렉토리에 출력결과를 저장하는 것이 유용하다. 나중을 위해서 이런 접근법이 더 수월한데, 대부분의 분석이 탐색적이고, 최종 프로젝트에 채택되지도 않기 때문이고, 일부 분석 결과는 프로젝트 중간에 공유되기도 한다.</p>
+<aside class="callout panel panel-info">
+<div class="panel-heading">
+<h2 id="tip-projecttemplate---가능한-해결책"><span class="glyphicon glyphicon-pushpin"></span>Tip: ProjectTemplate - 가능한 해결책</h2>
+</div>
+<div class="panel-body">
+<p>프로젝트 관리를 자동화하는 한 방식은 제3자 팩키지, <code>ProjectTemplate</code>을 설치하는 것이다. 해당 팩키지는 프로젝트 관리에 대한 이상적인 디렉토리 구조를 설정해 놓는다. 팩키지가 자동으로 분석 파이브라인/작업흐름을 구성해서 구조화해 놓는다. RStudio 기본설정된 프로젝트 관리 기능과 Git을 섞어 사용하면, 작업을 기록할 뿐만 아니라, 동료 연구원과 작업산출물 공유를 가능케 한다.</p>
+<ol style="list-style-type: decimal">
+<li><code>ProjectTemplate</code>을 설치한다.</li>
+<li>라이브러리를 불러 적재한다.</li>
+<li>프로젝트를 초기화한다.</li>
+</ol>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">install.packages</span>(<span class="st">&quot;ProjectTemplate&quot;</span>)
+<span class="kw">library</span>(ProjectTemplate)
+<span class="kw">create.project</span>(<span class="st">&quot;../my_project&quot;</span>, <span class="dt">merge.strategy =</span> <span class="st">&quot;allow.non.conflict&quot;</span>)</code></pre></div>
+<p><code>ProjectTemplate</code>과 기능에 대한 자세한 사항은 <a href="http://projecttemplate.net/index.html">ProjectTemplate</a> 홈페이지를 방문한다.</p>
+</div>
+</aside>
+<h2 id="재사용되는-함수와-응용-프로그램을-구별한다.">재사용되는 함수와 응용 프로그램을 구별한다.</h2>
+<p>R로 작업하는 가장 효과적인 방법이 인터랙티브 세션에서 여러가지 작업을 하다가, 제대로 동작하고 원하는 기능이 구현되면 스크립트 파일로 명령어를 복사해서 넣는 것이다. <code>history</code> 명령어를 사용해서 지금까지 입력한 모든 명령어를 저장할 수도 있다. 하지만, 명령어 90%가 시행착오라 그다지 유용하지 않을 수 있다.</p>
+<p>프로젝트가 새롭고 참신할 때, 스크립트 파일에 대체로 직접 실행되는 코드 라인이 많이 포함되어 있다. 코드 성숙도가 높아짐에 따라, 재사용가능한 코드 덩어리를 함수로 뽑아낸다. 이런 함수를 별도 디렉토리에 몰아 넣는 것도 좋은 아이디어다; 여러 분석에 걸쳐 폭넓게 재사용되는 유용한 디렉토리와 분석 스크립트를 저장하는 디렉토리.</p>
+<aside class="callout panel panel-info">
+<div class="panel-heading">
+<h2 id="tip-중복-회피하기"><span class="glyphicon glyphicon-pushpin"></span>Tip: 중복 회피하기</h2>
+</div>
+<div class="panel-body">
+<p>다수 프로젝트에서 데이터와 분석 스크립트를 사용하는 경우가 있다. 일반적으로, 중복을 피해서, 공간도 절약하고, 여러 곳에 코드를 갱신하는 수고도 회피하고자 한다.</p>
+<p>이런 경우, “기호 연결(Symbolic Link)”가 유용한다. 본질적으로 파이시스템 어딘가 있는 파일에 대한 단축키다. 리눅스나 맥 OS X에서는 <code>ln -s</code> 명령어를 사용하고, 윈도우에서는 단축키를 생성하거나, <code>mklink</code> 명령어를 윈도우 터미널에서 사용한다.</p>
+</div>
+</aside>
+<h2 id="데이터-디렉토리에-데이터를-저장한다.">데이터 디렉토리에 데이터를 저장한다.</h2>
+<p>이제 멋진 디렉토리 구조를 갖추어서, <code>data/</code> 디렉토리에 데이터 파일을 위치/저장한다.</p>
+<section class="challenge panel panel-success">
+<div class="panel-heading">
+<h2 id="도전-과제-1"><span class="glyphicon glyphicon-pencil"></span>도전 과제 1</h2>
+</div>
+<div class="panel-body">
+<p>gapminder 데이터를 <a href="https://raw.githubusercontent.com/resbaz/r-novice-gapminder-files/master/data/gapminder-FiveYearData.csv">웹사이트</a> 에서 다운로드 한다.</p>
+<ol style="list-style-type: decimal">
+<li>파일을 다운로드한다 (CTRL + S, 마우스 우클릭 -&gt; “Save as”, 혹은 File -&gt; “Save page as”)</li>
+<li><code>gapminder-FiveYearData.csv</code> 파일명으로 저장된 것인지 확인한다.</li>
+<li>프로젝트 내부 <code>data/</code> 디렉토리에 파일을 저장한다.</li>
+</ol>
+<p>나중에 데이터를 불러 적재하고 검사작업을 진행한다.</p>
+</div>
+</section>
+<h2 id="버젼-제어">버젼 제어</h2>
+<p>프로젝트를 설정해서, git을 통합시키고 버젼제어 아래 둔다. RStudio는 쉘보다 git에 더 멋진 인터페이스를 제공한다. 하지만, 기능이 매우 제한되어서, 때때로 쉘을 사용할 필요가 있다. Git을 경험해 보고 템플릿 파일에 대한 최초 커밋작업을 수행해보자.</p>
+<p>작업공간/이력창에 “Git” 탭이 있다. 상자를 체크해서 파일 각각을 옮길 수 있다: stage 파일과 디렉토리 옆에 녹색 “A”, git이 아직 알 수 없는 파일과 디렉토리 옆에는 노란색 물음표가 보인다. RStudio에는 또한 커밋 사이에 파일간에 차이를 비교하여 보여주는 기능이 훌륭하다.</p>
+<aside class="callout panel panel-info">
+<div class="panel-heading">
+<h2 id="tip-일회성-출력산출물-버젼제어"><span class="glyphicon glyphicon-pushpin"></span>Tip: 일회성 출력산출물 버젼제어</h2>
+</div>
+<div class="panel-body">
+<p>일반적으로, 일회성 출력산출물 (혹은 읽기 전용 데이터)은 버젼제어 하지 않는다. <code>.gitignore</code> 파일을 변경시켜서 이러한 파일과 디렉토리는 무시하도록 git에게 지시한다.</p>
+</div>
+</aside>
+<section class="challenge panel panel-success">
+<div class="panel-heading">
+<h2 id="도전과제-2"><span class="glyphicon glyphicon-pencil"></span>도전과제 2</h2>
+</div>
+<div class="panel-body">
+<ol style="list-style-type: decimal">
+<li>프로젝트 내부에 <code>graphs</code>라는 디렉토리를 생성한다.</li>
+<li><code>graphs/</code> 파일을 포함하도록 <code>.gitignore</code> 파일을 변경시켜서, 이러한 일회성 출력산출물이 버젼관리되지 않도록 만든다.</li>
+</ol>
+</div>
+</section>
+<div class="footnotes">
+<hr />
+<ol>
+<li id="fn1"><p>Data Munging, Data Wrangling 이라고 부름.<a href="#fnref1">↩</a></p></li>
+</ol>
+</div>
+        </div>
+      </div>
+      </article>
+      <div class="footer">
+        <a class="label swc-blue-bg" href="http://software-carpentry.org">Software Carpentry</a>
+        <a class="label swc-blue-bg" href="https://github.com/swcarpentry/lesson-template">Source</a>
+        <a class="label swc-blue-bg" href="mailto:admin@software-carpentry.org">Contact</a>
+        <a class="label swc-blue-bg" href="LICENSE.html">License</a>
+      </div>
+    </div>
+    <!-- Javascript placed at the end of the document so the pages load faster -->
+    <script src="http://software-carpentry.org/v5/js/jquery-1.9.1.min.js"></script>
+    <script src="css/bootstrap/bootstrap-js/bootstrap.js"></script>
+    <script src='https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
+  </body>
+</html>
