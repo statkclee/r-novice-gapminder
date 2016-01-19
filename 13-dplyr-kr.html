@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="generator" content="pandoc">
-    <title>Software Carpentry: R for reproducible scientific analysis</title>
+    <title>Software Carpentry: </title>
     <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" type="text/css" href="css/bootstrap/bootstrap.css" />
@@ -26,19 +26,18 @@
       <article>
       <div class="row">
         <div class="col-md-10 col-md-offset-1">
-                    <a href="index.html"><h1 class="title">R for reproducible scientific analysis</h1></a>
-          <h2 class="subtitle">Dataframe manipulation with dplyr</h2>
+                    <h1 class="title"></h1>
           <section class="objectives panel panel-warning">
 <div class="panel-heading">
-<h2 id="learning-objectives"><span class="glyphicon glyphicon-certificate"></span>Learning Objectives</h2>
+<h2 id="학습-목표"><span class="glyphicon glyphicon-certificate"></span>학습 목표</h2>
 </div>
 <div class="panel-body">
 <ul>
-<li>To be able to use the 6 main dataframe manipulation ‘verbs’ with pipes in <code>dplyr</code></li>
+<li><code>dplyr</code> 파이프로 데이터프레임을 솜씨있게 조작하는 ’동사’를 사용한다.</li>
 </ul>
 </div>
 </section>
-<p>Manipulation of dataframes means many things to many researchers, we often select certain observations (rows) or variables (columns), we often group the data by a certain variable(s), or we even calculate summary statistics. We can do these operations using the normal base R operations:</p>
+<p>데이터프레임을 솜씨있게 조작하는 것은 많은 과학연구원에게 많은 것을 의미한다. 특정 관측점(행) 혹은 변수(열)을 선택하거나, 특정 변수(들)로 데이터를 집단으로 그룹짓거나, 요약 통계량을 계산하기도 한다. 이런 연산작업에 정규 기본 R 연산을 사용한다:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">mean</span>(gapminder[gapminder$continent ==<span class="st"> &quot;Africa&quot;</span>, <span class="st">&quot;gdpPercap&quot;</span>])</code></pre></div>
 <pre class="output"><code>[1] 2193.755
 </code></pre>
@@ -48,10 +47,10 @@
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">mean</span>(gapminder[gapminder$continent ==<span class="st"> &quot;Asia&quot;</span>, <span class="st">&quot;gdpPercap&quot;</span>])</code></pre></div>
 <pre class="output"><code>[1] 7902.15
 </code></pre>
-<p>But this isn’t very <em>nice</em> because there is a fair bit of repetition. Repeating yourself will cost you time, both now and later, and potentially introduce some nasty bugs.</p>
-<h2 id="the-dplyr-package">The <code>dplyr</code> package</h2>
-<p>Luckily, the <a href="https://cran.r-project.org/web/packages/dplyr/dplyr.pdf"><code>dplyr</code></a> package provides a number of very useful functions for manipulating dataframes in a way that will reduce the above repetition, reduce the probability of making errors, and probably even save you some typing. As an added bonus, you might even find the <code>dplyr</code> grammar easier to read.</p>
-<p>Here we’re going to cover 6 of the most commonly used functions as well as using pipes (<code>%&gt;%</code>) to combine them.</p>
+<p>하지만, 그다지 <em>멋있지는</em> 않다. 여러분이 직접 반목하게 되면, 일단 여러분 시간을 지금 그리고 나중에 까먹게 되고, 잠재적으로 버그가 스며들 여지를 남기게 된다.</p>
+<h2 id="dplyr-팩키지"><code>dplyr</code> 팩키지</h2>
+<p>운좋게도, <a href="https://cran.r-project.org/web/packages/dplyr/dplyr.pdf"><code>dplyr</code></a> 팩키지가 데이터프레임을 솜씨있게 조작하는데 유용한 많은 함수를 제공한다. 이를 통해서, 위에서 언급된 반복을 줄이고, 실수를 범할 확률도 줄이고, 심지어 타이핑하는 수고도 줄일 수 있다. 보너스로, <code>dplyr</code> 문법은 훨씬 더 가독성도 높다.</p>
+<p>가장 흔히 사용되는 6가지 함수 뿐만 아니라, 이런 함수를 조합하는데 사용되는 파이프 (<code>%&gt;%</code>) 연산자 사용법도 다룬다.</p>
 <ol style="list-style-type: decimal">
 <li><code>select()</code></li>
 <li><code>filter()</code></li>
@@ -59,36 +58,36 @@
 <li><code>summarize()</code></li>
 <li><code>mutate()</code></li>
 </ol>
-<p>If you have have not installed this package earlier, please do so:</p>
+<p>이전 수업에서 팩키지를 설치하지 않았다면, 설치해서 직접 실습해보기 바란다:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">install.packages</span>(<span class="st">&#39;dplyr&#39;</span>)</code></pre></div>
-<p>Now let’s load the package:</p>
+<p>이제 팩키지를 불러와서 적재한다:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(dplyr)</code></pre></div>
-<h2 id="using-select">Using select()</h2>
-<p>If, for example, we wanted to move forward with only a few of the variables in our dataframe we could use the <code>select()</code> function. This will keep only the variables you select.</p>
+<h2 id="select-사용"><code>select()</code> 사용</h2>
+<p>예를 들어, 데이터프레임에서 변수 일부만 뽑아서 작업해 나가고자 한다면, <code>select()</code> 함수를 사용한다. 이 함수는 선택한 변수만 저정한다.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">year_country_gdp &lt;-<span class="st"> </span><span class="kw">select</span>(gapminder,year,country,gdpPercap)</code></pre></div>
 <div class="figure">
 <img src="fig/13-dplyr-fig1.png" />
 
 </div>
-<p>If we open up <code>year_country_gdp</code> we’ll see that it only contains the year, country and gdpPercap. Above we used ‘normal’ grammar, but the strengths of <code>dplyr</code> lie in combining several functions using pipes. Since the pipes grammar is unlike anything we’ve seen in R before, let’s repeat what we’ve done above using pipes.</p>
+<p><code>year_country_gdp</code> 데이터프레임을 열게되면, <code>year</code>, <code>country</code>, <code>gdpPercap</code> 변수만 담겨있는 것을 보게 된다. 위에서는 <code>정규</code> 문법이 사용되었지만, <code>dplyr</code> 팩키지의 장점은 파이프를 사용해서 함수 다수를 조합하는데 있다. 파이프 문법은 이전에 R에서 살펴봤던 것과는 사뭇 다른다. 위에서 파이프를 사용했던 것을 다시 작성해본다.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">year_country_gdp &lt;-<span class="st"> </span>gapminder %&gt;%<span class="st"> </span><span class="kw">select</span>(year,country,gdpPercap)</code></pre></div>
-<p>To help you understand why we wrote that in that way, let’s walk through it step by step. First we summon the gapminder dataframe and pass it on, using the pipe symbol <code>%&gt;%</code>, to the next step, which is the <code>select()</code> function. In this case we don’t specify which data object we use in the <code>select()</code> function since in gets that from the previous pipe. <strong>Fun Fact</strong>: There is a good chance you have encountered pipes before in the shell. In R, a pipe symbol is <code>%&gt;%</code> while in the shell it is <code>|</code> but the concept is the same!</p>
-<h2 id="using-filter">Using filter()</h2>
-<p>If we now wanted to move forward with the above, but only with European countries, we can combine <code>select</code> and <code>filter</code></p>
+<p>파이프를 사용해서 작성한 이유에 대한 이해를 돕기 위해서, 단계별로 살펴보자. 먼저 <code>gapminder</code> 데이터프레임을 불러오고 나서, <code>%&gt;%</code> 파이프 기호를 사용해서 다음 작업단계(<code>select()</code> 함수)로 전달했다. 이번 경우에는 <code>select()</code> 함수에 데이터 객체를 명세하지 않았다. 이유는 이전 파이프에서 건네받았기 때문이다. <strong>재미난 사실:</strong> 쉘에서 이전에 파이프를 접해봤을 것이다. R에서 파이프 기호가 <code>%&gt;%</code>인 반면, 쉘에서는 <code>|</code>을 사용한다. 하지만, 개념은 동일하다!</p>
+<h2 id="filter-사용하기"><code>filter()</code> 사용하기</h2>
+<p>이제 위에서처럼 앞으로 나가고자 하지만, 유럽대륙만 갖고 작업하고자 한다. <code>select</code> 와 <code>filter</code>를 조합하면 된다.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">year_country_gdp_euro &lt;-<span class="st"> </span>gapminder %&gt;%
 <span class="st">    </span><span class="kw">filter</span>(continent==<span class="st">&quot;Europe&quot;</span>) %&gt;%
 <span class="st">    </span><span class="kw">select</span>(year,country,gdpPercap)</code></pre></div>
 <section class="challenge panel panel-success">
 <div class="panel-heading">
-<h2 id="challenge-1"><span class="glyphicon glyphicon-pencil"></span>Challenge 1</h2>
+<h2 id="도전과제-1"><span class="glyphicon glyphicon-pencil"></span>도전과제 1</h2>
 </div>
 <div class="panel-body">
-<p>Write a single command (which can span multiple lines and includes pipes) that will produce a dataframe that has the African values for <code>lifeExp</code>, <code>country</code> and <code>year</code>, but not for other Continents. How many rows does your dataframe have and why?</p>
+<p>명령어를 하나 (여러 행에 걸칠 수 있고, 파이프도 포함한다) 작성하는데, <code>lifeExp</code>, <code>country</code>, <code>year</code> 변수에 대해서 아프리카 대륙(<code>African</code>)만 갖는 데이터프레임을 작성한다. 하지만, 다른 대륙은 포함되면 안된다. 데이터 프레임에 행의 갯수는 얼마나 되는가? 그리고 이유는 무엇인가?</p>
 </div>
 </section>
-<p>As with last time, first we pass the gapminder dataframe to the <code>filter()</code> function, then we pass the filtered version of the gapminder dataframe to the <code>select()</code> function. <strong>Note:</strong> The order of operations is very important in this case. If we used ‘select’ first, filter would not be able to find the variable continent since we would have removed it in the previous step.</p>
-<h2 id="using-group_by-and-summarize">Using group_by() and summarize()</h2>
-<p>Now, we were supposed to be reducing the error prone repetitiveness of what can be done with base R, but up to now we haven’t done that since we would have to repeat the above for each continent. Instead of <code>filter()</code>, which will only pass observations that meet your criteria (in the above: <code>continent==&quot;Europe&quot;</code>), we can use <code>group_by()</code>, which will essentially use every unique criteria that you could have used in filter.</p>
+<p>지난번과 마찬가지로, <code>gapminder</code> 데이터프레임을 <code>filter()</code> 함수에 전달하고 나서, 필터링된 <code>gapminder</code> 데이터프레임 버젼을 <code>select()</code> 함수에 전달한다. <strong>주의:</strong> 연산순서가 이번 경우에 무척 중요하다. <code>select()</code> 함수를 먼저 실행하면, <code>filter()</code> 함수는 대륙 변수를 찾을 수 없는데, 이유는 이전 단계에서 제거했기 때문이다.</p>
+<h2 id="group_by-사용하기">group_by() 사용하기</h2>
+<p>이제, 기본 R로 작업함으로써 실수를 범하기 쉬운 반복작업을 줄일 것으로 생각했지만, 현재까지 목표를 달성하지 못했다. 왜냐하면, 각 대륙마다 상기 작업을 반복해야 되기 때문이다. <code>filter()</code> 대신에, <code>group_by()</code>를 사용한다. <code>filter()</code>는 특정 기준을 만족하는 관측점만 넘겨준다(이번 경우: <code>continent==&quot;Europe&quot;</code>). <code>group_by()</code>는 본질적으로, 필터에서 사용할 수 있는 모든 유일무이한 기준을 사용할 수 있다.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">str</span>(gapminder)</code></pre></div>
 <pre class="output"><code>&#39;data.frame&#39;:   1704 obs. of  6 variables:
  $ country  : Factor w/ 142 levels &quot;Afghanistan&quot;,..: 1 1 1 1 1 1 1 1 1 1 ...
@@ -123,13 +122,13 @@
   .. ..$ : symbol continent
   ..- attr(*, &quot;drop&quot;)= logi TRUE
 </code></pre>
-<p>You will notice that the structure of the dataframe where we used <code>group_by()</code> (<code>grouped_df</code>) is not the same as the original <code>gapminder</code> (<code>data.frame</code>). A <code>grouped_df</code> can be thought of as a <code>list</code> where each item in the <code>list</code>is a <code>data.frame</code> which contains only the rows that correspond to the a particular value <code>continent</code> (at least in the example above).</p>
+<p><code>group_by()</code> 함수를 사용한 데이터프레임 구조(<code>grouped_df</code>)가 원래 <code>gapminder</code> 데이터프레임 구조(<code>data.frame</code>)와 같지 않음에 주목한다. <code>grouped_df</code>는 <code>list</code> 리스트로 간주될 있는데, <code>list</code>에 각 항목이 <code>data.frame</code>으로, 각 데이터프레임은 특정 대륙 <code>continent</code>에 대응되는 행만 담겨진다(적어도 상기 예제의 경우).</p>
 <div class="figure">
 <img src="fig/13-dplyr-fig2.png" />
 
 </div>
-<h2 id="using-summarize">Using summarize()</h2>
-<p>The above was a bit on the uneventful side because <code>group_by()</code> much more exciting in conjunction with <code>summarize()</code>. This will allow use to create new variable(s) by using functions that repeat for each of the continent-specific data frames. That is to say, using the <code>group_by()</code> function, we split our original dataframe into multiple pieces, then we can run functions (e.g. <code>mean()</code> or <code>sd()</code>) within <code>summarize()</code>.</p>
+<h2 id="summarize-사용하기">summarize() 사용하기</h2>
+<p>상기 예제는 그다지 특별한 점이 없다. 왜냐하면 <code>group_by()</code> 함수는 <code>summarize()</code>와 함께할 때 훨씬더 흥미롭다. 두 함수를 조합하면 새로운 변수가 생성되는데, 각 대륙별 데이터프레임에 대해 반복적인 함수 작업을 수행할 수 있다. 다시 말해, <code>group_by()</code> 함수를 사용해서, 최초 데이터프레임을 다수 조각으로 쪼개고 나서, 각각에 대해 함수(예를 들어 <code>mean()</code> 혹은 <code>sd()</code>)를 <code>summarize()</code> 내부에서 실행시킨다.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">gdp_bycontinents &lt;-<span class="st"> </span>gapminder %&gt;%
 <span class="st">    </span><span class="kw">group_by</span>(continent) %&gt;%
 <span class="st">    </span><span class="kw">summarize</span>(<span class="dt">mean_gdpPercap=</span><span class="kw">mean</span>(gdpPercap))</code></pre></div>
@@ -137,28 +136,28 @@
 <img src="fig/13-dplyr-fig3.png" />
 
 </div>
-<p>That allowed us to calculate the mean gdpPercap for each continent, but it gets even better.</p>
+<p>상기 코드는 각 대륙별로 평균 <code>gdpPercap</code>를 계산할 수 있게 하지만, 훨씬 더 낫다.</p>
 <section class="challenge panel panel-success">
 <div class="panel-heading">
-<h2 id="challenge-2"><span class="glyphicon glyphicon-pencil"></span>Challenge 2</h2>
+<h2 id="도전과제-2"><span class="glyphicon glyphicon-pencil"></span>도전과제 2</h2>
 </div>
 <div class="panel-body">
-<p>Calculate the average life expectancy per country. Which had the longest life expectancy and which had the shortest life expectancy?</p>
+<p>국가별로 평균 기대수명을 계산한다. 어느 국가가 가장 평균 기대수명이 길고, 어느 국가가 가장 평균 기대수명이 짧은가?</p>
 </div>
 </section>
-<p>The function <code>group_by()</code> allows us to group by multiple variables. Let’s group by <code>year</code> and <code>continent</code>.</p>
+<p><code>group_by()</code> 훔수에 변수 다수를 사용해서 집단으로 그룹지을 수 있다. <code>year</code> 와 <code>continent</code> 변수로 그룹지어 보자.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">gdp_bycontinents_byyear &lt;-<span class="st"> </span>gapminder %&gt;%
 <span class="st">    </span><span class="kw">group_by</span>(continent,year) %&gt;%
 <span class="st">    </span><span class="kw">summarize</span>(<span class="dt">mean_gdpPercap=</span><span class="kw">mean</span>(gdpPercap))</code></pre></div>
-<p>That is already quite powerful, but it gets even better! You’re not limited to defining 1 new variable in <code>summarize()</code>.</p>
+<p>이미 매우 막강한 기능이지만, 더 좋게 만들 수 있다! <code>summarize()</code> 함수에 변수 하나를 정의하는 것에 한정되지 않고, 확장이 가능하다.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">gdp_pop_bycontinents_byyear &lt;-<span class="st"> </span>gapminder %&gt;%
 <span class="st">    </span><span class="kw">group_by</span>(continent,year) %&gt;%
 <span class="st">    </span><span class="kw">summarize</span>(<span class="dt">mean_gdpPercap=</span><span class="kw">mean</span>(gdpPercap),
               <span class="dt">sd_gdpPercap=</span><span class="kw">sd</span>(gdpPercap),
               <span class="dt">mean_pop=</span><span class="kw">mean</span>(pop),
               <span class="dt">sd_pop=</span><span class="kw">sd</span>(pop))</code></pre></div>
-<h2 id="using-mutate">Using mutate()</h2>
-<p>We can also create new variables prior to (or even after) summarizing information using <code>mutate()</code>.</p>
+<h2 id="mutate-사용하기">mutate() 사용하기</h2>
+<p><code>mutate()</code> 함수를 사용해서 정보를 요약하기 전에(혹은 후에도) 새로운 변수를 생성할 수 있다.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">gdp_pop_bycontinents_byyear &lt;-<span class="st"> </span>gapminder %&gt;%
 <span class="st">    </span><span class="kw">mutate</span>(<span class="dt">gdp_billion=</span>gdpPercap*pop/<span class="dv">10</span>^<span class="dv">9</span>) %&gt;%
 <span class="st">    </span><span class="kw">group_by</span>(continent,year) %&gt;%
@@ -170,15 +169,15 @@
               <span class="dt">sd_pop=</span><span class="kw">sd</span>(pop))</code></pre></div>
 <section class="challenge panel panel-success">
 <div class="panel-heading">
-<h2 id="advanced-challenge"><span class="glyphicon glyphicon-pencil"></span>Advanced Challenge</h2>
+<h2 id="고급-도전과제"><span class="glyphicon glyphicon-pencil"></span>고급 도전과제</h2>
 </div>
 <div class="panel-body">
-<p>Calculate the average life expectancy in 2002 of 2 randomly selected countries for each continent. Then arrange the continent names in reverse order. <strong>Hint:</strong> Use the <code>dplyr</code> functions <code>arrange()</code> and <code>sample_n()</code>, they have similar syntax to other dplyr functions.</p>
+<p>각 대륙별로 랜덤으로 2 국가를 선택해서 2002년 평균 기대수명을 계산한다. 그리고 나서, 역순으로 대륙명을 정렬한다. <strong>힌트:</strong> <code>dplyr</code> 팩키지 <code>arrange()</code> 와 <code>sample_n()</code> 함수를 사용한다. 여타 <code>dplyr</code> 함수처럼 유사한 구문을 갖는다.</p>
 </div>
 </section>
 <section class="challenge panel panel-success">
 <div class="panel-heading">
-<h2 id="solution-to-challenge-1"><span class="glyphicon glyphicon-pencil"></span>Solution to Challenge 1</h2>
+<h2 id="도전과제-1에-대한-해답"><span class="glyphicon glyphicon-pencil"></span>도전과제 1에 대한 해답</h2>
 </div>
 <div class="panel-body">
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">year_country_lifeExp_Africa &lt;-<span class="st"> </span>gapminder %&gt;%
@@ -188,7 +187,7 @@
 </section>
 <section class="challenge panel panel-success">
 <div class="panel-heading">
-<h2 id="solution-to-challenge-2"><span class="glyphicon glyphicon-pencil"></span>Solution to Challenge 2</h2>
+<h2 id="도전과제-2에-대한-해답"><span class="glyphicon glyphicon-pencil"></span>도전과제 2에 대한 해답</h2>
 </div>
 <div class="panel-body">
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">lifeExp_bycountry &lt;-<span class="st"> </span>gapminder %&gt;%
@@ -198,7 +197,7 @@
 </section>
 <section class="challenge panel panel-success">
 <div class="panel-heading">
-<h2 id="solution-to-advanced-challenge"><span class="glyphicon glyphicon-pencil"></span>Solution to Advanced Challenge</h2>
+<h2 id="고급-도전과제에-대한-해답"><span class="glyphicon glyphicon-pencil"></span>고급 도전과제에 대한 해답</h2>
 </div>
 <div class="panel-body">
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">lifeExp_2countries_bycontinents &lt;-<span class="st"> </span>gapminder %&gt;%<span class="st"> </span>
@@ -209,8 +208,11 @@
 <span class="st">   </span><span class="kw">arrange</span>(<span class="kw">desc</span>(mean_lifeExp))</code></pre></div>
 </div>
 </section>
-<h2 id="other-great-resources">Other great resources</h2>
-<p><a href="https://www.rstudio.com/wp-content/uploads/2015/02/data-wrangling-cheatsheet.pdf">Data Wrangling Cheat sheet</a> <a href="https://cran.rstudio.com/web/packages/dplyr/vignettes/introduction.html">Introduction to dplyr</a></p>
+<h2 id="추가-학습-교재">추가 학습 교재</h2>
+<ul>
+<li><a href="https://www.rstudio.com/wp-content/uploads/2015/02/data-wrangling-cheatsheet.pdf">Data Wrangling Cheat sheet</a></li>
+<li><a href="https://cran.rstudio.com/web/packages/dplyr/vignettes/introduction.html">Introduction to dplyr</a></li>
+</ul>
         </div>
       </div>
       </article>
