@@ -1,7 +1,7 @@
 ---
 layout: page
-title: 재현가능한 과학적 분석을 위한 R
-subtitle: `dplyr` 팩키지로 데이터프레임 솜씨있게 조작
+title: R for reproducible scientific analysis
+subtitle: Dataframe manipulation with dplyr
 minutes: 90
 ---
 
@@ -12,9 +12,9 @@ opts_chunk$set(fig.path = "fig/13-dplyr-")
 gapminder <- read.csv("data/gapminder-FiveYearData.csv", header=TRUE)
 ```
 
-> ## 학습 목표 {.objectives}
+> ## Learning Objectives {.objectives}
 >
-> * `dplyr` 파이프로 데이터프레임을 솜씨있게 조작하는 '동사'를 사용한다.
+> * To be able to use the 6 main dataframe manipulation 'verbs' with pipes in `dplyr`
 >
 
 Manipulation of dataframes means many things to many researchers, we often select certain observations (rows) or variables (columns), we often group the data by a certain variable(s), or we even calculate summary statistics. We can do these operations using the normal base R operations:

@@ -17,7 +17,10 @@ gapminder <- read.csv("data/gapminder-FiveYearData.csv", header=TRUE)
 > * `dplyr` 파이프로 데이터프레임을 솜씨있게 조작하는 '동사'를 사용한다.
 >
 
-Manipulation of dataframes means many things to many researchers, we often select certain observations (rows) or variables (columns), we often group the data by a certain variable(s), or we even calculate summary statistics. We can do these operations using the normal base R operations:
+데이터프레임을 솜씨있게 조작하는 것은 많은 과학연구원에게 많은 것을 의미한다.
+특정 관측점(행) 혹은 변수(열)을 선택하거나,
+특정 변수(들)로 데이터를 집단으로 그룹짓거나, 요약 통계량을 계산하기도 한다.
+이런 연산작업에 정규 기본 R 연산을 사용한다:  
 
 ```{r}
 mean(gapminder[gapminder$continent == "Africa", "gdpPercap"])
@@ -25,13 +28,17 @@ mean(gapminder[gapminder$continent == "Americas", "gdpPercap"])
 mean(gapminder[gapminder$continent == "Asia", "gdpPercap"])
 ```
 
-But this isn't very *nice* because there is a fair bit of repetition. Repeating yourself will cost you time, both now and later, and potentially introduce some nasty bugs.
+하지만, 그다지 *멋있지는* 않다.
+여러분이 직접 반목하게 되면, 일단 여러분 시간을 지금 그리고 나중에 까먹게 되고,
+잠재적으로 버그가 스며들 여지를 남기게 된다.
 
-## The `dplyr` package
 
-Luckily, the [`dplyr`](https://cran.r-project.org/web/packages/dplyr/dplyr.pdf) package provides a number of very useful functions for manipulating dataframes in a way that will reduce the above repetition, reduce the probability of making errors, and probably even save you some typing. As an added bonus, you might even find the `dplyr` grammar easier to read.
+## `dplyr` 팩키지
 
-Here we're going to cover 6 of the most commonly used functions as well as using pipes (`%>%`) to combine them. 
+운좋게도, [`dplyr`](https://cran.r-project.org/web/packages/dplyr/dplyr.pdf) 팩키지가 데이터프레임을 솜씨있게 조작하는데 유용한 많은 함수를 제공한다. 이를 통해서, 위에서 언급된 반복을 줄이고, 실수를 범할 확률도 줄이고,
+심지어 타이핑하는 수고도 줄일 수 있다. 보너스로, `dplyr` 문법은 훨씬 더 가독성도 높다.
+
+가장 흔히 사용되는 6가지 함수 뿐만 아니라, 이런 함수를 조합하는데 사용되는 파이프 (`%>%`) 연산자 사용법도 다룬다.
 
 1. `select()`
 2. `filter()`
@@ -39,21 +46,22 @@ Here we're going to cover 6 of the most commonly used functions as well as using
 4. `summarize()`
 5. `mutate()`
 
-If you have have not installed this package earlier, please do so:
+이전 수업에서 팩키지를 설치하지 않았다면, 설치해서 직접 실습해보기 바란다:
 
 ```{r,eval=FALSE}
 install.packages('dplyr')
 ```
 
-Now let's load the package:
+이제 팩키지를 불러와서 적재한다:
 
 ```{r,message=FALSE}
 library(dplyr)
 ```
 
-## Using select()
+## `select()` 사용
 
-If, for example, we wanted to move forward with only a few of the variables in our dataframe we could use the `select()` function. This will keep only the variables you select.
+예를 들어, 데이터프레임에서 변수 일부만 뽑아서 작업해 나가고자 한다면, `select()` 함수를 사용한다.
+이 함수는 선택한 변수만 저정한다.
 
 ```{r}
 year_country_gdp <- select(gapminder,year,country,gdpPercap)
@@ -61,17 +69,22 @@ year_country_gdp <- select(gapminder,year,country,gdpPercap)
 
 ![](fig/13-dplyr-fig1.png)
 
-If we open up `year_country_gdp` we'll see that it only contains the year, country and gdpPercap. Above we used 'normal' grammar, but the strengths of `dplyr` lie in combining several functions using pipes. Since the pipes grammar is unlike anything we've seen in R before, let's repeat what we've done above using pipes.
+`year_country_gdp` 데이터프레임을 열게되면, `year`, `country`, `gdpPercap` 변수만 담겨있는 것을 보게 된다.
+위에서는 `정규` 문법이 사용되었지만, `dplyr` 팩키지의 장점은 파이프를 사용해서 함수 다수를 조합하는데 있다.
+파이프 문법은 이전에 R에서 살펴봤던 것과는 사뭇 다른다.
+위에서 파이프를 사용했던 것을 다시 작성해본다.
 
 ```{r}
 year_country_gdp <- gapminder %>% select(year,country,gdpPercap)
 ```
 
-To help you understand why we wrote that in that way, let's walk through it step by step. First we summon the gapminder dataframe and pass it on, using the pipe symbol `%>%`, to the next step, which is the `select()` function. In this case we don't specify which data object we use in the `select()` function since in gets that from the previous pipe. **Fun Fact**: There is a good chance you have encountered pipes before in the shell. In R, a pipe symbol is `%>%` while in the shell it is `|` but the concept is the same!
+파이프를 사용해서 작성한 이유에 대한 이해를 돕기 위해서, 단계별로 살펴보자.
+먼저 `gapminder` 데이터프레임을 불러오고 나서, `%>%` 파이프 기호를 사용해서 다음 작업단계(`select()` 함수)로 전달했다. 이번 경우에는 `select()` 함수에 데이터 객체를 명세하지 않았다. 이유는 이전 파이프에서 건네받았기 때문이다. **재미난 사실:** 쉘에서 이전에 파이프를 접해봤을 것이다. R에서 파이프 기호가 `%>%`인 반면, 쉘에서는 `|`을 사용한다. 하지만, 개념은 동일하다!
 
-## Using filter()
+## `filter()` 사용하기
 
-If we now wanted to move forward with the above, but only with European countries, we can combine `select` and `filter`
+이제 위에서처럼 앞으로 나가고자 하지만, 유럽대륙만 갖고 작업하고자 한다.
+`select` 와 `filter`를 조합하면 된다.
 
 ```{r}
 year_country_gdp_euro <- gapminder %>%
@@ -79,31 +92,42 @@ year_country_gdp_euro <- gapminder %>%
     select(year,country,gdpPercap)
 ```
 
-> ## Challenge 1 {.challenge}
+> ## 도전과제 1 {.challenge}
 >
-> Write a single command (which can span multiple lines and includes pipes) that will produce a dataframe that has the African values for `lifeExp`, `country` and `year`, but not for other Continents. 
->How many rows does your dataframe have and why?
+> 명령어를 하나 (여러 행에 걸칠 수 있고, 파이프도 포함한다) 작성하는데, `lifeExp`, `country`, `year` 변수에 대해서 아프리카 대륙(`African`)만 갖는 데이터프레임을 작성한다. 하지만, 다른 대륙은 포함되면 안된다.
+> 데이터 프레임에 행의 갯수는 얼마나 되는가? 그리고 이유는 무엇인가?
 >
 
+지난번과 마찬가지로, `gapminder` 데이터프레임을 `filter()` 함수에 전달하고 나서, 
+필터링된 `gapminder` 데이터프레임 버젼을 `select()` 함수에 전달한다.
+**주의:** 연산순서가 이번 경우에 무척 중요하다.
+`select()` 함수를 먼저 실행하면, `filter()` 함수는 대륙 변수를 찾을 수 없는데, 
+이유는 이전 단계에서 제거했기 때문이다.
 
-As with last time, first we pass the gapminder dataframe to the `filter()` function, then we pass the filtered version of the gapminder dataframe to the `select()` function. **Note:** The order of operations is very important in this case. If we used 'select' first, filter would not be able to find the variable continent since we would have removed it in the previous step.
+## group_by() 사용하기
 
-## Using group_by() and summarize()
-
-Now, we were supposed to be reducing the error prone repetitiveness of what can be done with base R, but up to now we haven't done that since we would have to repeat the above for each continent. Instead of `filter()`, which will only pass observations that meet your criteria (in the above: `continent=="Europe"`), we can use `group_by()`, which will essentially use every unique criteria that you could have used in filter.
+이제, 기본 R로 작업함으로써 실수를 범하기 쉬운 반복작업을 줄일 것으로 생각했지만,
+현재까지 목표를 달성하지 못했다. 왜냐하면, 각 대륙마다 상기 작업을 반복해야 되기 때문이다.
+`filter()` 대신에, `group_by()`를 사용한다.
+`filter()`는 특정 기준을 만족하는 관측점만 넘겨준다(이번 경우: `continent=="Europe"`).
+`group_by()`는 본질적으로, 필터에서 사용할 수 있는 모든 유일무이한 기준을 사용할 수 있다.
 
 ```{r}
 str(gapminder)
 
 str(gapminder %>% group_by(continent))
 ```
-You will notice that the structure of the dataframe where we used `group_by()` (`grouped_df`) is not the same as the original `gapminder` (`data.frame`). A `grouped_df` can be thought of as a `list` where each item in the `list`is a `data.frame` which contains only the rows that correspond to the a particular value `continent` (at least in the example above).
+
+`group_by()` 함수를 사용한 데이터프레임 구조(`grouped_df`)가 원래 `gapminder` 데이터프레임 구조(`data.frame`)와 같지 않음에 주목한다.
+`grouped_df`는 `list` 리스트로 간주될 있는데, `list`에 각 항목이 `data.frame`으로, 각 데이터프레임은 특정 대륙 `continent`에 대응되는 행만 담겨진다(적어도 상기 예제의 경우).
 
 ![](fig/13-dplyr-fig2.png)
 
-## Using summarize()
+## summarize() 사용하기
 
-The above was a bit on the uneventful side because `group_by()` much more exciting in conjunction with `summarize()`. This will allow use to create new variable(s) by using functions that repeat for each of the continent-specific data frames. That is to say, using the `group_by()` function, we split our original dataframe into multiple pieces, then we can run functions (e.g. `mean()` or `sd()`) within `summarize()`.
+상기 예제는 그다지 특별한 점이 없다. 왜냐하면 `group_by()` 함수는 `summarize()`와 함께할 때 훨씬더 흥미롭다.
+두 함수를 조합하면 새로운 변수가 생성되는데, 각 대륙별 데이터프레임에 대해 반복적인 함수 작업을 수행할 수 있다. 다시 말해, `group_by()` 함수를 사용해서, 최초 데이터프레임을 다수 조각으로 쪼개고 나서, 각각에 대해 함수(예를 들어 `mean()` 혹은 `sd()`)를 `summarize()` 내부에서 실행시킨다.
+
 
 ```{r}
 gdp_bycontinents <- gapminder %>%
@@ -113,14 +137,15 @@ gdp_bycontinents <- gapminder %>%
 
 ![](fig/13-dplyr-fig3.png)
 
-That allowed us to calculate the mean gdpPercap for each continent, but it gets even better.
+상기 코드는 각 대륙별로 평균 `gdpPercap`를 계산할 수 있게 하지만, 훨씬 더 낫다.
 
-> ## Challenge 2 {.challenge}
+> ## 도전과제 2 {.challenge}
 >
-> Calculate the average life expectancy per country. Which had the longest life expectancy and which had the shortest life expectancy?
+> 국가별로 평균 기대수명을 계산한다. 어느 국가가 가장 평균 기대수명이 길고, 어느 국가가 가장 평균 기대수명이 짧은가?
 >
 
-The function `group_by()` allows us to group by multiple variables. Let's group by `year` and `continent`.
+`group_by()` 훔수에 변수 다수를 사용해서 집단으로 그룹지을 수 있다.
+`year` 와 `continent` 변수로 그룹지어 보자.
 
 
 ```{r}
@@ -129,7 +154,8 @@ gdp_bycontinents_byyear <- gapminder %>%
     summarize(mean_gdpPercap=mean(gdpPercap))
 ```
 
-That is already quite powerful, but it gets even better! You're not limited to defining 1 new variable in `summarize()`.
+이미 매우 막강한 기능이지만, 더 좋게 만들 수 있다!
+`summarize()` 함수에 변수 하나를 정의하는 것에 한정되지 않고, 확장이 가능하다.
 
 ```{r}
 gdp_pop_bycontinents_byyear <- gapminder %>%
@@ -140,9 +166,10 @@ gdp_pop_bycontinents_byyear <- gapminder %>%
               sd_pop=sd(pop))
 ```
 
-## Using mutate()
+## mutate() 사용하기
 
-We can also create new variables prior to (or even after) summarizing information using `mutate()`.
+`mutate()` 함수를 사용해서 정보를 요약하기 전에(혹은 후에도) 새로운 변수를 생성할 수 있다.
+
 ```{r}
 gdp_pop_bycontinents_byyear <- gapminder %>%
     mutate(gdp_billion=gdpPercap*pop/10^9) %>%
@@ -156,30 +183,29 @@ gdp_pop_bycontinents_byyear <- gapminder %>%
 ```
 
 
-
-
-
-
-> ## Advanced Challenge {.challenge}
-> Calculate the average life expectancy in 2002 of 2 randomly selected countries for each continent. Then arrange the continent names in reverse order.
-> **Hint:** Use the `dplyr` functions `arrange()` and `sample_n()`, they have similar syntax to other dplyr functions.
+> ## 고급 도전과제 {.challenge}
+>
+> 각 대륙별로 랜덤으로 2 국가를 선택해서 2002년 평균 기대수명을 계산한다.
+> 그리고 나서, 역순으로 대륙명을 정렬한다.
+> **힌트:** `dplyr` 팩키지 `arrange()` 와 `sample_n()` 함수를 사용한다.
+> 여타 `dplyr` 함수처럼 유사한 구문을 갖는다.
 >
 
-> ## Solution to Challenge 1 {.challenge}
+> ## 도전과제 1에 대한 해답 {.challenge}
 >```{r}
 >year_country_lifeExp_Africa <- gapminder %>%
 >                            filter(continent=="Africa") %>%
 >                            select(year,country,lifeExp)
 > ```
 
-> ## Solution to Challenge 2 {.challenge}
+> ## 도전과제 2에 대한 해답 {.challenge}
 >```{r}
 >lifeExp_bycountry <- gapminder %>%
 >    group_by(country) %>%
 >    summarize(mean_lifeExp=mean(lifeExp))
 >```
 
-> ## Solution to Advanced Challenge {.challenge}
+> ## 고급 도전과제에 대한 해답 {.challenge}
 >```{r}
 >lifeExp_2countries_bycontinents <- gapminder %>% 
 >    filter(year==2002) %>%
@@ -189,6 +215,6 @@ gdp_pop_bycontinents_byyear <- gapminder %>%
 >    arrange(desc(mean_lifeExp))
 >```
 
-## Other great resources
-[Data Wrangling Cheat sheet](https://www.rstudio.com/wp-content/uploads/2015/02/data-wrangling-cheatsheet.pdf)
-[Introduction to dplyr](https://cran.rstudio.com/web/packages/dplyr/vignettes/introduction.html)
+## 추가 학습 교재
+- [Data Wrangling Cheat sheet](https://www.rstudio.com/wp-content/uploads/2015/02/data-wrangling-cheatsheet.pdf)
+- [Introduction to dplyr](https://cran.rstudio.com/web/packages/dplyr/vignettes/introduction.html)
