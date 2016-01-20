@@ -54,10 +54,8 @@
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#install.packages(&quot;tidyr&quot;)</span>
 <span class="co">#install.packages(&quot;dplyr&quot;)</span></code></pre></div>
 <p>팩키지를 불러와서 적재한다.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(<span class="st">&quot;tidyr&quot;</span>)</code></pre></div>
-<pre class="error"><code>Error in library(&quot;tidyr&quot;): there is no package called &#39;tidyr&#39;
-</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(<span class="st">&quot;dplyr&quot;</span>)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(<span class="st">&quot;tidyr&quot;</span>)
+<span class="kw">library</span>(<span class="st">&quot;dplyr&quot;</span>)</code></pre></div>
 <p>먼저, <code>gapminder</code> 데이터프레임 자료구조를 살펴보자:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">str</span>(gapminder)</code></pre></div>
 <pre class="output"><code>&#39;data.frame&#39;:   1704 obs. of  6 variables:
@@ -126,11 +124,13 @@
 
 </div>
 <p>깔끔한 중간 데이터 형식을 얻는 첫단추는 먼저 ‘wide’ 형식에서 ‘long’ 형식으로 변환하는 것이다. <code>tidyr</code> 팩키지 <code>gather()</code> 함수는 관측 변수를 모아서(gather) 단일 변수로 변환한다.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">gap_long &lt;-<span class="st"> </span>gap_wide %&gt;%<span class="st"> </span><span class="kw">gather</span>(obstype_year,obs_values,<span class="kw">starts_with</span>(<span class="st">&#39;pop&#39;</span>),<span class="kw">starts_with</span>(<span class="st">&#39;lifeExp&#39;</span>),<span class="kw">starts_with</span>(<span class="st">&#39;gdpPercap&#39;</span>))</code></pre></div>
-<pre class="error"><code>Error in function_list[[k]](value): 함수 &quot;gather&quot;를 찾을 수 없습니다
-</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">str</span>(gap_long)</code></pre></div>
-<pre class="error"><code>Error in str(gap_long): 객체 &#39;gap_long&#39;를 찾을 수 없습니다
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">gap_long &lt;-<span class="st"> </span>gap_wide %&gt;%<span class="st"> </span><span class="kw">gather</span>(obstype_year,obs_values,<span class="kw">starts_with</span>(<span class="st">&#39;pop&#39;</span>),<span class="kw">starts_with</span>(<span class="st">&#39;lifeExp&#39;</span>),<span class="kw">starts_with</span>(<span class="st">&#39;gdpPercap&#39;</span>))
+<span class="kw">str</span>(gap_long)</code></pre></div>
+<pre class="output"><code>&#39;data.frame&#39;:   5112 obs. of  4 variables:
+ $ continent   : chr  &quot;Africa&quot; &quot;Africa&quot; &quot;Africa&quot; &quot;Africa&quot; ...
+ $ country     : chr  &quot;Algeria&quot; &quot;Angola&quot; &quot;Benin&quot; &quot;Botswana&quot; ...
+ $ obstype_year: chr  &quot;pop_1952&quot; &quot;pop_1952&quot; &quot;pop_1952&quot; &quot;pop_1952&quot; ...
+ $ obs_values  : num  9279525 4232095 1738315 442308 4469979 ...
 </code></pre>
 <p>위에서 파이프 구문을 사용했는데, 이전 수업에서 <code>dplyr</code>로 작업한 것과 유사하다. 사실, <code>dplyr</code>과 <code>tidyr</code>은 상호 호환돼서, 파이프 구문으로 <code>dplyr</code>과 <code>tidyr</code> 팩키지 함수를 섞어 사용한다.</p>
 <p><code>gather()</code> 함수 내부에, 먼저 신규 ID 변수(<code>obstype_year</code>)에 대한 명칭, 병합된 관측변수(<code>obs_value</code>)에 대한 명칭, 그리고 나서 이전 관측변수에 대한 명칭을 신규 칼럼명으로 부여한다. 모든 관측변수를 타이핑했지만, <code>select()</code> 함수처럼(<code>dplyr</code> 수업 참조), <code>starts_with()</code> 함수에 인자로 넣어, 원하는 문자열로 시작되는 모든 변수를 선택할 수도 있다. <code>gather()</code> 모을 필요없는 변수(예를 들어, ID 변수)를 식별하는데, <code>-</code> 기호를 사용하는 대체가능한 구문도 지원한다.</p>
@@ -138,20 +138,18 @@
 <img src="fig/14-tidyr-fig3.png" />
 
 </div>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">gap_long &lt;-<span class="st"> </span>gap_wide %&gt;%<span class="st"> </span><span class="kw">gather</span>(obstype_year,obs_values,-continent,-country)</code></pre></div>
-<pre class="error"><code>Error in function_list[[k]](value): 함수 &quot;gather&quot;를 찾을 수 없습니다
-</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">str</span>(gap_long)</code></pre></div>
-<pre class="error"><code>Error in str(gap_long): 객체 &#39;gap_long&#39;를 찾을 수 없습니다
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">gap_long &lt;-<span class="st"> </span>gap_wide %&gt;%<span class="st"> </span><span class="kw">gather</span>(obstype_year,obs_values,-continent,-country)
+<span class="kw">str</span>(gap_long)</code></pre></div>
+<pre class="output"><code>&#39;data.frame&#39;:   5112 obs. of  4 variables:
+ $ continent   : chr  &quot;Africa&quot; &quot;Africa&quot; &quot;Africa&quot; &quot;Africa&quot; ...
+ $ country     : chr  &quot;Algeria&quot; &quot;Angola&quot; &quot;Benin&quot; &quot;Botswana&quot; ...
+ $ obstype_year: chr  &quot;gdpPercap_1952&quot; &quot;gdpPercap_1952&quot; &quot;gdpPercap_1952&quot; &quot;gdpPercap_1952&quot; ...
+ $ obs_values  : num  2449 3521 1063 851 543 ...
 </code></pre>
 <p>이런 특수한 데이터프레임에는 별거 없어 보일 수도 있다. 하지만, ID 변수 하나, 규칙없는 변수명 관측변수 40개를 갖는 경우가 있을 수 있다. 이런 유연성은 시간을 상당히 절약해 준다!</p>
 <p>이제 <code>obstype_year</code>은 정보가 두조각으로 나뉜다: 관측 유형(<code>pop</code>,<code>lifeExp</code>, <code>gdpPercap</code>)과 연도(<code>year</code>). <code>separate()</code> 함수를 사용해서 문자열을 다수 변수로 쪼갠다.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">gap_long &lt;-<span class="st"> </span>gap_long %&gt;%<span class="st"> </span><span class="kw">separate</span>(obstype_year,<span class="dt">into=</span><span class="kw">c</span>(<span class="st">&#39;obs_type&#39;</span>,<span class="st">&#39;year&#39;</span>),<span class="dt">sep=</span><span class="st">&quot;_&quot;</span>)</code></pre></div>
-<pre class="error"><code>Error in eval(expr, envir, enclos): 객체 &#39;gap_long&#39;를 찾을 수 없습니다
-</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">gap_long$year &lt;-<span class="st"> </span><span class="kw">as.integer</span>(gap_long$year)</code></pre></div>
-<pre class="error"><code>Error in eval(expr, envir, enclos): 객체 &#39;gap_long&#39;를 찾을 수 없습니다
-</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">gap_long &lt;-<span class="st"> </span>gap_long %&gt;%<span class="st"> </span><span class="kw">separate</span>(obstype_year,<span class="dt">into=</span><span class="kw">c</span>(<span class="st">&#39;obs_type&#39;</span>,<span class="st">&#39;year&#39;</span>),<span class="dt">sep=</span><span class="st">&quot;_&quot;</span>)
+gap_long$year &lt;-<span class="st"> </span><span class="kw">as.integer</span>(gap_long$year)</code></pre></div>
 <section class="challenge panel panel-success">
 <div class="panel-heading">
 <h2 id="도전-과제-2"><span class="glyphicon glyphicon-pencil"></span>도전 과제 2</h2>
@@ -162,30 +160,36 @@
 </section>
 <h2 id="spread-함수로-long-형식에서-중간-혹은-wide-형식으로"><code>spread()</code> 함수로 ‘long’ 형식에서 중간 혹은 ‘wide’ 형식으로</h2>
 <p>이제 작업을 이중점검 하도록, <code>gather()</code> 역함수(적절히 작명된 <code>spread()</code>)를 사용해서 관측변수를 다시 되돌린다. 그리고 나면 <code>gap_long</code>을 원래 중간 형식 혹은 ‘wide’ 형식으로 퍼뜨린다. 중간 형식에서 시작해보자.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">gap_normal &lt;-<span class="st"> </span>gap_long %&gt;%<span class="st"> </span><span class="kw">spread</span>(obs_type,obs_values)</code></pre></div>
-<pre class="error"><code>Error in eval(expr, envir, enclos): 객체 &#39;gap_long&#39;를 찾을 수 없습니다
-</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">dim</span>(gap_normal)</code></pre></div>
-<pre class="error"><code>Error in eval(expr, envir, enclos): 객체 &#39;gap_normal&#39;를 찾을 수 없습니다
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">gap_normal &lt;-<span class="st"> </span>gap_long %&gt;%<span class="st"> </span><span class="kw">spread</span>(obs_type,obs_values)
+<span class="kw">dim</span>(gap_normal)</code></pre></div>
+<pre class="output"><code>[1] 1704    6
 </code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">dim</span>(gapminder)</code></pre></div>
 <pre class="output"><code>[1] 1704    6
 </code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">names</span>(gap_normal)</code></pre></div>
-<pre class="error"><code>Error in eval(expr, envir, enclos): 객체 &#39;gap_normal&#39;를 찾을 수 없습니다
+<pre class="output"><code>[1] &quot;continent&quot; &quot;country&quot;   &quot;year&quot;      &quot;gdpPercap&quot; &quot;lifeExp&quot;   &quot;pop&quot;      
 </code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">names</span>(gapminder)</code></pre></div>
 <pre class="output"><code>[1] &quot;country&quot;   &quot;year&quot;      &quot;pop&quot;       &quot;continent&quot; &quot;lifeExp&quot;   &quot;gdpPercap&quot;
 </code></pre>
 <p>이제, 최초 데이터프레임 <code>gapminder</code>와 동일한 차원을 갖는 중간 데이터프레임 <code>gap_normal</code>이 있다. 하지만, 변수 순서가 다르다. 순서를 수정하기 전에, <code>all.equal()</code> 함수를 사용해서 동일한지 확인한다.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">gap_normal &lt;-<span class="st"> </span>gap_normal[,<span class="kw">names</span>(gapminder)]</code></pre></div>
-<pre class="error"><code>Error in eval(expr, envir, enclos): 객체 &#39;gap_normal&#39;를 찾을 수 없습니다
-</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">all.equal</span>(gap_normal,gapminder)</code></pre></div>
-<pre class="error"><code>Error in all.equal(gap_normal, gapminder): 객체 &#39;gap_normal&#39;를 찾을 수 없습니다
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">gap_normal &lt;-<span class="st"> </span>gap_normal[,<span class="kw">names</span>(gapminder)]
+<span class="kw">all.equal</span>(gap_normal,gapminder)</code></pre></div>
+<pre class="output"><code>[1] &quot;Component \&quot;country\&quot;: 1704 string mismatches&quot;              
+[2] &quot;Component \&quot;pop\&quot;: Mean relative difference: 1.634504&quot;      
+[3] &quot;Component \&quot;continent\&quot;: 1212 string mismatches&quot;            
+[4] &quot;Component \&quot;lifeExp\&quot;: Mean relative difference: 0.203822&quot;  
+[5] &quot;Component \&quot;gdpPercap\&quot;: Mean relative difference: 1.162302&quot;
 </code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(gap_normal)</code></pre></div>
-<pre class="error"><code>Error in head(gap_normal): 객체 &#39;gap_normal&#39;를 찾을 수 없습니다
+<pre class="output"><code>  country year      pop continent lifeExp gdpPercap
+1 Algeria 1952  9279525    Africa  43.077  2449.008
+2 Algeria 1957 10270856    Africa  45.685  3013.976
+3 Algeria 1962 11000948    Africa  48.303  2550.817
+4 Algeria 1967 12760499    Africa  51.407  3246.992
+5 Algeria 1972 14760787    Africa  54.518  4182.664
+6 Algeria 1977 17152804    Africa  58.014  4910.417
 </code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(gapminder)</code></pre></div>
 <pre class="output"><code>      country year      pop continent lifeExp gdpPercap
@@ -197,37 +201,73 @@
 6 Afghanistan 1977 14880372      Asia  38.438  786.1134
 </code></pre>
 <p>거의 다 왔다. 최초 데이터프레임이 <code>country</code>, <code>continent</code>, <code>year</code> 순으로 정렬되었다.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">gap_normal &lt;-<span class="st"> </span>gap_normal %&gt;%<span class="st"> </span><span class="kw">arrange</span>(country,continent,year)</code></pre></div>
-<pre class="error"><code>Error in eval(expr, envir, enclos): 객체 &#39;gap_normal&#39;를 찾을 수 없습니다
-</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">all.equal</span>(gap_normal,gapminder)</code></pre></div>
-<pre class="error"><code>Error in all.equal(gap_normal, gapminder): 객체 &#39;gap_normal&#39;를 찾을 수 없습니다
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">gap_normal &lt;-<span class="st"> </span>gap_normal %&gt;%<span class="st"> </span><span class="kw">arrange</span>(country,continent,year)
+<span class="kw">all.equal</span>(gap_normal,gapminder)</code></pre></div>
+<pre class="output"><code>[1] TRUE
 </code></pre>
 <p>훌륭하다! ‘long’ 형식에서 다시 중간 형식으로 돌아갔지만, 코드에 어떤 오류도 스며들지 않았다.</p>
 <p>이제, ‘long’ 형식을 ‘wide’ 형식으로 변환하자. ‘wide’ 형식에서, <code>country</code> 국가와 <code>contienet</code> 대륙을 ID 변수로 두고, 관츠점을 3가지 측정값(<code>pop</code>,<code>lifeExp</code>,<code>gdpPercap</code>)과 시간(<code>year</code>)으로 쭉 뿌렸다. 먼저, 모든 신규 변수(측정값 * 시간)에 대한 적절한 라벨을 생성할 필요가 있다. 또한, ID변수를 합쳐서 <code>gap_wide</code>를 정의하는 과정을 단순화할 필요가 있다.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">gap_temp &lt;-<span class="st"> </span>gap_long %&gt;%<span class="st"> </span><span class="kw">unite</span>(var_ID,continent,country,<span class="dt">sep=</span><span class="st">&quot;_&quot;</span>)</code></pre></div>
-<pre class="error"><code>Error in eval(expr, envir, enclos): 객체 &#39;gap_long&#39;를 찾을 수 없습니다
-</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">str</span>(gap_temp)</code></pre></div>
-<pre class="error"><code>Error in str(gap_temp): 객체 &#39;gap_temp&#39;를 찾을 수 없습니다
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">gap_temp &lt;-<span class="st"> </span>gap_long %&gt;%<span class="st"> </span><span class="kw">unite</span>(var_ID,continent,country,<span class="dt">sep=</span><span class="st">&quot;_&quot;</span>)
+<span class="kw">str</span>(gap_temp)</code></pre></div>
+<pre class="output"><code>&#39;data.frame&#39;:   5112 obs. of  4 variables:
+ $ var_ID    : chr  &quot;Africa_Algeria&quot; &quot;Africa_Angola&quot; &quot;Africa_Benin&quot; &quot;Africa_Botswana&quot; ...
+ $ obs_type  : chr  &quot;gdpPercap&quot; &quot;gdpPercap&quot; &quot;gdpPercap&quot; &quot;gdpPercap&quot; ...
+ $ year      : int  1952 1952 1952 1952 1952 1952 1952 1952 1952 1952 ...
+ $ obs_values: num  2449 3521 1063 851 543 ...
 </code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">gap_temp &lt;-<span class="st"> </span>gap_long %&gt;%
 <span class="st">    </span><span class="kw">unite</span>(ID_var,continent,country,<span class="dt">sep=</span><span class="st">&quot;_&quot;</span>) %&gt;%
-<span class="st">    </span><span class="kw">unite</span>(var_names,obs_type,year,<span class="dt">sep=</span><span class="st">&quot;_&quot;</span>)</code></pre></div>
-<pre class="error"><code>Error in eval(expr, envir, enclos): 객체 &#39;gap_long&#39;를 찾을 수 없습니다
-</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">str</span>(gap_temp)</code></pre></div>
-<pre class="error"><code>Error in str(gap_temp): 객체 &#39;gap_temp&#39;를 찾을 수 없습니다
+<span class="st">    </span><span class="kw">unite</span>(var_names,obs_type,year,<span class="dt">sep=</span><span class="st">&quot;_&quot;</span>)
+<span class="kw">str</span>(gap_temp)</code></pre></div>
+<pre class="output"><code>&#39;data.frame&#39;:   5112 obs. of  3 variables:
+ $ ID_var    : chr  &quot;Africa_Algeria&quot; &quot;Africa_Angola&quot; &quot;Africa_Benin&quot; &quot;Africa_Botswana&quot; ...
+ $ var_names : chr  &quot;gdpPercap_1952&quot; &quot;gdpPercap_1952&quot; &quot;gdpPercap_1952&quot; &quot;gdpPercap_1952&quot; ...
+ $ obs_values: num  2449 3521 1063 851 543 ...
 </code></pre>
 <p><code>unite()</code>를 사용해서, <code>continent</code>,<code>country</code>를 묶는 ID변수가 하나 생겼고, 변수명을 정의했다. 이제 파이프를 통해서 <code>spread()</code> 뿌린 준비를 마쳤다.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">gap_wide_new &lt;-<span class="st"> </span>gap_long %&gt;%<span class="st"> </span>
 <span class="st">    </span><span class="kw">unite</span>(ID_var,continent,country,<span class="dt">sep=</span><span class="st">&quot;_&quot;</span>) %&gt;%
 <span class="st">    </span><span class="kw">unite</span>(var_names,obs_type,year,<span class="dt">sep=</span><span class="st">&quot;_&quot;</span>) %&gt;%
-<span class="st">    </span><span class="kw">spread</span>(var_names,obs_values)</code></pre></div>
-<pre class="error"><code>Error in eval(expr, envir, enclos): 객체 &#39;gap_long&#39;를 찾을 수 없습니다
-</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">str</span>(gap_wide_new)</code></pre></div>
-<pre class="error"><code>Error in str(gap_wide_new): 객체 &#39;gap_wide_new&#39;를 찾을 수 없습니다
+<span class="st">    </span><span class="kw">spread</span>(var_names,obs_values)
+<span class="kw">str</span>(gap_wide_new)</code></pre></div>
+<pre class="output"><code>&#39;data.frame&#39;:   142 obs. of  37 variables:
+ $ ID_var        : chr  &quot;Africa_Algeria&quot; &quot;Africa_Angola&quot; &quot;Africa_Benin&quot; &quot;Africa_Botswana&quot; ...
+ $ gdpPercap_1952: num  2449 3521 1063 851 543 ...
+ $ gdpPercap_1957: num  3014 3828 960 918 617 ...
+ $ gdpPercap_1962: num  2551 4269 949 984 723 ...
+ $ gdpPercap_1967: num  3247 5523 1036 1215 795 ...
+ $ gdpPercap_1972: num  4183 5473 1086 2264 855 ...
+ $ gdpPercap_1977: num  4910 3009 1029 3215 743 ...
+ $ gdpPercap_1982: num  5745 2757 1278 4551 807 ...
+ $ gdpPercap_1987: num  5681 2430 1226 6206 912 ...
+ $ gdpPercap_1992: num  5023 2628 1191 7954 932 ...
+ $ gdpPercap_1997: num  4797 2277 1233 8647 946 ...
+ $ gdpPercap_2002: num  5288 2773 1373 11004 1038 ...
+ $ gdpPercap_2007: num  6223 4797 1441 12570 1217 ...
+ $ lifeExp_1952  : num  43.1 30 38.2 47.6 32 ...
+ $ lifeExp_1957  : num  45.7 32 40.4 49.6 34.9 ...
+ $ lifeExp_1962  : num  48.3 34 42.6 51.5 37.8 ...
+ $ lifeExp_1967  : num  51.4 36 44.9 53.3 40.7 ...
+ $ lifeExp_1972  : num  54.5 37.9 47 56 43.6 ...
+ $ lifeExp_1977  : num  58 39.5 49.2 59.3 46.1 ...
+ $ lifeExp_1982  : num  61.4 39.9 50.9 61.5 48.1 ...
+ $ lifeExp_1987  : num  65.8 39.9 52.3 63.6 49.6 ...
+ $ lifeExp_1992  : num  67.7 40.6 53.9 62.7 50.3 ...
+ $ lifeExp_1997  : num  69.2 41 54.8 52.6 50.3 ...
+ $ lifeExp_2002  : num  71 41 54.4 46.6 50.6 ...
+ $ lifeExp_2007  : num  72.3 42.7 56.7 50.7 52.3 ...
+ $ pop_1952      : num  9279525 4232095 1738315 442308 4469979 ...
+ $ pop_1957      : num  10270856 4561361 1925173 474639 4713416 ...
+ $ pop_1962      : num  11000948 4826015 2151895 512764 4919632 ...
+ $ pop_1967      : num  12760499 5247469 2427334 553541 5127935 ...
+ $ pop_1972      : num  14760787 5894858 2761407 619351 5433886 ...
+ $ pop_1977      : num  17152804 6162675 3168267 781472 5889574 ...
+ $ pop_1982      : num  20033753 7016384 3641603 970347 6634596 ...
+ $ pop_1987      : num  23254956 7874230 4243788 1151184 7586551 ...
+ $ pop_1992      : num  26298373 8735988 4981671 1342614 8878303 ...
+ $ pop_1997      : num  29072015 9875024 6066080 1536536 10352843 ...
+ $ pop_2002      : num  31287142 10866106 7026113 1630347 12251209 ...
+ $ pop_2007      : num  33333216 12420476 8078314 1639131 14326203 ...
 </code></pre>
 <section class="challenge panel panel-success">
 <div class="panel-heading">
@@ -238,21 +278,55 @@
 </div>
 </section>
 <p>이제, 엄청 ‘wide’ 형식 데이터프레임이 생겼다. 하지만, <code>ID_var</code> 변수는 더 유용할 수 있다. <code>separate()</code> 함수로 변수 2개로 구분하자.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">gap_wide_betterID &lt;-<span class="st"> </span><span class="kw">separate</span>(gap_wide_new,ID_var,<span class="kw">c</span>(<span class="st">&quot;continent&quot;</span>,<span class="st">&quot;country&quot;</span>),<span class="dt">sep=</span><span class="st">&quot;_&quot;</span>)</code></pre></div>
-<pre class="error"><code>Error in eval(expr, envir, enclos): 함수 &quot;separate&quot;를 찾을 수 없습니다
-</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">gap_wide_betterID &lt;-<span class="st"> </span>gap_long %&gt;%<span class="st"> </span>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">gap_wide_betterID &lt;-<span class="st"> </span><span class="kw">separate</span>(gap_wide_new,ID_var,<span class="kw">c</span>(<span class="st">&quot;continent&quot;</span>,<span class="st">&quot;country&quot;</span>),<span class="dt">sep=</span><span class="st">&quot;_&quot;</span>)
+gap_wide_betterID &lt;-<span class="st"> </span>gap_long %&gt;%<span class="st"> </span>
 <span class="st">    </span><span class="kw">unite</span>(ID_var,continent,country,<span class="dt">sep=</span><span class="st">&quot;_&quot;</span>) %&gt;%
 <span class="st">    </span><span class="kw">unite</span>(var_names,obs_type,year,<span class="dt">sep=</span><span class="st">&quot;_&quot;</span>) %&gt;%
 <span class="st">    </span><span class="kw">spread</span>(var_names,obs_values) %&gt;%
-<span class="st">    </span><span class="kw">separate</span>(ID_var,<span class="kw">c</span>(<span class="st">&quot;continent&quot;</span>,<span class="st">&quot;country&quot;</span>),<span class="dt">sep=</span><span class="st">&quot;_&quot;</span>)</code></pre></div>
-<pre class="error"><code>Error in eval(expr, envir, enclos): 객체 &#39;gap_long&#39;를 찾을 수 없습니다
-</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">str</span>(gap_wide_betterID)</code></pre></div>
-<pre class="error"><code>Error in str(gap_wide_betterID): 객체 &#39;gap_wide_betterID&#39;를 찾을 수 없습니다
+<span class="st">    </span><span class="kw">separate</span>(ID_var,<span class="kw">c</span>(<span class="st">&quot;continent&quot;</span>,<span class="st">&quot;country&quot;</span>),<span class="dt">sep=</span><span class="st">&quot;_&quot;</span>)
+<span class="kw">str</span>(gap_wide_betterID)</code></pre></div>
+<pre class="output"><code>&#39;data.frame&#39;:   142 obs. of  38 variables:
+ $ continent     : chr  &quot;Africa&quot; &quot;Africa&quot; &quot;Africa&quot; &quot;Africa&quot; ...
+ $ country       : chr  &quot;Algeria&quot; &quot;Angola&quot; &quot;Benin&quot; &quot;Botswana&quot; ...
+ $ gdpPercap_1952: num  2449 3521 1063 851 543 ...
+ $ gdpPercap_1957: num  3014 3828 960 918 617 ...
+ $ gdpPercap_1962: num  2551 4269 949 984 723 ...
+ $ gdpPercap_1967: num  3247 5523 1036 1215 795 ...
+ $ gdpPercap_1972: num  4183 5473 1086 2264 855 ...
+ $ gdpPercap_1977: num  4910 3009 1029 3215 743 ...
+ $ gdpPercap_1982: num  5745 2757 1278 4551 807 ...
+ $ gdpPercap_1987: num  5681 2430 1226 6206 912 ...
+ $ gdpPercap_1992: num  5023 2628 1191 7954 932 ...
+ $ gdpPercap_1997: num  4797 2277 1233 8647 946 ...
+ $ gdpPercap_2002: num  5288 2773 1373 11004 1038 ...
+ $ gdpPercap_2007: num  6223 4797 1441 12570 1217 ...
+ $ lifeExp_1952  : num  43.1 30 38.2 47.6 32 ...
+ $ lifeExp_1957  : num  45.7 32 40.4 49.6 34.9 ...
+ $ lifeExp_1962  : num  48.3 34 42.6 51.5 37.8 ...
+ $ lifeExp_1967  : num  51.4 36 44.9 53.3 40.7 ...
+ $ lifeExp_1972  : num  54.5 37.9 47 56 43.6 ...
+ $ lifeExp_1977  : num  58 39.5 49.2 59.3 46.1 ...
+ $ lifeExp_1982  : num  61.4 39.9 50.9 61.5 48.1 ...
+ $ lifeExp_1987  : num  65.8 39.9 52.3 63.6 49.6 ...
+ $ lifeExp_1992  : num  67.7 40.6 53.9 62.7 50.3 ...
+ $ lifeExp_1997  : num  69.2 41 54.8 52.6 50.3 ...
+ $ lifeExp_2002  : num  71 41 54.4 46.6 50.6 ...
+ $ lifeExp_2007  : num  72.3 42.7 56.7 50.7 52.3 ...
+ $ pop_1952      : num  9279525 4232095 1738315 442308 4469979 ...
+ $ pop_1957      : num  10270856 4561361 1925173 474639 4713416 ...
+ $ pop_1962      : num  11000948 4826015 2151895 512764 4919632 ...
+ $ pop_1967      : num  12760499 5247469 2427334 553541 5127935 ...
+ $ pop_1972      : num  14760787 5894858 2761407 619351 5433886 ...
+ $ pop_1977      : num  17152804 6162675 3168267 781472 5889574 ...
+ $ pop_1982      : num  20033753 7016384 3641603 970347 6634596 ...
+ $ pop_1987      : num  23254956 7874230 4243788 1151184 7586551 ...
+ $ pop_1992      : num  26298373 8735988 4981671 1342614 8878303 ...
+ $ pop_1997      : num  29072015 9875024 6066080 1536536 10352843 ...
+ $ pop_2002      : num  31287142 10866106 7026113 1630347 12251209 ...
+ $ pop_2007      : num  33333216 12420476 8078314 1639131 14326203 ...
 </code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">all.equal</span>(gap_wide,gap_wide_betterID)</code></pre></div>
-<pre class="error"><code>Error in all.equal.default(gap_wide, gap_wide_betterID): 객체 &#39;gap_wide_betterID&#39;를 찾을 수 없습니다
+<pre class="output"><code>[1] TRUE
 </code></pre>
 <p>다시 되돌아 왔다!</p>
 <section class="challenge panel panel-success">
@@ -270,7 +344,26 @@
 <div class="panel-body">
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">gap_long %&gt;%<span class="st"> </span><span class="kw">group_by</span>(continent,obs_type) %&gt;%
 <span class="st">   </span><span class="kw">summarize</span>(<span class="dt">means=</span><span class="kw">mean</span>(obs_values))</code></pre></div>
-<pre class="error"><code>Error in eval(expr, envir, enclos): 객체 &#39;gap_long&#39;를 찾을 수 없습니다
+<pre class="output"><code>Source: local data frame [15 x 3]
+Groups: continent [?]
+
+  continent  obs_type        means
+      (chr)     (chr)        (dbl)
+1     Africa gdpPercap 2.193755e+03
+2     Africa   lifeExp 4.886533e+01
+3     Africa       pop 9.916003e+06
+4   Americas gdpPercap 7.136110e+03
+5   Americas   lifeExp 6.465874e+01
+6   Americas       pop 2.450479e+07
+7       Asia gdpPercap 7.902150e+03
+8       Asia   lifeExp 6.006490e+01
+9       Asia       pop 7.703872e+07
+10    Europe gdpPercap 1.446948e+04
+11    Europe   lifeExp 7.190369e+01
+12    Europe       pop 1.716976e+07
+13   Oceania gdpPercap 1.862161e+04
+14   Oceania   lifeExp 7.432621e+01
+15   Oceania       pop 8.874672e+06
 </code></pre>
 </div>
 </section>
@@ -282,8 +375,6 @@
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">gap_ludicrously_wide &lt;-<span class="st"> </span>gap_long %&gt;%<span class="st"> </span>
 <span class="st">   </span><span class="kw">unite</span>(var_names,obs_type,year,country,<span class="dt">sep=</span><span class="st">&quot;_&quot;</span>) %&gt;%
 <span class="st">   </span><span class="kw">spread</span>(var_names,obs_values)</code></pre></div>
-<pre class="error"><code>Error in eval(expr, envir, enclos): 객체 &#39;gap_long&#39;를 찾을 수 없습니다
-</code></pre>
 </div>
 </section>
 <h2 id="추가-학습-교재">추가 학습 교재</h2>
