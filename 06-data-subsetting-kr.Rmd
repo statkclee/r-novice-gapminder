@@ -1,7 +1,7 @@
 ---
 layout: page
-title: R for reproducible scientific analysis
-subtitle: Subsetting data
+title: 재현가능한 과학적 분석을 위한 R
+subtitle: 데이터 부분집합
 minutes: 45
 ---
 
@@ -11,23 +11,23 @@ source("tools/chunk-options.R")
 gapminder <- read.csv("data/gapminder-FiveYearData.csv", header=TRUE)
 ```
 
-> ## Learning Objectives {.objectives}
+> ## 학습 목표 {.objectives}
 >
-> * To be able to subset vectors, factors, matrices, lists, and data frames
-> * To be able to extract individual and multiple elements:
->     * by index,
->     * by name,
->     * using comparison operations
-> * To be able to skip and remove elements from various data structures.
+> * 벡터, 요인, 행렬, 리스트, 데이터프레임 부분집합을 뽑아낼 수 있다.
+> * 개별, 다수 요소를 다음 기준으로 뽑아낼 수 있다:
+>     * 색인
+>     * 명칭
+>     * 비교 연산을 사용
+> * 다양한 자료구조로부터 요소를 건너뛰거나 제거할 수 있다.
 >
 
-R has many powerful subset operators and mastering them will allow you to
-easily perform complex operations on any kind of dataset.
+R에는 강력한 부분집합 연산자를 다수 구비되어 있다.
+이를 완전히 익히게 되면 어떤 유형의 데이터셋에 대해서도 복잡한 연산을 수월하게 수행할 수 있게 된다.
 
-There are six different ways we can subset any kind of object, and three
-different subsetting operators for the different data structures.
+어떤 유형의 객체에서 부분집합을 뽑아낼 수 있는 방식은  6가지가 있다.
+다른 자료구조에 대한 부분집합을 뽑아내는 연산자는 3가지가 있다.
 
-Let's start with the workhorse of R: atomic vectors.
+R의 핵심으로 가장 많은 일은 하는 것부터 시작해본다: 원자 벡터(atomic vector) 
 
 ```{r}
 x <- c(5.4, 6.2, 7.1, 4.8, 7.5)
@@ -35,13 +35,11 @@ names(x) <- c('a', 'b', 'c', 'd', 'e')
 x
 ```
 
-So now that we've created a dummy vector to play with, how do we get at its
-contents?
+이제 작업할 준비가 마루타 벡터를 생성했다. 해당 벡터 내용물을 손에 넣는 방식은 무엇인가?
 
-## Accessing elements using their indices
+## 색인을 사용한 요소 접근
 
-To extract elements of a vector we can give their corresponding index, starting
-from one:
+벡터 요소를 추출하는데, 대응되는 색인을 부여하는데, 1부터 시작된다:
 
 ```{r}
 x[1]
@@ -51,100 +49,95 @@ x[1]
 x[4]
 ```
 
-The square brackets operator is just like any other function. For atomic vectors
-(and matrices), it means "get me the nth element".
+꺾쇠 괄호 연산자는 다른 어떤 함수와 비슷한다.
+원자 벡터(그리과 행렬)에 대해, "n번째 요소를 뽑아낸다"라는 의미다.
 
-We can ask for multiple elements at once:
+한번에 다수 요소를 뽑아낼 수도 있다:
 
 ```{r}
 x[c(1, 3)]
 ```
 
-Or slices of the vector:
+혹은, 벡터 슬라이스로 뽑아낼 수도 있다:
 
 ```{r}
 x[1:4]
 ```
 
-the `:` operator just creates a sequence of numbers from the left element to the right.
-I.e. `x[1:4]` is equivalent to `x[c(1,2,3,4)]`.
-
-We can ask for the same element multiple times:
+`:` 연산자는 왼쪽 요소부터 우측 요소까지 연속된 숫자를 생성한다.
+예를 들어, `x[1:4]` 은 `x[c(1,2,3,4)]`와 동등하다:
 
 ```{r}
 x[c(1,1,3)]
 ```
 
-If we ask for a number outside of the vector, R will return missing values:
+벡터를 벗어난 숫자를 뽑아내려고 하면, R은 결측값을 반환한다:
 
 ```{r}
 x[6]
 ```
 
-This is a vector of length one containing an `NA`, whose name is also `NA`.
+길이 1을 갖는 벡터로 `NA`가 담겨있고, 명칭도 `NA`다.
 
-If we ask for the 0th element, we get an empty vector:
+0번째 요소를 뽑아내려고 하면, 공벡터가 반환된다:
 
 ```{r}
 x[0]
 ```
 
-> ##Vector numbering in R starts at 1 {.callout} 
+> ## R에서 벡터 번호매기는 것은 1에서 시작 {.callout} 
 > 
-> In many programming languages (C and python, for example), the first
-> element of a vector has an index of 0. In R, the first element is 1.
+> 대다수 프로그래밍 언어(C와 파이썬)에서, 벡터 첫번째 요소는 색인 0을 갖는다.
+> R에서, 첫번째 요소는 1이다.
 
-## Skipping and removing elements
+## 요소 건너뛰고 제거하기
 
-If we use a negative number as the index of a vector, R will return
-every element *except* for the one specified:
+벡터 색인으로 음수를 사용하면, R은 명세된 숫자를 제외한 모든 요소를 반환한다:
 
 ```{r}
 x[-2]
 ```
 
-
-We can skip multiple elements:
+다수 요소를 건너뛸 수도 있다:
 
 ```{r}
-x[c(-1, -5)]  # or x[-c(1,5)]
+x[c(-1, -5)]  # 혹은 x[-c(1,5)]
 ```
 
-> ## Tip: Order of operations {.callout}
+> ## Tip: 연산작업 순서 {.callout}
 >
-> A common trip up for novices occurs when trying to skip
-> slices of a vector. Most people first try to negate a
-> sequence like so:
+> 초보자가 범하는 일반적인 실수는 벡터 슬라이스 건너뛰기 연산을 시도할 때 일어나다.
+> 먼저 사람 대부분은 순열을 다음과 같이 부정연산을 통해 변경하려 한다:
 >
 > ```{r, error=TRUE}
 > x[-1:3]
 > ```
 >
-> This gives a somewhat cryptic error:
+> 다소 암호스런 오류가 제시된다:
 >
-> But remember the order of operations. `:` is really a function, so
-> what happens is it takes its first argument as -1, and second as 3,
-> so generates the sequence of numbers: `c(-1, 0, 1, 2, 3)`.
+> 하지만, 연산작업 우선수위를 기억해보자.
+> `:` 연산자는 사실 함수다.
+> 그래서, 일어난 상황은 -1을 첫번째 인자로 받고, 두번째 인자로 3을 받아서,
+> 연속된 숫자를 생성해낸다: `c(-1, 0, 1, 2, 3)`.
 >
-> The correct solution is to wrap that function call in brackets, so
-> that the `-` operator applies to the results:
+> 올바른 해법은 함수 호출을 괄호로 감싸는 것이다.
+> `-` 연산자가 결과를 도출한다:
 >
 > ```{r}
 > x[-(1:3)]
 > ```
 >
 
-To remove elements from a vector, we need to assign the results back
-into the variable:
+벡터에서 요소를 제거하려면, 결과를 다시 벡터에 대입할 필요가 있다:
 
 ```{r}
 x <- x[-4]
 x
 ```
 
-> ## Challenge 1 {.challenge}
+> ## 도전 과제 1 {.challenge}
 >
-> Given the following code:
+> 다음과 같이 코드가 주어졌다:
 >
 > ```{.r}
 > x <- c(5.4, 6.2, 7.1, 4.8, 7.5)
@@ -152,71 +145,69 @@ x
 > print(x)
 > ```
 >
-> 1. Come up with at least 3 different commands that will produce the following output:
+> 1. 다음 출력과를 산출하는 적어도 서로 다른 명령어를 제시한다:
 >
 > ```{.r, echo=FALSE}
 > x[2:4]
 > ```
 >
-> 2. Compare notes with your neighbour. Did you have different strategies?
+> 2. 작업결과를 옆 사람과 비교한다. 서로 다른 전략을 취했나요?
 >
 
-## Subsetting by name
+## 명칭으로 부분집합 뽑아내기
 
-We can extract elements by using their name, instead of index:
+색인 대신에 명칭을 사용해서, 요소를 뽑아낼 수 있다:
 
 ```{r}
 x[c("a", "c")]
 ```
 
-This is usually a much more reliable way to subset objects: the
-position of various elements can often change when chaining together
-subsetting operations, but the names will always remain the same!
+명칭을 사용한 것이 객체에 대한 부분집합을 뽑아내는 훨씬 더 신뢰성 있는 방식이다:
+다양한 요소 위치는 부분집합을 뽑아내는 연산자를 연결해서 적용할 때 종종 변경되지만,
+명칭은 항상 동일하게 남게 마련이다!
 
-Unfortunately we can't skip or remove elements so easily.
+불행하게도, 그다지 수월하게 요소를 건너뛰거나 제거할 수는 없다.
 
-To skip (or remove) a single named element:
+요소 하나를 건너뛰거나 제거하려면:
 
 ```{r}
 x[-which(names(x) == "a")]
 ```
 
-The `which` function returns the indices of all `TRUE` elements of its argument.
-Remember that expressions evaluate before being passed to functions. Let's break
-this down so that its clearer what's happening.
+`which` 함수는 함수 인자의 모든 `TRUE` 요소에 대한 색인을 반환한다.
+함수에 전달되기 전에 표현식이 평가됨을 기억한다.
+내부를 파고들어, 어떤 일이 진행되는지 명확히 알아보자.
 
-First this happens:
+다음이 가장 먼저 진행된다:
 
 ```{r}
 names(x) == "a"
 ```
 
-The condition operator is applied to every name of the vector `x`. Only the
-first name is "a" so that element is TRUE.
+조건 연산자는 `x` 벡터에 대한 모든 명칭에 적용된다.
+첫번째 명칭만 "a" 라서, 해당 요소만 참(TRUE)이 된다.
 
-`which` then converts this to an index:
+그리고 나면, `which`가 이를 색인으로 변환한다:
 
 ```{r}
 which(names(x) == "a")
 ```
 
+첫번째 요소만 `참(TRUE)`이라서, `which`는 1을 반환한다.
+이제 색인을 갖게 되서, 건너뛰는 연산이 동작한다. 왜냐하면 음수 색인이기 때문이다!
 
-
-Only the first element is `TRUE`, so `which` returns 1. Now that we have indices
-the skipping works because we have a negative index!
-
-Skipping multiple named indices is similar, but uses a different comparison
-operator:
+명칭을 갖는 다수 색인을 건너뛰는 것도 유사하다. 하지만, 다른 비교 연산자를 사용한다:
 
 ```{r}
 x[-which(names(x) %in% c("a", "c"))]
 ```
 
-The `%in%` goes through each element of its left argument, in this case the
-names of `x`, and asks, "Does this element occur in the second argument?".
+`%in%` 비교연산자는 좌측 인자(이번 경우에, `x` 명칭)에 대한 각 요소를 훑는다.
+그리고 나서, "해당 요소가 두번째 인자에 나타나는가?"라고 질의한다.
 
-> ## Challenge 2 {.challenge}
+> ## 도전과제 2 {.challenge}
 >
+> 
 > Run the following code to define vector `x` as above:
 >
 > ```{.r}
@@ -242,20 +233,20 @@ names of `x`, and asks, "Does this element occur in the second argument?".
 > * E) `x[]` gives the same result as `x[integer()]`
 >
 
-> ## Tip: Non-unique names {.callout}
+> ## Tip: 유일무이하지 않은 명칭 {.callout}
 >
-> You should be aware that it is possible for multiple elements in a
-> vector to have the same name. (For a data frame, columns can have
-> the same name --- although R tries to avoid this --- but row names
-> must be unique.) Consider these examples:
+> 벡터에 요소 다수가 동일 명칭을 갖을 수 있음에 유의해야만 된다.
+> (데이터프레임에서,  칼럼이 동일한 명칭을 갖을 수 있다 --- 
+> R이 이런 점을 회피하려고 하지만 --- 하지만, 행 명칭은 유일무이해야 된다.)
+> 다음 예제를 고려해보자:
 
 >```{r}
 > x <- 1:3
 > x
 > names(x) <- c('a', 'a', 'a')  
 > x
-> x['a']  # only returns first value
-> x[which(names(x) == 'a')]  # returns all three values
+> x['a']  # 첫번째 값만 반환한다.
+> x[which(names(x) == 'a')]  # 세가지 값 모두 반환한다.
 > ```
 
 
