@@ -265,7 +265,7 @@ x
 > 
 > ~~~
 >
-> 1. 다음 출력과를 산출하는 적어도 서로 다른 명령어를 제시한다:
+> 1. 다음 출력결과를 산출하는 적어도 서로 다른 명령어 3개 제시한다:
 >
 > 
 > ~~~{.output}
@@ -373,8 +373,8 @@ x[-which(names(x) %in% c("a", "c"))]
 
 > ## 도전과제 2 {.challenge}
 >
-> 
-> Run the following code to define vector `x` as above:
+>
+> 다음 코드를 실행해서 `x` 벡터를 정의한다.
 >
 > 
 > ~~~{.r}
@@ -391,22 +391,24 @@ x[-which(names(x) %in% c("a", "c"))]
 > 
 > ~~~
 >
-> Given this vector `x`, what would you expect the following to do?
+> `x` 벡터가 주어지면, 다음 명령어는 어떤 작업을 수행할 것으로 예상되는가?
 >
 >~~~{.r}
 > x[-which(names(x) == "g")]
 >~~~
 >
-> Try out this command and see what you get. Did this match your expectation?
-> Why did we get this result? (Tip: test out each part of the command on it's own like we just did above - this is a useful debugging strategy)
+> 상기 명령어를 시도해보고, 실행결과를 살펴본다.
+> 여러분의 예상과 일치하는가?
+> 왜 이런 결과가 나왔을까?
+> (Tip: 여러분이 직접 작성한 것처럼 한땀한땀 명령어 각각을 테스트한다 - 매우 유용한 디버깅 전략이다.)
 >
-> Which of the following are true:
+> 다음 중 어떤 것이 사실인가:
 >
-> * A) if there are no `TRUE` values passed to `which`, an empty vector is returned
-> * B) if there are no `TRUE` values passed to `which`, an error message is shown
-> * C) `integer()` is an empty vector
-> * D) making an empty vector negative produces an "everything" vector
-> * E) `x[]` gives the same result as `x[integer()]`
+> * A) `which`에 전달되는 `TRUE`값이 없다면, 공벡터가 반환된다.
+> * B) `which`에 전달되는 `TRUE`값이 없다면, 오류 메시지가 나타난다.
+> * C) `integer()`는 공벡터다.
+> * D) 공벡터를 부정하면 "모든" 벡터를 만들어낸다.
+> * E) `x[]`은 `x[integer()]`와 동일한 결과를 산출한다.
 >
 
 > ## Tip: 유일무이하지 않은 명칭 {.callout}
@@ -702,11 +704,8 @@ Levels: a b c d
 
 ## 행렬 부분집합 뽑아내기
 
-
-
-Matrices are also subsetted using the `[` function. In this case
-it takes two arguments: the first applying to the rows, the second
-to its columns:
+행렬의 경우도 `[` 함수를 사용해서 부분집합을 뽑아낸다.
+이번 경우에는 인자를 두개 사용한다: 첫번째 인자는 행에 적용되고, 두번째 인자는 칼럼에 적용된다:
 
 
 ~~~{.r}
@@ -724,8 +723,7 @@ m[3:4, c(3,1)]
 
 ~~~
 
-You can leave the first or second arguments blank to retrieve all the
-rows or columns respectively:
+첫번째 혹은 두번째 인자를 공백으로 남겨놓을 수도 있는데, 모든 행 혹은 칼럼을 각각 불러올 경우 사용한다:
 
 
 ~~~{.r}
@@ -745,8 +743,7 @@ m[, c(3,4)]
 
 ~~~
 
-If we only access one row or column, R will automatically convert the result
-to a vector:
+행 혹은 칼럼 하나만 접근하고자 하면, R이 자동으로 결과값을 벡터로 전환시킨다:
 
 
 ~~~{.r}
@@ -760,7 +757,7 @@ m[3,]
 
 ~~~
 
-If you want to keep the output as a matrix, you need to specify a *third* argument;
+결과값을 행렬로 그대로 유지하고자 한다면, *세번째* 인자를 명세할 필요가 있다;
 `drop = FALSE`:
 
 
@@ -776,8 +773,7 @@ m[3, , drop=FALSE]
 
 ~~~
 
-Unlike vectors, if we try to access a row or column outside of the matrix,
-R will throw an error:
+벡터와 달리, 행렬 외부 행과 칼럼을 접근하고자 하면, R이 오류를 던진다:
 
 
 ~~~{.r}
@@ -791,15 +787,13 @@ Error in m[, c(3, 6)]: 첨자의 허용 범위를 벗어났습니다
 
 ~~~
 
-> ## Tip: Higher dimensional arrays {.callout}
+> ## Tip: 고차원 배열 {.callout}
 >
-> when dealing with multi-dimensional arrays, each argument to `[`
-> corresponds to a dimension. For example, a 3D array, the first three
-> arguments correspond to the rows, columns, and depth dimension.
+> 다차원 배열을 다룰 때, `[`에 넘겨지는 각 인자가 차원에 대응된다.
+> 예를 들어, 3D 배열에서 첫세개 인자는 각각 행, 열, 깊이 차원에 대응된다.
 >
 
-Because matrices are really just vectors underneath the hood, we can
-also subset using only one argument:
+행렬을 까면 정말 자료형이 벡터라서, 단지 인자 하나로만 부분집합을 추출할 수도 있다:
 
 
 ~~~{.r}
@@ -813,10 +807,9 @@ m[5]
 
 ~~~
 
+보통 유용하지는 않다. 하지만, 행렬이 *열우선형식(column-major format)*으로 기본디폴트 설정으로 되어있음에 주목한다.
+즉, 벡터 요소가 칼럼방향으로 배열된다는 것을 의미한다:
 
-This usually isn't useful. However it is useful to note that matrices
-are laid out in *column-major format* by default. That is the elements of the
-vector are arranged column-wise:
 
 
 ~~~{.r}
@@ -832,7 +825,7 @@ matrix(1:6, nrow=2, ncol=3)
 
 ~~~
 
-If you wish to populate the matrix by row, use `byrow=TRUE`:
+행렬을 행우선으로 쭉 펼치고자 한다면, `byrow=TRUE`를 사용한다:
 
 
 ~~~{.r}
@@ -848,12 +841,11 @@ matrix(1:6, nrow=2, ncol=3, byrow=TRUE)
 
 ~~~
 
-Matrices can also be subsetted using their rownames and column names
-instead of their row and column indices.
+행과 칼럼 색인 대신에 행명칭(rownames)과 열명칭(column names)을 사용해서 배열 부분집합을 뽑아낼 수 있다.
 
-> ## Challenge 4 {.challenge}
+> ## 도전과제 4 {.challenge}
 >
-> Given the following code:
+> 다음과 같은 코드가 주어졌다:
 >
 > 
 > ~~~{.r}
@@ -871,7 +863,7 @@ instead of their row and column indices.
 > 
 > ~~~
 >
-> 1. Which of the following commands will extract the values 11 and 14?
+> 1. 다음 중 어떤 명령어가 값 11과 14를 추출하는 하는가?
 >
 > A. `m[2,4,2,5]`
 >
@@ -883,14 +875,14 @@ instead of their row and column indices.
 >
 
 
-## List subsetting
+## 리스트 부분집합 뽑아내기
 
-Now we'll introduce some new subsetting operators. There are three functions
-used to subset lists. `[`, as we've seen for atomic vectors and matrices,
-as well as `[[` and `$`.
+이제 몇가지 새로운 부분집합을 뽑아내는 연산자를 소개한다.
+리스트 부분집합을 뽑아내는데 사용되는 함수가 세가지 있다;
+원자벡터와 행렬에서 살펴본 `[`, 그리고 `[[`, `$`이 있다.
 
-Using `[` will always return a list. If you want to *subset* a list, but not
-*extract* an element, then you will likely use `[`.
+`[`을 사용하면, 항상 리스트만 반환한다.
+리스트 *부분집합을 뽑아내고자* 하지만, 요소는 뽑아내고 *싶지 않다면*, 아마도 `[` 연산자를 사용할 것이다.
 
 
 ~~~{.r}
@@ -906,13 +898,11 @@ $a
 
 ~~~
 
-This returns a *list with one element*.
+상기 명령어는 *요소 하나만 갖는 리스트*를 반환한다.
 
-We can subset elements of a list exactly the same was as atomic
-vectors using `[`. Comparison operations however won't work as
-they're not recursive, they will try to condition on the data structures
-in each element of the list, not the individual elements within those
-data structures.
+`[` 연산자를 사용해서 원자벡터에 적용한 그대로 리스트 요소를 부분집합으로 뽑아낼 수 있다.
+하지만, 리스트가 재귀적으로 되어 있지 않다면, 비교 연산자는 동작하지 않는다.
+이유는 비교 연산자가 데이터 구조 내부 개별 요소가 아닌, 리스트 각 요소에 내재한 자료구조로 되어있기 때문이다.
 
 
 ~~~{.r}
@@ -930,8 +920,8 @@ $b
 
 ~~~
 
-To extract individual elements of a list, you need to use the double-square
-bracket function: `[[`.
+리스트 개별 요소를 추출하려면, 이중 꺾쇠 함수를 사용한다: `[[`.
+
 
 
 ~~~{.r}
@@ -945,9 +935,9 @@ xlist[[1]]
 
 ~~~
 
-Notice that now the result is a vector, not a list.
+이제 결과값이 리스트가 아닌 벡터에 주목한다.
 
-You can't extract more than one element at once:
+한번에 요소 하나이상을 추출할 수는 없다:
 
 
 ~~~{.r}
@@ -961,7 +951,7 @@ Error in xlist[[1:2]]: 첨자의 허용 범위를 벗어났습니다
 
 ~~~
 
-Nor use it to skip elements:
+요소를 건너뛰는 것도 사용할 수 없다:
 
 
 ~~~{.r}
@@ -975,7 +965,7 @@ Error in xlist[[-1]]: 한 개 이상의 구성요소 선택을 시도합니다
 
 ~~~
 
-But you can use names to both subset and extract elements:
+하지만, 명칭을 사용해서 요소에 대한 부분집합으로 뽑아내거나, 요소를 추출할 때 사용할 수 있다:
 
 
 ~~~{.r}
@@ -989,7 +979,7 @@ xlist[["a"]]
 
 ~~~
 
-The `$` function is a shorthand way for extracting elements by name:
+`$` 함수는 명칭으로 요소를 뽑아내는데 사용되는 초간편 방법이다:
 
 
 ~~~{.r}
@@ -1009,35 +999,38 @@ xlist$data
 
 ~~~
 
-> ## Challenge 5 {.challenge}
-> Given the following list:
+> ## 도전 과제 5 {.challenge}
+> 다음 리스트가 주어졌다:
 >
 > 
 > ~~~{.r}
 > xlist <- list(a = "Software Carpentry", b = 1:10, data = head(iris))
 > ~~~
 >
-> Using your knowledge of both list and vector subsetting, extract the number 2 from xlist. 
-> Hint: the number 2 is contained within the "b" item in the list.
+> 리스트와 벡터 부분집합을 추출하는 지식을 활용해서, `xlist`에서 숫자 2를 추출한다.
+> **힌트:** 숫자 2는 리스트 "b" 항목 내부에 담겨있다.
 
-> ## Challenge 6 {.challenge}
-> Given a linear model:
+> ## 도전 과제 6 {.challenge}
+> 선형 모형이 다음과 같이 주어졌다:
 >
 > 
 > ~~~{.r}
 > mod <- aov(pop ~ lifeExp, data=gapminder)
 > ~~~
 >
-> Extract the residual degrees of freedom (hint: `attributes()` will help you)
+> 잔차 자유도를 추출하라.
+> **힌트:** `attributes()` 함수가 도움을 줄 것이다.
 >
 
-## Data frames
+## 데이터프레임
 
-Remember the data frames are lists underneath the hood, so similar rules
-apply. However they are also two dimensional objects:
+데이터프레임을 까면 내부는 리스트로 구성된 것을 기억한다.
+그래서 유사한 규칙이 적용된다. 하지만, 데이터프레임도 2차원 객체다:
 
-`[` with one argument will act the same was as for lists, where each list
-element corresponds to a column. The resulting object will be a data frame:
+`[`함수에 인자를 하나만 넣으면 리스트와 동일하게 동작한다.
+즉, 각 리스트 요소는 칼럼에 대응된다.
+작업결과 나오는 객체는 데이터프레임이다:
+
 
 
 ~~~{.r}
@@ -1057,7 +1050,8 @@ head(gapminder[3])
 
 ~~~
 
-Similarly, `[[` will act to extract *a single column*:
+유사하게, `[[` 함수는 *칼럼 한개*만 추출하는데 동작된다:
+
 
 
 ~~~{.r}
@@ -1071,7 +1065,7 @@ head(gapminder[["lifeExp"]])
 
 ~~~
 
-And `$` provides a convenient shorthand to extract columns by name:
+명칭으로 칼럼을 추출하는데 사용되는 편리한 단축어가 `$`이다:
 
 
 ~~~{.r}
@@ -1085,7 +1079,7 @@ head(gapminder$year)
 
 ~~~
 
-With two arguments, `[` behaves the same way as for matrices:
+인자가 두개 있는 경우, `[` 함수는 행렬에 대해서와 마찬가지로 동작한다:
 
 
 ~~~{.r}
@@ -1102,8 +1096,7 @@ gapminder[1:3,]
 
 ~~~
 
-If we subset a single row, the result will be a data frame (because
-the elements are mixed types):
+행 하나만 부분집합으로 뽑아내면, 결과는 데이터프레임이 되는데 이유는 각 요소가 혼합된 자료형으로 구성되었기 때문이다:
 
 
 ~~~{.r}
@@ -1118,44 +1111,42 @@ gapminder[3,]
 
 ~~~
 
-But for a single column the result will be a vector (this can
-be changed with the third argument, `drop = FALSE`).
+하지만, 단일 칼럼에 대해서 결과는 벡터다. `drop = FALSE`를 세번째 인자로 넣으면 바꿀 수 있다.
 
-> ## Challenge 7 {.challenge}
+> ## 도전과제 7 {.challenge}
 >
-> Fix each of the following common data frame subsetting errors:
+> 데이터프레임 부분집합을 뽑아내는 오류가 다음에 나와 있는데 이를 버그없이 수정하라:
 >
-> 1. Extract observations collected for the year 1957
+> 1. 1957년에 수집된 관측점을 뽑아내라.
 >
 > 
 > ~~~{.r}
 > gapminder[gapminder$year = 1957,]
 > ~~~
 >
-> 2. Extract all columns except 1 through to 4
+> 2. 1에서 4를 제외한 모든 칼럼을 뽑아내라.
 >
 > 
 > ~~~{.r}
 > gapminder[,-1:4]
 > ~~~
 >
-> 3. Extract the rows where the life expectancy is longer the 80 years
+> 3. 기대수명이 80세 이상 되는 행을 추출하라.
 >
 > 
 > ~~~{.r}
 > gapminder[gapminder$lifeExp > 80]
 > ~~~
 >
-> 4. Extract the first row, and the fourth and fifth columns
->   (`lifeExp` and `gdpPercap`).
+> 4. 첫번째 행과 4번째 5번째 칼럼(`lifeExp`, `gdpPercap`)을 뽑아내라.
+>   .
 >
 > 
 > ~~~{.r}
 > gapminder[1, 4, 5]
 > ~~~
 >
-> 5. Advanced: extract rows that contain information for the years 2002
->    and 2007
+> 5. 고급: 2002년과 2007년에 대한 정보를 담고 있는 행을 추출하라.
 >
 > 
 > ~~~{.r}
@@ -1163,20 +1154,21 @@ be changed with the third argument, `drop = FALSE`).
 > ~~~
 >
 
-> ## Challenge 8 {.challenge}
+> ## 도전과제 8 {.challenge}
 >
-> 1. Why does `gapminder[1:20]` return an error? How does it differ from `gapminder[1:20, ]`?
+> 1. `gapminder[1:20]` 명령어는 왜 오류를 반환하는가?
+>    `gapminder[1:20,]`와 어떻게 다른가?
 >
 >
-> 2. Create a new `data.frame` called `gapminder_small` that only contains rows 1 through 9
-> and 19 through 23. You can do this in one or two steps.
+> 2. `gapminder_small`이라는 데이터프레임을 생성하는데 1에서 9까지 행과 19에서 23까지 행만 포함한다.
+>    이 작업을 하나 혹은 두 단계로 작성한다.
 >
 
-## Challenge solutions
+## 도전과제 해답
 
-> ## Solution to challenge 1 {.challenge}
+> ## 도전과제 1에 대한 해답 {.challenge}
 >
-> Given the following code:
+> 다음과 같은 코드가 주어졌다:
 >
 > 
 > ~~~{.r}
@@ -1193,7 +1185,7 @@ be changed with the third argument, `drop = FALSE`).
 > 
 > ~~~
 >
-> 1. Come up with at least 3 different commands that will produce the following output:
+> 1. 다음 출력결과를 산출하는 적어도 서로 다른 명령어 3개를 제시한다:
 >
 > 
 > ~~~{.output}
@@ -1213,9 +1205,9 @@ be changed with the third argument, `drop = FALSE`).
 >
 
 
-> ## Solution to challenge 2 {.challenge}
+> ## 도전과제 2에 대한 해답 {.challenge}
 >
-> Run the following code to define vector `x` as above:
+> 다음 코드를 실행해서 `x` 벡터를 정의한다.
 >
 > 
 > ~~~{.r}
@@ -1232,33 +1224,40 @@ be changed with the third argument, `drop = FALSE`).
 > 
 > ~~~
 >
-> Given this vector `x`, what would you expect the following to do?
+> `x` 벡터가 주어지면, 다음 명령어는 어떤 작업을 수행할 것으로 예상되는가?
 >
 >~~~{.r}
 > x[-which(names(x) == "g")]
 >~~~
 >
-> Try out this command and see what you get. Did this match your expectation?
+> 상기 명령어를 시도해보고, 실행결과를 살펴본다.
+> 여러분의 예상과 일치하는가?
+> 왜 이런 결과가 나왔을까?
+> (Tip: 여러분이 직접 작성한 것처럼 한땀한땀 명령어 각각을 테스트한다 - 매우 유용한 디버깅 전략이다.)
 >
-> Why did we get this result? (Tip: test out each part of the command on it's own like we just did above - this is a useful debugging strategy)
+> 다음 중 어떤 것이 사실인가:
 >
-> Which of the following are true:
+> * A) `which`에 전달되는 `TRUE`값이 없다면, 공벡터가 반환된다.
+> * B) `which`에 전달되는 `TRUE`값이 없다면, 오류 메시지가 나타난다.
+> * C) `integer()`는 공벡터다.
+> * D) 공벡터를 부정하면 "모든" 벡터를 만들어낸다.
+> * E) `x[]`은 `x[integer()]`와 동일한 결과를 산출한다.
 >
-> * A) if there are no `TRUE` values passed to "which", an empty vector is returned
-> * B) if there are no `TRUE` values passed to "which", an error message is shown
-> * C) `integer()` is an empty vector
-> * D) making an empty vector negative produces an "everything" vector
-> * E) `x[]` gives the same result as `x[integer()]`
+> 정답: A 와 C 가 맞다.
 >
-> Answer: A and C are correct.
->
-> The `which` command returns the index of every `TRUE` value in its input. The `names(x) == "g"` command didn't return any `TRUE` values. Because there were no `TRUE` values passed to the `which` command, it returned an empty vector. Negating this vector with the minus sign didn't change its meaning. Because we used this empty vector to retrieve values from `x`, it produced an empty numeric vector. It was a `named numeric` empty vector because the vector type of x is "named numeric" since we assigned names to the values (try `str(x)` ).
+> `which` 명령어는 입력값에 대한 모든 `TRUE` 값에 대한 색인을 반환한다.
+> `names(x) == "g"`은 어떤 `TRUE`값도 반환하지 않는다.
+> `which` 명령어에 전달되는 어떤 `TRUE` 값도 없기 때문에, 공벡터를 반환했다.
+> 음수 부호로 벡터를 부정한다고 의미가 변경되지는 않는다.
+> `x` 벡터에서 값을 가져오는데 공벡터를 사용했기 때문에, 빈 숫자벡터를 만들어 낸다.
+> 결과는 `named numeric` 공벡터다. 이유는 `x` 벡터 자료형이 "named numeric"인데, 
+> 명칭을 값에 대입했기 때문이다(`str(x)`을 시도해 보라).
 
 
 
-> ## Solution to challenge 4 {.challenge}
+> ## 도전과제 4에 대한 해답 {.challenge}
 >
-> Given the following code:
+> 다음과 같은 코드가 주어졌다:
 >
 > 
 > ~~~{.r}
@@ -1276,7 +1275,7 @@ be changed with the third argument, `drop = FALSE`).
 > 
 > ~~~
 >
-> 1. Which of the following commands will extract the values 11 and 14?
+> 1. 다음 중 어떤 명령어가 값 11과 14를 추출하는 하는가?
 >
 > A. `m[2,4,2,5]`
 >
@@ -1286,18 +1285,18 @@ be changed with the third argument, `drop = FALSE`).
 >
 > D. `m[2,c(4,5)]`
 >
-> Answer: D
+> 정답: D
 
-> ## Solution to challenge 5 {.challenge}
-> Given the following list:
+> ## 도전과제 5에 대한 해답 {.challenge}
+> 다음 리스트가 주어졌다:
 >
 > 
 > ~~~{.r}
 > xlist <- list(a = "Software Carpentry", b = 1:10, data = head(iris))
 > ~~~
 >
-> Using your knowledge of both list and vector subsetting, extract the number 2 from xlist. 
-> Hint: the number 2 is contained within the "b" item in the list.
+> 리스트와 벡터 부분집합을 추출하는 지식을 활용해서, `xlist`에서 숫자 2를 추출한다. 
+> **힌트:** 숫자 2는 리스트 “b” 항목 내부에 담겨있다.
 >
 > 
 > ~~~{.r}
@@ -1307,15 +1306,16 @@ be changed with the third argument, `drop = FALSE`).
 > ~~~
 
 
-> ## Solution to challenge 6 {.challenge}
-> Given a linear model:
+> ## 도전과제 6에 대한 해답 {.challenge}
+>
+> 선형 모형이 다음과 같이 주어졌다:
 >
 > 
 > ~~~{.r}
 > mod <- aov(pop ~ lifeExp, data=gapminder)
 > ~~~
 >
-> Extract the residual degrees of freedom (hint: `attributes()` will help you)
+> 잔차 자유도를 추출하라. **힌트:** `attributes()` 함수가 도움을 줄 것이다.
 >
 > 
 > ~~~{.r}
@@ -1324,11 +1324,11 @@ be changed with the third argument, `drop = FALSE`).
 > ~~~
 
 
-> ## Solution to challenge 7 {.challenge}
+> ## 도전과제 7에 대한 해답 {.challenge}
 >
-> Fix each of the following common data frame subsetting errors:
+> 데이터프레임 부분집합을 뽑아내는 오류가 다음에 나와 있는데 이를 버그없이 수정하라:
 >
-> 1. Extract observations collected for the year 1957
+> 1. 1957년에 수집된 관측점을 뽑아내라.
 >
 > 
 > ~~~{.r}
@@ -1336,7 +1336,7 @@ be changed with the third argument, `drop = FALSE`).
 > gapminder[gapminder$year == 1957,]
 > ~~~
 >
-> 2. Extract all columns except 1 through to 4
+> 2. 1에서 4를 제외한 모든 칼럼을 뽑아내라.
 >
 > 
 > ~~~{.r}
@@ -1344,7 +1344,7 @@ be changed with the third argument, `drop = FALSE`).
 > gapminder[,-c(1:4)]
 > ~~~
 >
-> 3. Extract the rows where the life expectancy is longer the 80 years
+> 3. 기대수명이 80세 이상 되는 행을 추출하라.
 >
 > 
 > ~~~{.r}
@@ -1352,8 +1352,7 @@ be changed with the third argument, `drop = FALSE`).
 > gapminder[gapminder$lifeExp > 80,]
 > ~~~
 >
-> 4. Extract the first row, and the fourth and fifth columns
->   (`lifeExp` and `gdpPercap`).
+> 4. 첫번째 행과 4번째 5번째 칼럼(`lifeExp`, `gdpPercap`)을 뽑아내라. .
 >
 > 
 > ~~~{.r}
@@ -1361,8 +1360,7 @@ be changed with the third argument, `drop = FALSE`).
 > gapminder[1, c(4, 5)]
 > ~~~
 >
-> 5. Advanced: extract rows that contain information for the years 2002
->    and 2007
+> 5. 고급: 2002년과 2007년에 대한 정보를 담고 있는 행을 추출하라.
 >
 > 
 > ~~~{.r}
@@ -1372,14 +1370,14 @@ be changed with the third argument, `drop = FALSE`).
 > ~~~
 >
 
-> ## Solution to challenge 8 {.challenge}
+> ## 도전과제 8에 대한 해답 {.challenge}
 >
-> 1. Why does `gapminder[1:20]` return an error? How does it differ from `gapminder[1:20, ]`?
+> 1. `gapminder[1:20]` 명령어는 왜 오류를 반환하는가? `gapminder[1:20,]`와 어떻게 다른가?
 >
-> Answer: `gapminder` is a data.frame so needs to be subsetted on two dimensions. `gapminder[1:20, ]` subsets the data to give the first 20 rows and all columns.
+> 정답: `gapminder`는 데이터프레임이다. 그래서 차원 2개로 부분집합을 뽑아낼 필요가 있다.
+> `gapminder[1:20, ]`는 첫번째부터 20번째 모든 행과 모든 칼럼을 부분집합으로 뽑아낸다.
 >
-> 2. Create a new `data.frame` called `gapminder_small` that only contains rows 1 through 9
-> and 19 through 23. You can do this in one or two steps.
+> 2. `gapminder_small`이라는 데이터프레임을 생성하는데 1에서 9까지 행과 19에서 23까지 행만 포함한다. 이 작업을 하나 혹은 두 단계로 작성한다.
 >
 > 
 > ~~~{.r}
