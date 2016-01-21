@@ -14,41 +14,31 @@ gapminder <- read.csv("data/gapminder-FiveYearData.csv", header=TRUE)
 
 > ## 학습 목표 {.objectives}
 >
-> * To be able to use ggplot2 to generate publication quality graphics
-> * To understand the basics of the grammar of graphics:
->   - The aesthetics layer
->   - The geometry layer
->   - Adding statistics
->   - Transforming scales
->   - Coloring or paneling by groups.
+> * `ggplot2` 팩키지를 사용해서 논문품질 그래프를 생성할 수 있다.
+> * 그래픽 문법(Grammar of Graphics)의 기초를 이해한다:
+>   - 미학 계층
+>   - 기하 계층
+>   - 통계량 추가
+>   - 척도 변환
+>   - 집단별 색깔입히기 혹은 창으로 구분 
 >
 
-Plotting our data is one of the best ways to
-quickly explore it and the various relationships
-between variables.
+데이터를 도식화하는 것이 변수 다양한 관계를 재빨리 탐색하는 최상의 방식 중 하나다.
 
-There are three main plotting systems in R,
-the [base plotting system][base], the [lattice][lattice]
-package, and the [ggplot2][ggplot2] package.
+R에는 세가지 주류 도식화 시스템이 존재한다: [기본 도식화 시스템][base],[lattice][lattice]
+팩키지, [ggplot2][ggplot2] 팩키지.
 
 [base]: http://www.statmethods.net/graphs/
 [lattice]: http://www.statmethods.net/advgraphs/trellis.html
 [ggplot2]: http://www.statmethods.net/advgraphs/ggplot2.html
 
-Today we'll be learning about the ggplot2 package, because
-it is the most effective for creating publication quality
-graphics.
+`ggplot2` 팩키지를 학습하는데 이유는 논문품질 그래프 생성에 있어 가장 효과적이기 때문이다.
 
-ggplot2 is built on the grammar of graphics, the idea that any plot can be
-expressed from the same set of components: a **data** set, a
-**coordinate system**, and a set of **geoms**--the visual representation of data
-points.
+`ggplot2`는 그래픽 문법에 기반했다. 즉, 어떤 그래프도 동일한 구성요소 집합으로 표현된다: **데이터** 집합, **좌표 시스템**, **geoms** 집합 -- 데이터 점에 대한 시각적 표현.
 
-The key to understanding ggplot2 is thinking about a figure in layers: just like
-you might do in an image editing program like Photoshop, Illustrator, or
-Inkscape.
+`ggplot2`를 이해하는 핵심은 그림을 계층으로 사고하는 것이다: 포토샵, 일러스트레이터, 잉크스케이프 같은 이미지 편집 프로그램으로 작업하는 것과 같다.
 
-Let's start off with an example:
+예제를 가지고 시작해본다:
 
 ```{r lifeExp-vs-gdpPercap-scatter, message=FALSE}
 library(ggplot2)
@@ -56,53 +46,41 @@ ggplot(data = gapminder, aes(x = lifeExp, y = gdpPercap)) +
   geom_point()
 ```
 
-So the first thing we do is call the `ggplot` function. This function lets R
-know that we're creating a new plot, and any of the arguments we give the
-`ggplot` function are the *global* options for the plot: they apply to all
-layers on the plot.
+그래서, 처음으로 수행하는 작업은 `ggplot` 함수를 호출하는 것이다. 이 함수가 R에게 새로운 그림을 생성하고, `ggplot` 함수에 전달하는 어떤 인자도 해당 그림에 *전역* 선택옵션(그림에 있는 모든 계층에 적용)임을 전달한다.
 
-We've passed in two arguments to `ggplot`. First, we tell `ggplot` what data we
-want to show on our figure, in this example the gapminder data we read in
-earlier. For the second argument we passed in the `aes` function, which
-tells `ggplot` how variables in the **data** map to *aesthetic* properties of
-the figure, in this case the **x** and **y** locations. Here we told `ggplot` we
-want to plot the "lifeExp" column of the gapminder data frame on the x-axis, and
-the "gdpPercap" column on the y-axis. Notice that we didn't need to explicitly
-pass `aes` these columns (e.g. `x = gapminder[, "lifeExp"]`), this is because
-`ggplot` is smart enough to know to look in the **data** for that column!
+`ggplot`에 인자를 두개 전달했다.
+먼저, `ggplot`에 그림에 사용할 데이터가 무엇인지 전달한다; 이번 예제에서 앞에서 불러온 `gapminder`데이터.
+두번째 인자를 `aes`함수에 전달했는데, `ggplot`에게 **데이터**에 나온 변수를 도식화하는 그림의 *미학적인* 속성에 매핑하는 방법을 전달한다; 이번 경우에는 **x**와 **y** 위치. 여기서 `ggplot`에 `gapminder`데이터프레임 "lifeExp" 칼럼을 **x**-축에, "gdpPercap" 칼럼을 **y**-축에 도식화한다. 명시적으로 `aes`에 칼럼명을 전달(예를 들어, x = gapminder[, "lifeExp"]`)하지 않은 것에 주목한다. 이것이 가능한 이유는 `ggplot` 함수가 **데이터**에 존재하는 칼럼을 식별할만큼 똑똑하기 때문이다!
 
-By itself, the call to `ggplot` isn't enough to draw a figure:
+그 자체로, `ggplot`함수를 호출한다고 도식화가 바로 되는 것은 아니다:
 
 ```{r}
 ggplot(data = gapminder, aes(x = lifeExp, y = gdpPercap))
 ```
 
-We need to tell `ggplot` how we want to visually represent the data, which we
-do by adding a new **geom** layer. In our example, we used `geom_point`, which
-tells `ggplot` we want to visually represent the relationship between **x** and
-**y** as a scatterplot of points:
+`ggplot` 함수에 데이터를 시각적으로 표현하는 방법을 전달할 필요가 있다. **geom** 계층을 추가해서 작업이 수행된다. 본 사례에서, `geom_point`를 사용했다; **x**와 **y** 사이 관계를 시각적으로 산점도 형태로 표현하도록 `ggplot`에게 전달한다:
 
 ```{r lifeExp-vs-gdpPercap-scatter2}
 ggplot(data = gapminder, aes(x = lifeExp, y = gdpPercap)) +
   geom_point()
 ```
 
-> ## Challenge 1 {.challenge}
+> ## 도전과제 1 {.challenge}
 >
-> Modify the example so that the figure visualise how life expectancy has
-> changed over time:
+> 상기예제를 변경해서, 기대수명이 시간에 따라 어떻게 
+> 변해왔는지 시각화하는 그림을 생성한다:
 >
 > ```{r, eval=FALSE}
 > ggplot(data = gapminder, aes(x = lifeExp, y = gdpPercap)) + geom_point()
 > ```
 >
-> Hint: the gapminder dataset has a column called "year", which should appear
-> on the x-axis.
+> **힌트:** `gapminder` 데이터셋에 "year"라는 칼럼이 있는데, **x**-축에 나타나야 된다.
 >
 
-> ## Challenge 2 {.challenge}
+> ## 도전과제 2 {.challenge}
 >
-> In the previous examples and challenge we've used the `aes` function to tell
+> 
+In the previous examples and challenge we've used the `aes` function to tell
 > the scatterplot **geom** about the **x** and **y** locations of each point.
 > Another *aesthetic* property we can modify is the point *color*. Modify the
 > code from the previous challenge to **color** the points by the "continent"
