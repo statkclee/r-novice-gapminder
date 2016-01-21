@@ -251,88 +251,85 @@ x[-which(names(x) %in% c("a", "c"))]
 
 
 
-> ## Tip: Getting help for operators {.callout}
+> ## Tip: 연산자에 대한 도움말 얻기 {.callout}
 >
-> Remember you can search for help on operators by wrapping them in quotes:
-> `help("%in%")` or `?"%in%"`.
+> 인용부호 내부에 찾고자 하는 연산자를 감싸서 도움말을 검색할 수 있다:
+> `help("%in%")` 혹은 `?"%in%"`.
 >
 
-So why can't we use `==` like before? That's an excellent question.
+그러면, 이전처럼 `==` 연산자는 왜 사용할 수 없을까? 매우 좋은 질문이다.
 
-Let's take a look at just the comparison component:
+비교에 해당되는 항목만 살펴보자:
 
 ```{r}
 names(x) == c('a', 'c')
 ```
 
-Obviously "c" is in the names of `x`, so why didn't this work? `==` works
-slightly differently than `%in%`. It will compare each element of its left argument
-to the corresponding element of its right argument.
+분명히, "c"는 `x` 요소명칭 중에 존재한다. 그런데, 왜 동작을 하지 않을까?
+`==`은 `%in%` 과는 다소 다른방식으로 동작한다.
+`==`은 좌측 인자 요소 각각을 대응되는 우측 요소 각각과 비교한다.
 
-Here's a mock illustration:
+`==` 연산자를 모사한 것이 다음에 나와 있다:
 
 ```{r, eval=FALSE}
-c("a", "b", "c", "e")  # names of x
-   |    |    |    |    # The elements == is comparing
+c("a", "b", "c", "e")  # x 명칭
+   |    |    |    |    # ==으로 요소들을 비교한다.
 c("a", "c")
 ```
 
-When one vector is shorter than the other, it gets *recycled*:
+한 벡터가 다른 벡터보다 작은 경우, 해당 벡터는 *재사용*된다:
 
 ```{r, eval=FALSE}
-c("a", "b", "c", "e")  # names of x
-   |    |    |    |    # The elements == is comparing
+c("a", "b", "c", "e")  # x 명칭
+   |    |    |    |    # ==으로 요소들을 비교한다.
 c("a", "c", "a", "c")
 ```
 
-In this case R simply repeats `c("a", "c")` twice. If the longer
-vector length isn't a multiple of the shorter vector length, then
-R will also print out a warning message:
+이런 경우, R이 단순히 `c("a", "c")`을 두번 반복한다.
+더 긴 벡터가 더 짧은 벡터의 배수가 아닌 경우, 
+R은 경고 메시지도 출력한다:
 
 ```{r}
 names(x) == c('a', 'c', 'e')
 ```
 
-This difference between `==` and `%in%` is important to remember,
-because it can introduce hard to find and subtle bugs!
+ `==` 와 `%in%` 차이점을 숙지하는 것이 중요한데,
+ 이유는 탐지가 어렵고 미묘한 버그가 스며들 수 있기 때문이다!
 
-## Subsetting through other logical operations
+## 논리 연산자를 통한 부분집합 뽑아내기
 
-We can also more simply subset through logical operations:
+더 단순하게는 논리 연산자로 부분집합을 뽑아낼 수도 있다:
 
 ```{r}
 x[c(TRUE, TRUE, FALSE, FALSE)]
 ```
 
-Note that in this case, the logical vector is also recycled to the
-length of the vector we're subsetting!
+이번 경우, 논리 벡터는 부분집합을 뽑아내는 벡터 길이만큼 재사용됨에 주목한다!
 
 ```{r}
 x[c(TRUE, FALSE)]
 ```
 
-Since comparison operators evaluate to logical vectors, we can also
-use them to succinctly subset vectors:
+비교 연산자는 논리벡터로 평가되기 때문에, 간결하게 벡터 부분집합을 뽑아내는데 사용할 수도 있다:
 
 ```{r}
 x[x > 7]
 ```
 
-> ## Tip: Chaining logical operations {.callout}
+> ## Tip: 논리 연산자 연쇄 체인 구성{.callout}
 >
-> There are many situations in which you will wish to combine multiple conditions.
-> To do so several logical operations exist in R:
+> 다수 조건을 조합하고자 하는 상황이 많이 있다.
+> 이런 작업을 수행하는데 필요한 논리 연산자가 R에서 지원된다:
 >
->  * `|` logical OR: returns `TRUE`, if either the left or right are `TRUE`.
->  * `&` logical AND: returns `TRUE` if both the left and right are `TRUE`
->  * `!` logical NOT: converts `TRUE` to `FALSE` and `FALSE` to `TRUE`
->  * `&&` and `||` compare the individual elements of two vectors. Recycling rules
->    also apply here.
+>  * `|` 논리 OR: 왼쪽 오른쪽 어느 한쪽이 `TRUE`면, `TRUE`를 반환한다.
+>  * `&` 논리 AND: 왼쪽 오른쪽 모두가 `TRUE`면, `TRUE`를 반환한다.
+>  * `!` 논리 NOT: `TRUE`는 `FALSE`로, `FALSE`는 `TRUE`로 전환한다.
+>  * `&&` , `||` 은 두 벡터의 개별 요소를 비교한다. 재활용 규칙은 이곳도 적용된다.
 >
 
-> ## Challenge 3 {.challenge}
+> ## 도전과제 3 {.challenge}
 >
-> Given the following code:
+> 다음 코드가 주어졌다:
 >
 > ```{r}
 > x <- c(5.4, 6.2, 7.1, 4.8, 7.5)
@@ -340,29 +337,26 @@ x[x > 7]
 > print(x)
 > ```
 >
-> 1. Write a subsetting command to return the values in x that are greater than 4 and less than 7.
+> `x` 벡터에서 4보다 크고 7보다 적은 값을 부분집합으로 뽑아내는 명령어를 작성한다.
 >
 
-## Handling special values
+## 특수값 처리하기
 
-At some point you will encounter functions in R which cannot handle missing, infinite,
-or undefined data.
+어느 지점에 다다르면, R 함수에 처리할 수 없는 결측값, 무한값, 정의되지 않는 값을 갖는 데이터와 마주하게 된다.
 
-There are a number of special functions you can use to filter out this data:
+이런 유형의 데이터를 필터링하는데 사용되는 특수 함수가 있다:
 
- * `is.na` will return all positions in a vector, matrix, or data.frame
-   containing `NA`.
- * likewise, `is.nan`, and `is.infinite` will do the same for `NaN` and `Inf`.
- * `is.finite` will return all positions in a vector, matrix, or data.frame
-   that do not contain `NA`, `NaN` or `Inf`.
- * `na.omit` will filter out all missing values from a vector
+ * `is.na`는 벡터, 행렬, 데이터프레임에 포함된 `NA` 위치를 반환한다.
+ * 마찬가지로, `is.nan` 와 `is.infinite` 함수도 `NaN` 와 `Inf` 값에 대한 동일한 작업을 수행한다.
+ * `is.finite` 함수는 `NA`, `NaN`, `Inf` 값을 포함하지 않는 벡터, 행렬, 데이터프레임에 대한 모든 위치정보를 반환한다.
+   * `na.omit`는 벡터에서 모든 결측값을 필터링해서 제외시키다.
 
-## Factor subsetting
+## 요인 부분집합으로 뽑아내기
 
-Now that we've explored the different ways to subset vectors, how
-do we subset the other data structures?
+지금까지 벡터 부분집합을 뽑아내는 다양한 방식을 탐색했다.
+다른 자료구조에 대한 부분집합은 어떻게 뽑아낼 수 있을까?
 
-Factor subsetting works the same way as vector subsetting.
+요인 부분집합 뽑아내기는 벡터 부분집합 뽑아내기와 동일한 방식으로 동작한다.
 
 ```{r}
 f <- factor(c("a", "a", "b", "c", "c", "d"))
@@ -371,14 +365,16 @@ f[f %in% c("b", "c")]
 f[1:3]
 ```
 
-An important note is that skipping elements will not remove the level
-even if no more of that category exists in the factor:
+중요한 주의점 하나는 건너뛰는 요소가 설사 해당 범주가 요인으로 존재하지 않더라도, 
+수준(level)을 제거하지 않는다는 점이다:
 
 ```{r}
 f[-3]
 ```
 
-## Matrix subsetting
+## 행렬 부분집합 뽑아내기
+
+
 
 Matrices are also subsetted using the `[` function. In this case
 it takes two arguments: the first applying to the rows, the second
