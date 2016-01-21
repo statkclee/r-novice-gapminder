@@ -1,29 +1,29 @@
 ---
 layout: page
-title: R for reproducible scientific analysis
-subtitle: Subsetting data
+title: 재현가능한 과학적 분석을 위한 R
+subtitle: 데이터 부분집합
 minutes: 45
 ---
 
 
 
-> ## Learning Objectives {.objectives}
+> ## 학습 목표 {.objectives}
 >
-> * To be able to subset vectors, factors, matrices, lists, and data frames
-> * To be able to extract individual and multiple elements:
->     * by index,
->     * by name,
->     * using comparison operations
-> * To be able to skip and remove elements from various data structures.
+> * 벡터, 요인, 행렬, 리스트, 데이터프레임 부분집합을 뽑아낼 수 있다.
+> * 개별, 다수 요소를 다음 기준으로 뽑아낼 수 있다:
+>     * 색인
+>     * 명칭
+>     * 비교 연산을 사용
+> * 다양한 자료구조로부터 요소를 건너뛰거나 제거할 수 있다.
 >
 
-R has many powerful subset operators and mastering them will allow you to
-easily perform complex operations on any kind of dataset.
+R에는 강력한 부분집합 연산자를 다수 구비되어 있다.
+이를 완전히 익히게 되면 어떤 유형의 데이터셋에 대해서도 복잡한 연산을 수월하게 수행할 수 있게 된다.
 
-There are six different ways we can subset any kind of object, and three
-different subsetting operators for the different data structures.
+어떤 유형의 객체에서 부분집합을 뽑아낼 수 있는 방식은  6가지가 있다.
+다른 자료구조에 대한 부분집합을 뽑아내는 연산자는 3가지가 있다.
 
-Let's start with the workhorse of R: atomic vectors.
+R의 핵심으로 가장 많은 일은 하는 것부터 시작해본다: 원자 벡터(atomic vector) 
 
 
 ~~~{.r}
@@ -40,13 +40,11 @@ x
 
 ~~~
 
-So now that we've created a dummy vector to play with, how do we get at its
-contents?
+이제 작업할 준비가 마루타 벡터를 생성했다. 해당 벡터 내용물을 손에 넣는 방식은 무엇인가?
 
-## Accessing elements using their indices
+## 색인을 사용한 요소 접근
 
-To extract elements of a vector we can give their corresponding index, starting
-from one:
+벡터 요소를 추출하는데, 대응되는 색인을 부여하는데, 1부터 시작된다:
 
 
 ~~~{.r}
@@ -74,10 +72,10 @@ x[4]
 
 ~~~
 
-The square brackets operator is just like any other function. For atomic vectors
-(and matrices), it means "get me the nth element".
+꺾쇠 괄호 연산자는 다른 어떤 함수와 비슷한다.
+원자 벡터(그리과 행렬)에 대해, "n번째 요소를 뽑아낸다"라는 의미다.
 
-We can ask for multiple elements at once:
+한번에 다수 요소를 뽑아낼 수도 있다:
 
 
 ~~~{.r}
@@ -92,7 +90,7 @@ x[c(1, 3)]
 
 ~~~
 
-Or slices of the vector:
+혹은, 벡터 슬라이스로 뽑아낼 수도 있다:
 
 
 ~~~{.r}
@@ -107,10 +105,8 @@ x[1:4]
 
 ~~~
 
-the `:` operator just creates a sequence of numbers from the left element to the right.
-I.e. `x[1:4]` is equivalent to `x[c(1,2,3,4)]`.
-
-We can ask for the same element multiple times:
+`:` 연산자는 왼쪽 요소부터 우측 요소까지 연속된 숫자를 생성한다.
+예를 들어, `x[1:4]` 은 `x[c(1,2,3,4)]`와 동등하다:
 
 
 ~~~{.r}
@@ -125,7 +121,7 @@ x[c(1,1,3)]
 
 ~~~
 
-If we ask for a number outside of the vector, R will return missing values:
+벡터를 벗어난 숫자를 뽑아내려고 하면, R은 결측값을 반환한다:
 
 
 ~~~{.r}
@@ -140,9 +136,9 @@ x[6]
 
 ~~~
 
-This is a vector of length one containing an `NA`, whose name is also `NA`.
+길이 1을 갖는 벡터로 `NA`가 담겨있고, 명칭도 `NA`다.
 
-If we ask for the 0th element, we get an empty vector:
+0번째 요소를 뽑아내려고 하면, 공벡터가 반환된다:
 
 
 ~~~{.r}
@@ -156,15 +152,14 @@ named numeric(0)
 
 ~~~
 
-> ##Vector numbering in R starts at 1 {.callout} 
+> ## R에서 벡터 번호매기는 것은 1에서 시작 {.callout} 
 > 
-> In many programming languages (C and python, for example), the first
-> element of a vector has an index of 0. In R, the first element is 1.
+> 대다수 프로그래밍 언어(C와 파이썬)에서, 벡터 첫번째 요소는 색인 0을 갖는다.
+> R에서, 첫번째 요소는 1이다.
 
-## Skipping and removing elements
+## 요소 건너뛰고 제거하기
 
-If we use a negative number as the index of a vector, R will return
-every element *except* for the one specified:
+벡터 색인으로 음수를 사용하면, R은 명세된 숫자를 제외한 모든 요소를 반환한다:
 
 
 ~~~{.r}
@@ -179,12 +174,11 @@ x[-2]
 
 ~~~
 
-
-We can skip multiple elements:
+다수 요소를 건너뛸 수도 있다:
 
 
 ~~~{.r}
-x[c(-1, -5)]  # or x[-c(1,5)]
+x[c(-1, -5)]  # 혹은 x[-c(1,5)]
 ~~~
 
 
@@ -195,11 +189,10 @@ x[c(-1, -5)]  # or x[-c(1,5)]
 
 ~~~
 
-> ## Tip: Order of operations {.callout}
+> ## Tip: 연산작업 순서 {.callout}
 >
-> A common trip up for novices occurs when trying to skip
-> slices of a vector. Most people first try to negate a
-> sequence like so:
+> 초보자가 범하는 일반적인 실수는 벡터 슬라이스 건너뛰기 연산을 시도할 때 일어나다.
+> 먼저 사람 대부분은 순열을 다음과 같이 부정연산을 통해 변경하려 한다:
 >
 > 
 > ~~~{.r}
@@ -213,14 +206,15 @@ x[c(-1, -5)]  # or x[-c(1,5)]
 > 
 > ~~~
 >
-> This gives a somewhat cryptic error:
+> 다소 암호스런 오류가 제시된다:
 >
-> But remember the order of operations. `:` is really a function, so
-> what happens is it takes its first argument as -1, and second as 3,
-> so generates the sequence of numbers: `c(-1, 0, 1, 2, 3)`.
+> 하지만, 연산작업 우선수위를 기억해보자.
+> `:` 연산자는 사실 함수다.
+> 그래서, 일어난 상황은 -1을 첫번째 인자로 받고, 두번째 인자로 3을 받아서,
+> 연속된 숫자를 생성해낸다: `c(-1, 0, 1, 2, 3)`.
 >
-> The correct solution is to wrap that function call in brackets, so
-> that the `-` operator applies to the results:
+> 올바른 해법은 함수 호출을 괄호로 감싸는 것이다.
+> `-` 연산자가 결과를 도출한다:
 >
 > 
 > ~~~{.r}
@@ -236,8 +230,7 @@ x[c(-1, -5)]  # or x[-c(1,5)]
 > ~~~
 >
 
-To remove elements from a vector, we need to assign the results back
-into the variable:
+벡터에서 요소를 제거하려면, 결과를 다시 벡터에 대입할 필요가 있다:
 
 
 ~~~{.r}
@@ -253,9 +246,9 @@ x
 
 ~~~
 
-> ## Challenge 1 {.challenge}
+> ## 도전 과제 1 {.challenge}
 >
-> Given the following code:
+> 다음과 같이 코드가 주어졌다:
 >
 > 
 > ~~~{.r}
@@ -272,7 +265,7 @@ x
 > 
 > ~~~
 >
-> 1. Come up with at least 3 different commands that will produce the following output:
+> 1. 다음 출력과를 산출하는 적어도 서로 다른 명령어를 제시한다:
 >
 > 
 > ~~~{.output}
@@ -281,12 +274,12 @@ x
 > 
 > ~~~
 >
-> 2. Compare notes with your neighbour. Did you have different strategies?
+> 2. 작업결과를 옆 사람과 비교한다. 서로 다른 전략을 취했나요?
 >
 
-## Subsetting by name
+## 명칭으로 부분집합 뽑아내기
 
-We can extract elements by using their name, instead of index:
+색인 대신에 명칭을 사용해서, 요소를 뽑아낼 수 있다:
 
 
 ~~~{.r}
@@ -301,13 +294,13 @@ x[c("a", "c")]
 
 ~~~
 
-This is usually a much more reliable way to subset objects: the
-position of various elements can often change when chaining together
-subsetting operations, but the names will always remain the same!
+명칭을 사용한 것이 객체에 대한 부분집합을 뽑아내는 훨씬 더 신뢰성 있는 방식이다:
+다양한 요소 위치는 부분집합을 뽑아내는 연산자를 연결해서 적용할 때 종종 변경되지만,
+명칭은 항상 동일하게 남게 마련이다!
 
-Unfortunately we can't skip or remove elements so easily.
+불행하게도, 그다지 수월하게 요소를 건너뛰거나 제거할 수는 없다.
 
-To skip (or remove) a single named element:
+요소 하나를 건너뛰거나 제거하려면:
 
 
 ~~~{.r}
@@ -322,11 +315,11 @@ x[-which(names(x) == "a")]
 
 ~~~
 
-The `which` function returns the indices of all `TRUE` elements of its argument.
-Remember that expressions evaluate before being passed to functions. Let's break
-this down so that its clearer what's happening.
+`which` 함수는 함수 인자의 모든 `TRUE` 요소에 대한 색인을 반환한다.
+함수에 전달되기 전에 표현식이 평가됨을 기억한다.
+내부를 파고들어, 어떤 일이 진행되는지 명확히 알아보자.
 
-First this happens:
+다음이 가장 먼저 진행된다:
 
 
 ~~~{.r}
@@ -340,10 +333,10 @@ names(x) == "a"
 
 ~~~
 
-The condition operator is applied to every name of the vector `x`. Only the
-first name is "a" so that element is TRUE.
+조건 연산자는 `x` 벡터에 대한 모든 명칭에 적용된다.
+첫번째 명칭만 "a" 라서, 해당 요소만 참(TRUE)이 된다.
 
-`which` then converts this to an index:
+그리고 나면, `which`가 이를 색인으로 변환한다:
 
 
 ~~~{.r}
@@ -357,13 +350,10 @@ which(names(x) == "a")
 
 ~~~
 
+첫번째 요소만 `참(TRUE)`이라서, `which`는 1을 반환한다.
+이제 색인을 갖게 되서, 건너뛰는 연산이 동작한다. 왜냐하면 음수 색인이기 때문이다!
 
-
-Only the first element is `TRUE`, so `which` returns 1. Now that we have indices
-the skipping works because we have a negative index!
-
-Skipping multiple named indices is similar, but uses a different comparison
-operator:
+명칭을 갖는 다수 색인을 건너뛰는 것도 유사하다. 하지만, 다른 비교 연산자를 사용한다:
 
 
 ~~~{.r}
@@ -378,11 +368,12 @@ x[-which(names(x) %in% c("a", "c"))]
 
 ~~~
 
-The `%in%` goes through each element of its left argument, in this case the
-names of `x`, and asks, "Does this element occur in the second argument?".
+`%in%` 비교연산자는 좌측 인자(이번 경우에, `x` 명칭)에 대한 각 요소를 훑는다.
+그리고 나서, "해당 요소가 두번째 인자에 나타나는가?"라고 질의한다.
 
-> ## Challenge 2 {.challenge}
+> ## 도전과제 2 {.challenge}
 >
+> 
 > Run the following code to define vector `x` as above:
 >
 > 
@@ -418,12 +409,12 @@ names of `x`, and asks, "Does this element occur in the second argument?".
 > * E) `x[]` gives the same result as `x[integer()]`
 >
 
-> ## Tip: Non-unique names {.callout}
+> ## Tip: 유일무이하지 않은 명칭 {.callout}
 >
-> You should be aware that it is possible for multiple elements in a
-> vector to have the same name. (For a data frame, columns can have
-> the same name --- although R tries to avoid this --- but row names
-> must be unique.) Consider these examples:
+> 벡터에 요소 다수가 동일 명칭을 갖을 수 있음에 유의해야만 된다.
+> (데이터프레임에서,  칼럼이 동일한 명칭을 갖을 수 있다 --- 
+> R이 이런 점을 회피하려고 하지만 --- 하지만, 행 명칭은 유일무이해야 된다.)
+> 다음 예제를 고려해보자:
 
 >
 >~~~{.r}
@@ -456,7 +447,7 @@ names of `x`, and asks, "Does this element occur in the second argument?".
 >
 >
 >~~~{.r}
-> x['a']  # only returns first value
+> x['a']  # 첫번째 값만 반환한다.
 >~~~
 >
 >
@@ -470,7 +461,7 @@ names of `x`, and asks, "Does this element occur in the second argument?".
 >
 >
 >~~~{.r}
-> x[which(names(x) == 'a')]  # returns all three values
+> x[which(names(x) == 'a')]  # 세가지 값 모두 반환한다.
 >~~~
 >
 >
@@ -483,15 +474,15 @@ names of `x`, and asks, "Does this element occur in the second argument?".
 
 
 
-> ## Tip: Getting help for operators {.callout}
+> ## Tip: 연산자에 대한 도움말 얻기 {.callout}
 >
-> Remember you can search for help on operators by wrapping them in quotes:
-> `help("%in%")` or `?"%in%"`.
+> 인용부호 내부에 찾고자 하는 연산자를 감싸서 도움말을 검색할 수 있다:
+> `help("%in%")` 혹은 `?"%in%"`.
 >
 
-So why can't we use `==` like before? That's an excellent question.
+그러면, 이전처럼 `==` 연산자는 왜 사용할 수 없을까? 매우 좋은 질문이다.
 
-Let's take a look at just the comparison component:
+비교에 해당되는 항목만 살펴보자:
 
 
 ~~~{.r}
@@ -513,31 +504,31 @@ Warning in names(x) == c("a", "c"): 두 객체의 길이가 서로 배수관계�
 
 ~~~
 
-Obviously "c" is in the names of `x`, so why didn't this work? `==` works
-slightly differently than `%in%`. It will compare each element of its left argument
-to the corresponding element of its right argument.
+분명히, "c"는 `x` 요소명칭 중에 존재한다. 그런데, 왜 동작을 하지 않을까?
+`==`은 `%in%` 과는 다소 다른방식으로 동작한다.
+`==`은 좌측 인자 요소 각각을 대응되는 우측 요소 각각과 비교한다.
 
-Here's a mock illustration:
+`==` 연산자를 모사한 것이 다음에 나와 있다:
 
 
 ~~~{.r}
-c("a", "b", "c", "e")  # names of x
-   |    |    |    |    # The elements == is comparing
+c("a", "b", "c", "e")  # x 명칭
+   |    |    |    |    # ==으로 요소들을 비교한다.
 c("a", "c")
 ~~~
 
-When one vector is shorter than the other, it gets *recycled*:
+한 벡터가 다른 벡터보다 작은 경우, 해당 벡터는 *재사용*된다:
 
 
 ~~~{.r}
-c("a", "b", "c", "e")  # names of x
-   |    |    |    |    # The elements == is comparing
+c("a", "b", "c", "e")  # x 명칭
+   |    |    |    |    # ==으로 요소들을 비교한다.
 c("a", "c", "a", "c")
 ~~~
 
-In this case R simply repeats `c("a", "c")` twice. If the longer
-vector length isn't a multiple of the shorter vector length, then
-R will also print out a warning message:
+이런 경우, R이 단순히 `c("a", "c")`을 두번 반복한다.
+더 긴 벡터가 더 짧은 벡터의 배수가 아닌 경우, 
+R은 경고 메시지도 출력한다:
 
 
 ~~~{.r}
@@ -551,12 +542,12 @@ names(x) == c('a', 'c', 'e')
 
 ~~~
 
-This difference between `==` and `%in%` is important to remember,
-because it can introduce hard to find and subtle bugs!
+ `==` 와 `%in%` 차이점을 숙지하는 것이 중요한데,
+ 이유는 탐지가 어렵고 미묘한 버그가 스며들 수 있기 때문이다!
 
-## Subsetting through other logical operations
+## 논리 연산자를 통한 부분집합 뽑아내기
 
-We can also more simply subset through logical operations:
+더 단순하게는 논리 연산자로 부분집합을 뽑아낼 수도 있다:
 
 
 ~~~{.r}
@@ -571,8 +562,7 @@ a a
 
 ~~~
 
-Note that in this case, the logical vector is also recycled to the
-length of the vector we're subsetting!
+이번 경우, 논리 벡터는 부분집합을 뽑아내는 벡터 길이만큼 재사용됨에 주목한다!
 
 
 ~~~{.r}
@@ -587,8 +577,7 @@ a a
 
 ~~~
 
-Since comparison operators evaluate to logical vectors, we can also
-use them to succinctly subset vectors:
+비교 연산자는 논리벡터로 평가되기 때문에, 간결하게 벡터 부분집합을 뽑아내는데 사용할 수도 있다:
 
 
 ~~~{.r}
@@ -602,21 +591,20 @@ named integer(0)
 
 ~~~
 
-> ## Tip: Chaining logical operations {.callout}
+> ## Tip: 논리 연산자 연쇄 체인 구성{.callout}
 >
-> There are many situations in which you will wish to combine multiple conditions.
-> To do so several logical operations exist in R:
+> 다수 조건을 조합하고자 하는 상황이 많이 있다.
+> 이런 작업을 수행하는데 필요한 논리 연산자가 R에서 지원된다:
 >
->  * `|` logical OR: returns `TRUE`, if either the left or right are `TRUE`.
->  * `&` logical AND: returns `TRUE` if both the left and right are `TRUE`
->  * `!` logical NOT: converts `TRUE` to `FALSE` and `FALSE` to `TRUE`
->  * `&&` and `||` compare the individual elements of two vectors. Recycling rules
->    also apply here.
+>  * `|` 논리 OR: 왼쪽 오른쪽 어느 한쪽이 `TRUE`면, `TRUE`를 반환한다.
+>  * `&` 논리 AND: 왼쪽 오른쪽 모두가 `TRUE`면, `TRUE`를 반환한다.
+>  * `!` 논리 NOT: `TRUE`는 `FALSE`로, `FALSE`는 `TRUE`로 전환한다.
+>  * `&&` , `||` 은 두 벡터의 개별 요소를 비교한다. 재활용 규칙은 이곳도 적용된다.
 >
 
-> ## Challenge 3 {.challenge}
+> ## 도전과제 3 {.challenge}
 >
-> Given the following code:
+> 다음 코드가 주어졌다:
 >
 > 
 > ~~~{.r}
@@ -633,29 +621,26 @@ named integer(0)
 > 
 > ~~~
 >
-> 1. Write a subsetting command to return the values in x that are greater than 4 and less than 7.
+> `x` 벡터에서 4보다 크고 7보다 적은 값을 부분집합으로 뽑아내는 명령어를 작성한다.
 >
 
-## Handling special values
+## 특수값 처리하기
 
-At some point you will encounter functions in R which cannot handle missing, infinite,
-or undefined data.
+어느 지점에 다다르면, R 함수에 처리할 수 없는 결측값, 무한값, 정의되지 않는 값을 갖는 데이터와 마주하게 된다.
 
-There are a number of special functions you can use to filter out this data:
+이런 유형의 데이터를 필터링하는데 사용되는 특수 함수가 있다:
 
- * `is.na` will return all positions in a vector, matrix, or data.frame
-   containing `NA`.
- * likewise, `is.nan`, and `is.infinite` will do the same for `NaN` and `Inf`.
- * `is.finite` will return all positions in a vector, matrix, or data.frame
-   that do not contain `NA`, `NaN` or `Inf`.
- * `na.omit` will filter out all missing values from a vector
+ * `is.na`는 벡터, 행렬, 데이터프레임에 포함된 `NA` 위치를 반환한다.
+ * 마찬가지로, `is.nan` 와 `is.infinite` 함수도 `NaN` 와 `Inf` 값에 대한 동일한 작업을 수행한다.
+ * `is.finite` 함수는 `NA`, `NaN`, `Inf` 값을 포함하지 않는 벡터, 행렬, 데이터프레임에 대한 모든 위치정보를 반환한다.
+   * `na.omit`는 벡터에서 모든 결측값을 필터링해서 제외시키다.
 
-## Factor subsetting
+## 요인 부분집합으로 뽑아내기
 
-Now that we've explored the different ways to subset vectors, how
-do we subset the other data structures?
+지금까지 벡터 부분집합을 뽑아내는 다양한 방식을 탐색했다.
+다른 자료구조에 대한 부분집합은 어떻게 뽑아낼 수 있을까?
 
-Factor subsetting works the same way as vector subsetting.
+요인 부분집합 뽑아내기는 벡터 부분집합 뽑아내기와 동일한 방식으로 동작한다.
 
 
 ~~~{.r}
@@ -699,8 +684,8 @@ Levels: a b c d
 
 ~~~
 
-An important note is that skipping elements will not remove the level
-even if no more of that category exists in the factor:
+중요한 주의점 하나는 건너뛰는 요소가 설사 해당 범주가 요인으로 존재하지 않더라도, 
+수준(level)을 제거하지 않는다는 점이다:
 
 
 ~~~{.r}
@@ -715,7 +700,9 @@ Levels: a b c d
 
 ~~~
 
-## Matrix subsetting
+## 행렬 부분집합 뽑아내기
+
+
 
 Matrices are also subsetted using the `[` function. In this case
 it takes two arguments: the first applying to the rows, the second

@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="generator" content="pandoc">
-    <title>Software Carpentry: R for reproducible scientific analysis</title>
+    <title>Software Carpentry: 재현가능한 과학적 분석을 위한 R</title>
     <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" type="text/css" href="css/bootstrap/bootstrap.css" />
@@ -26,37 +26,37 @@
       <article>
       <div class="row">
         <div class="col-md-10 col-md-offset-1">
-                    <a href="index.html"><h1 class="title">R for reproducible scientific analysis</h1></a>
-          <h2 class="subtitle">Subsetting data</h2>
+                    <a href="index.html"><h1 class="title">재현가능한 과학적 분석을 위한 R</h1></a>
+          <h2 class="subtitle">데이터 부분집합</h2>
           <section class="objectives panel panel-warning">
 <div class="panel-heading">
-<h2 id="learning-objectives"><span class="glyphicon glyphicon-certificate"></span>Learning Objectives</h2>
+<h2 id="학습-목표"><span class="glyphicon glyphicon-certificate"></span>학습 목표</h2>
 </div>
 <div class="panel-body">
 <ul>
-<li>To be able to subset vectors, factors, matrices, lists, and data frames</li>
-<li>To be able to extract individual and multiple elements:
+<li>벡터, 요인, 행렬, 리스트, 데이터프레임 부분집합을 뽑아낼 수 있다.</li>
+<li>개별, 다수 요소를 다음 기준으로 뽑아낼 수 있다:
 <ul>
-<li>by index,</li>
-<li>by name,</li>
-<li>using comparison operations</li>
+<li>색인</li>
+<li>명칭</li>
+<li>비교 연산을 사용</li>
 </ul></li>
-<li>To be able to skip and remove elements from various data structures.</li>
+<li>다양한 자료구조로부터 요소를 건너뛰거나 제거할 수 있다.</li>
 </ul>
 </div>
 </section>
-<p>R has many powerful subset operators and mastering them will allow you to easily perform complex operations on any kind of dataset.</p>
-<p>There are six different ways we can subset any kind of object, and three different subsetting operators for the different data structures.</p>
-<p>Let’s start with the workhorse of R: atomic vectors.</p>
+<p>R에는 강력한 부분집합 연산자를 다수 구비되어 있다. 이를 완전히 익히게 되면 어떤 유형의 데이터셋에 대해서도 복잡한 연산을 수월하게 수행할 수 있게 된다.</p>
+<p>어떤 유형의 객체에서 부분집합을 뽑아낼 수 있는 방식은 6가지가 있다. 다른 자료구조에 대한 부분집합을 뽑아내는 연산자는 3가지가 있다.</p>
+<p>R의 핵심으로 가장 많은 일은 하는 것부터 시작해본다: 원자 벡터(atomic vector)</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="fl">5.4</span>, <span class="fl">6.2</span>, <span class="fl">7.1</span>, <span class="fl">4.8</span>, <span class="fl">7.5</span>)
 <span class="kw">names</span>(x) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&#39;a&#39;</span>, <span class="st">&#39;b&#39;</span>, <span class="st">&#39;c&#39;</span>, <span class="st">&#39;d&#39;</span>, <span class="st">&#39;e&#39;</span>)
 x</code></pre></div>
 <pre class="output"><code>  a   b   c   d   e 
 5.4 6.2 7.1 4.8 7.5 
 </code></pre>
-<p>So now that we’ve created a dummy vector to play with, how do we get at its contents?</p>
-<h2 id="accessing-elements-using-their-indices">Accessing elements using their indices</h2>
-<p>To extract elements of a vector we can give their corresponding index, starting from one:</p>
+<p>이제 작업할 준비가 마루타 벡터를 생성했다. 해당 벡터 내용물을 손에 넣는 방식은 무엇인가?</p>
+<h2 id="색인을-사용한-요소-접근">색인을 사용한 요소 접근</h2>
+<p>벡터 요소를 추출하는데, 대응되는 색인을 부여하는데, 1부터 시작된다:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x[<span class="dv">1</span>]</code></pre></div>
 <pre class="output"><code>  a 
 5.4 
@@ -65,71 +65,70 @@ x</code></pre></div>
 <pre class="output"><code>  d 
 4.8 
 </code></pre>
-<p>The square brackets operator is just like any other function. For atomic vectors (and matrices), it means “get me the nth element”.</p>
-<p>We can ask for multiple elements at once:</p>
+<p>꺾쇠 괄호 연산자는 다른 어떤 함수와 비슷한다. 원자 벡터(그리과 행렬)에 대해, “n번째 요소를 뽑아낸다”라는 의미다.</p>
+<p>한번에 다수 요소를 뽑아낼 수도 있다:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x[<span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">3</span>)]</code></pre></div>
 <pre class="output"><code>  a   c 
 5.4 7.1 
 </code></pre>
-<p>Or slices of the vector:</p>
+<p>혹은, 벡터 슬라이스로 뽑아낼 수도 있다:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x[<span class="dv">1</span>:<span class="dv">4</span>]</code></pre></div>
 <pre class="output"><code>  a   b   c   d 
 5.4 6.2 7.1 4.8 
 </code></pre>
-<p>the <code>:</code> operator just creates a sequence of numbers from the left element to the right. I.e. <code>x[1:4]</code> is equivalent to <code>x[c(1,2,3,4)]</code>.</p>
-<p>We can ask for the same element multiple times:</p>
+<p><code>:</code> 연산자는 왼쪽 요소부터 우측 요소까지 연속된 숫자를 생성한다. 예를 들어, <code>x[1:4]</code> 은 <code>x[c(1,2,3,4)]</code>와 동등하다:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x[<span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">3</span>)]</code></pre></div>
 <pre class="output"><code>  a   a   c 
 5.4 5.4 7.1 
 </code></pre>
-<p>If we ask for a number outside of the vector, R will return missing values:</p>
+<p>벡터를 벗어난 숫자를 뽑아내려고 하면, R은 결측값을 반환한다:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x[<span class="dv">6</span>]</code></pre></div>
 <pre class="output"><code>&lt;NA&gt; 
   NA 
 </code></pre>
-<p>This is a vector of length one containing an <code>NA</code>, whose name is also <code>NA</code>.</p>
-<p>If we ask for the 0th element, we get an empty vector:</p>
+<p>길이 1을 갖는 벡터로 <code>NA</code>가 담겨있고, 명칭도 <code>NA</code>다.</p>
+<p>0번째 요소를 뽑아내려고 하면, 공벡터가 반환된다:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x[<span class="dv">0</span>]</code></pre></div>
 <pre class="output"><code>named numeric(0)
 </code></pre>
 <aside class="callout panel panel-info">
 <div class="panel-heading">
-<h2 id="vector-numbering-in-r-starts-at-1"><span class="glyphicon glyphicon-pushpin"></span>Vector numbering in R starts at 1</h2>
+<h2 id="r에서-벡터-번호매기는-것은-1에서-시작"><span class="glyphicon glyphicon-pushpin"></span>R에서 벡터 번호매기는 것은 1에서 시작</h2>
 </div>
 <div class="panel-body">
-<p>In many programming languages (C and python, for example), the first element of a vector has an index of 0. In R, the first element is 1.</p>
+<p>대다수 프로그래밍 언어(C와 파이썬)에서, 벡터 첫번째 요소는 색인 0을 갖는다. R에서, 첫번째 요소는 1이다.</p>
 </div>
 </aside>
-<h2 id="skipping-and-removing-elements">Skipping and removing elements</h2>
-<p>If we use a negative number as the index of a vector, R will return every element <em>except</em> for the one specified:</p>
+<h2 id="요소-건너뛰고-제거하기">요소 건너뛰고 제거하기</h2>
+<p>벡터 색인으로 음수를 사용하면, R은 명세된 숫자를 제외한 모든 요소를 반환한다:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x[-<span class="dv">2</span>]</code></pre></div>
 <pre class="output"><code>  a   c   d   e 
 5.4 7.1 4.8 7.5 
 </code></pre>
-<p>We can skip multiple elements:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x[<span class="kw">c</span>(-<span class="dv">1</span>, -<span class="dv">5</span>)]  <span class="co"># or x[-c(1,5)]</span></code></pre></div>
+<p>다수 요소를 건너뛸 수도 있다:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x[<span class="kw">c</span>(-<span class="dv">1</span>, -<span class="dv">5</span>)]  <span class="co"># 혹은 x[-c(1,5)]</span></code></pre></div>
 <pre class="output"><code>  b   c   d 
 6.2 7.1 4.8 
 </code></pre>
 <aside class="callout panel panel-info">
 <div class="panel-heading">
-<h2 id="tip-order-of-operations"><span class="glyphicon glyphicon-pushpin"></span>Tip: Order of operations</h2>
+<h2 id="tip-연산작업-순서"><span class="glyphicon glyphicon-pushpin"></span>Tip: 연산작업 순서</h2>
 </div>
 <div class="panel-body">
-<p>A common trip up for novices occurs when trying to skip slices of a vector. Most people first try to negate a sequence like so:</p>
+<p>초보자가 범하는 일반적인 실수는 벡터 슬라이스 건너뛰기 연산을 시도할 때 일어나다. 먼저 사람 대부분은 순열을 다음과 같이 부정연산을 통해 변경하려 한다:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x[-<span class="dv">1</span>:<span class="dv">3</span>]</code></pre></div>
 <pre class="error"><code>Error in x[-1:3]: only 0&#39;s may be mixed with negative subscripts
 </code></pre>
-<p>This gives a somewhat cryptic error:</p>
-<p>But remember the order of operations. <code>:</code> is really a function, so what happens is it takes its first argument as -1, and second as 3, so generates the sequence of numbers: <code>c(-1, 0, 1, 2, 3)</code>.</p>
-<p>The correct solution is to wrap that function call in brackets, so that the <code>-</code> operator applies to the results:</p>
+<p>다소 암호스런 오류가 제시된다:</p>
+<p>하지만, 연산작업 우선수위를 기억해보자. <code>:</code> 연산자는 사실 함수다. 그래서, 일어난 상황은 -1을 첫번째 인자로 받고, 두번째 인자로 3을 받아서, 연속된 숫자를 생성해낸다: <code>c(-1, 0, 1, 2, 3)</code>.</p>
+<p>올바른 해법은 함수 호출을 괄호로 감싸는 것이다. <code>-</code> 연산자가 결과를 도출한다:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x[-(<span class="dv">1</span>:<span class="dv">3</span>)]</code></pre></div>
 <pre class="output"><code>  d   e 
 4.8 7.5 
 </code></pre>
 </div>
 </aside>
-<p>To remove elements from a vector, we need to assign the results back into the variable:</p>
+<p>벡터에서 요소를 제거하려면, 결과를 다시 벡터에 대입할 필요가 있다:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span>x[-<span class="dv">4</span>]
 x</code></pre></div>
 <pre class="output"><code>  a   b   c   e 
@@ -137,10 +136,10 @@ x</code></pre></div>
 </code></pre>
 <section class="challenge panel panel-success">
 <div class="panel-heading">
-<h2 id="challenge-1"><span class="glyphicon glyphicon-pencil"></span>Challenge 1</h2>
+<h2 id="도전-과제-1"><span class="glyphicon glyphicon-pencil"></span>도전 과제 1</h2>
 </div>
 <div class="panel-body">
-<p>Given the following code:</p>
+<p>다음과 같이 코드가 주어졌다:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="fl">5.4</span>, <span class="fl">6.2</span>, <span class="fl">7.1</span>, <span class="fl">4.8</span>, <span class="fl">7.5</span>)
 <span class="kw">names</span>(x) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&#39;a&#39;</span>, <span class="st">&#39;b&#39;</span>, <span class="st">&#39;c&#39;</span>, <span class="st">&#39;d&#39;</span>, <span class="st">&#39;e&#39;</span>)
 <span class="kw">print</span>(x)</code></pre></div>
@@ -148,49 +147,49 @@ x</code></pre></div>
 5.4 6.2 7.1 4.8 7.5 
 </code></pre>
 <ol style="list-style-type: decimal">
-<li>Come up with at least 3 different commands that will produce the following output:</li>
+<li>다음 출력과를 산출하는 적어도 서로 다른 명령어를 제시한다:</li>
 </ol>
 <pre class="output"><code>  b   c   d 
 6.2 7.1 4.8 
 </code></pre>
 <ol start="2" style="list-style-type: decimal">
-<li>Compare notes with your neighbour. Did you have different strategies?</li>
+<li>작업결과를 옆 사람과 비교한다. 서로 다른 전략을 취했나요?</li>
 </ol>
 </div>
 </section>
-<h2 id="subsetting-by-name">Subsetting by name</h2>
-<p>We can extract elements by using their name, instead of index:</p>
+<h2 id="명칭으로-부분집합-뽑아내기">명칭으로 부분집합 뽑아내기</h2>
+<p>색인 대신에 명칭을 사용해서, 요소를 뽑아낼 수 있다:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x[<span class="kw">c</span>(<span class="st">&quot;a&quot;</span>, <span class="st">&quot;c&quot;</span>)]</code></pre></div>
 <pre class="output"><code>  a   c 
 5.4 7.1 
 </code></pre>
-<p>This is usually a much more reliable way to subset objects: the position of various elements can often change when chaining together subsetting operations, but the names will always remain the same!</p>
-<p>Unfortunately we can’t skip or remove elements so easily.</p>
-<p>To skip (or remove) a single named element:</p>
+<p>명칭을 사용한 것이 객체에 대한 부분집합을 뽑아내는 훨씬 더 신뢰성 있는 방식이다: 다양한 요소 위치는 부분집합을 뽑아내는 연산자를 연결해서 적용할 때 종종 변경되지만, 명칭은 항상 동일하게 남게 마련이다!</p>
+<p>불행하게도, 그다지 수월하게 요소를 건너뛰거나 제거할 수는 없다.</p>
+<p>요소 하나를 건너뛰거나 제거하려면:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x[-<span class="kw">which</span>(<span class="kw">names</span>(x) ==<span class="st"> &quot;a&quot;</span>)]</code></pre></div>
 <pre class="output"><code>  b   c   d   e 
 6.2 7.1 4.8 7.5 
 </code></pre>
-<p>The <code>which</code> function returns the indices of all <code>TRUE</code> elements of its argument. Remember that expressions evaluate before being passed to functions. Let’s break this down so that its clearer what’s happening.</p>
-<p>First this happens:</p>
+<p><code>which</code> 함수는 함수 인자의 모든 <code>TRUE</code> 요소에 대한 색인을 반환한다. 함수에 전달되기 전에 표현식이 평가됨을 기억한다. 내부를 파고들어, 어떤 일이 진행되는지 명확히 알아보자.</p>
+<p>다음이 가장 먼저 진행된다:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">names</span>(x) ==<span class="st"> &quot;a&quot;</span></code></pre></div>
 <pre class="output"><code>[1]  TRUE FALSE FALSE FALSE FALSE
 </code></pre>
-<p>The condition operator is applied to every name of the vector <code>x</code>. Only the first name is “a” so that element is TRUE.</p>
-<p><code>which</code> then converts this to an index:</p>
+<p>조건 연산자는 <code>x</code> 벡터에 대한 모든 명칭에 적용된다. 첫번째 명칭만 “a” 라서, 해당 요소만 참(TRUE)이 된다.</p>
+<p>그리고 나면, <code>which</code>가 이를 색인으로 변환한다:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">which</span>(<span class="kw">names</span>(x) ==<span class="st"> &quot;a&quot;</span>)</code></pre></div>
 <pre class="output"><code>[1] 1
 </code></pre>
-<p>Only the first element is <code>TRUE</code>, so <code>which</code> returns 1. Now that we have indices the skipping works because we have a negative index!</p>
-<p>Skipping multiple named indices is similar, but uses a different comparison operator:</p>
+<p>첫번째 요소만 <code>참(TRUE)</code>이라서, <code>which</code>는 1을 반환한다. 이제 색인을 갖게 되서, 건너뛰는 연산이 동작한다. 왜냐하면 음수 색인이기 때문이다!</p>
+<p>명칭을 갖는 다수 색인을 건너뛰는 것도 유사하다. 하지만, 다른 비교 연산자를 사용한다:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x[-<span class="kw">which</span>(<span class="kw">names</span>(x) %in%<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;a&quot;</span>, <span class="st">&quot;c&quot;</span>))]</code></pre></div>
 <pre class="output"><code>  b   d   e 
 6.2 4.8 7.5 
 </code></pre>
-<p>The <code>%in%</code> goes through each element of its left argument, in this case the names of <code>x</code>, and asks, “Does this element occur in the second argument?”.</p>
+<p><code>%in%</code> 비교연산자는 좌측 인자(이번 경우에, <code>x</code> 명칭)에 대한 각 요소를 훑는다. 그리고 나서, “해당 요소가 두번째 인자에 나타나는가?”라고 질의한다.</p>
 <section class="challenge panel panel-success">
 <div class="panel-heading">
-<h2 id="challenge-2"><span class="glyphicon glyphicon-pencil"></span>Challenge 2</h2>
+<h2 id="도전과제-2"><span class="glyphicon glyphicon-pencil"></span>도전과제 2</h2>
 </div>
 <div class="panel-body">
 <p>Run the following code to define vector <code>x</code> as above:</p>
@@ -225,10 +224,10 @@ x</code></pre></div>
 </section>
 <aside class="callout panel panel-info">
 <div class="panel-heading">
-<h2 id="tip-non-unique-names"><span class="glyphicon glyphicon-pushpin"></span>Tip: Non-unique names</h2>
+<h2 id="tip-유일무이하지-않은-명칭"><span class="glyphicon glyphicon-pushpin"></span>Tip: 유일무이하지 않은 명칭</h2>
 </div>
 <div class="panel-body">
-<p>You should be aware that it is possible for multiple elements in a vector to have the same name. (For a data frame, columns can have the same name — although R tries to avoid this — but row names must be unique.) Consider these examples:</p>
+<p>벡터에 요소 다수가 동일 명칭을 갖을 수 있음에 유의해야만 된다. (데이터프레임에서, 칼럼이 동일한 명칭을 갖을 수 있다 — R이 이런 점을 회피하려고 하지만 — 하지만, 행 명칭은 유일무이해야 된다.) 다음 예제를 고려해보자:</p>
 </div>
 </aside>
 <blockquote>
@@ -241,103 +240,101 @@ x</code></pre></div>
 <pre class="output"><code>a a a 
 1 2 3 
 </code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x[<span class="st">&#39;a&#39;</span>]  <span class="co"># only returns first value</span></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x[<span class="st">&#39;a&#39;</span>]  <span class="co"># 첫번째 값만 반환한다.</span></code></pre></div>
 <pre class="output"><code>a 
 1 
 </code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x[<span class="kw">which</span>(<span class="kw">names</span>(x) ==<span class="st"> &#39;a&#39;</span>)]  <span class="co"># returns all three values</span></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x[<span class="kw">which</span>(<span class="kw">names</span>(x) ==<span class="st"> &#39;a&#39;</span>)]  <span class="co"># 세가지 값 모두 반환한다.</span></code></pre></div>
 <pre class="output"><code>a a a 
 1 2 3 
 </code></pre>
 </blockquote>
 <aside class="callout panel panel-info">
 <div class="panel-heading">
-<h2 id="tip-getting-help-for-operators"><span class="glyphicon glyphicon-pushpin"></span>Tip: Getting help for operators</h2>
+<h2 id="tip-연산자에-대한-도움말-얻기"><span class="glyphicon glyphicon-pushpin"></span>Tip: 연산자에 대한 도움말 얻기</h2>
 </div>
 <div class="panel-body">
-<p>Remember you can search for help on operators by wrapping them in quotes: <code>help(&quot;%in%&quot;)</code> or <code>?&quot;%in%&quot;</code>.</p>
+<p>인용부호 내부에 찾고자 하는 연산자를 감싸서 도움말을 검색할 수 있다: <code>help(&quot;%in%&quot;)</code> 혹은 <code>?&quot;%in%&quot;</code>.</p>
 </div>
 </aside>
-<p>So why can’t we use <code>==</code> like before? That’s an excellent question.</p>
-<p>Let’s take a look at just the comparison component:</p>
+<p>그러면, 이전처럼 <code>==</code> 연산자는 왜 사용할 수 없을까? 매우 좋은 질문이다.</p>
+<p>비교에 해당되는 항목만 살펴보자:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">names</span>(x) ==<span class="st"> </span><span class="kw">c</span>(<span class="st">&#39;a&#39;</span>, <span class="st">&#39;c&#39;</span>)</code></pre></div>
 <pre class="error"><code>Warning in names(x) == c(&quot;a&quot;, &quot;c&quot;): 두 객체의 길이가 서로 배수관계에 있지
 않습니다
 </code></pre>
 <pre class="output"><code>[1]  TRUE FALSE  TRUE
 </code></pre>
-<p>Obviously “c” is in the names of <code>x</code>, so why didn’t this work? <code>==</code> works slightly differently than <code>%in%</code>. It will compare each element of its left argument to the corresponding element of its right argument.</p>
-<p>Here’s a mock illustration:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">c</span>(<span class="st">&quot;a&quot;</span>, <span class="st">&quot;b&quot;</span>, <span class="st">&quot;c&quot;</span>, <span class="st">&quot;e&quot;</span>)  <span class="co"># names of x</span>
-   |<span class="st">    </span><span class="er">|</span><span class="st">    </span><span class="er">|</span><span class="st">    </span><span class="er">|</span><span class="st">    </span><span class="co"># The elements == is comparing</span>
+<p>분명히, “c”는 <code>x</code> 요소명칭 중에 존재한다. 그런데, 왜 동작을 하지 않을까? <code>==</code>은 <code>%in%</code> 과는 다소 다른방식으로 동작한다. <code>==</code>은 좌측 인자 요소 각각을 대응되는 우측 요소 각각과 비교한다.</p>
+<p><code>==</code> 연산자를 모사한 것이 다음에 나와 있다:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">c</span>(<span class="st">&quot;a&quot;</span>, <span class="st">&quot;b&quot;</span>, <span class="st">&quot;c&quot;</span>, <span class="st">&quot;e&quot;</span>)  <span class="co"># x 명칭</span>
+   |<span class="st">    </span><span class="er">|</span><span class="st">    </span><span class="er">|</span><span class="st">    </span><span class="er">|</span><span class="st">    </span><span class="co"># ==으로 요소들을 비교한다.</span>
 <span class="kw">c</span>(<span class="st">&quot;a&quot;</span>, <span class="st">&quot;c&quot;</span>)</code></pre></div>
-<p>When one vector is shorter than the other, it gets <em>recycled</em>:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">c</span>(<span class="st">&quot;a&quot;</span>, <span class="st">&quot;b&quot;</span>, <span class="st">&quot;c&quot;</span>, <span class="st">&quot;e&quot;</span>)  <span class="co"># names of x</span>
-   |<span class="st">    </span><span class="er">|</span><span class="st">    </span><span class="er">|</span><span class="st">    </span><span class="er">|</span><span class="st">    </span><span class="co"># The elements == is comparing</span>
+<p>한 벡터가 다른 벡터보다 작은 경우, 해당 벡터는 <em>재사용</em>된다:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">c</span>(<span class="st">&quot;a&quot;</span>, <span class="st">&quot;b&quot;</span>, <span class="st">&quot;c&quot;</span>, <span class="st">&quot;e&quot;</span>)  <span class="co"># x 명칭</span>
+   |<span class="st">    </span><span class="er">|</span><span class="st">    </span><span class="er">|</span><span class="st">    </span><span class="er">|</span><span class="st">    </span><span class="co"># ==으로 요소들을 비교한다.</span>
 <span class="kw">c</span>(<span class="st">&quot;a&quot;</span>, <span class="st">&quot;c&quot;</span>, <span class="st">&quot;a&quot;</span>, <span class="st">&quot;c&quot;</span>)</code></pre></div>
-<p>In this case R simply repeats <code>c(&quot;a&quot;, &quot;c&quot;)</code> twice. If the longer vector length isn’t a multiple of the shorter vector length, then R will also print out a warning message:</p>
+<p>이런 경우, R이 단순히 <code>c(&quot;a&quot;, &quot;c&quot;)</code>을 두번 반복한다. 더 긴 벡터가 더 짧은 벡터의 배수가 아닌 경우, R은 경고 메시지도 출력한다:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">names</span>(x) ==<span class="st"> </span><span class="kw">c</span>(<span class="st">&#39;a&#39;</span>, <span class="st">&#39;c&#39;</span>, <span class="st">&#39;e&#39;</span>)</code></pre></div>
 <pre class="output"><code>[1]  TRUE FALSE FALSE
 </code></pre>
-<p>This difference between <code>==</code> and <code>%in%</code> is important to remember, because it can introduce hard to find and subtle bugs!</p>
-<h2 id="subsetting-through-other-logical-operations">Subsetting through other logical operations</h2>
-<p>We can also more simply subset through logical operations:</p>
+<p><code>==</code> 와 <code>%in%</code> 차이점을 숙지하는 것이 중요한데, 이유는 탐지가 어렵고 미묘한 버그가 스며들 수 있기 때문이다!</p>
+<h2 id="논리-연산자를-통한-부분집합-뽑아내기">논리 연산자를 통한 부분집합 뽑아내기</h2>
+<p>더 단순하게는 논리 연산자로 부분집합을 뽑아낼 수도 있다:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x[<span class="kw">c</span>(<span class="ot">TRUE</span>, <span class="ot">TRUE</span>, <span class="ot">FALSE</span>, <span class="ot">FALSE</span>)]</code></pre></div>
 <pre class="output"><code>a a 
 1 2 
 </code></pre>
-<p>Note that in this case, the logical vector is also recycled to the length of the vector we’re subsetting!</p>
+<p>이번 경우, 논리 벡터는 부분집합을 뽑아내는 벡터 길이만큼 재사용됨에 주목한다!</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x[<span class="kw">c</span>(<span class="ot">TRUE</span>, <span class="ot">FALSE</span>)]</code></pre></div>
 <pre class="output"><code>a a 
 1 3 
 </code></pre>
-<p>Since comparison operators evaluate to logical vectors, we can also use them to succinctly subset vectors:</p>
+<p>비교 연산자는 논리벡터로 평가되기 때문에, 간결하게 벡터 부분집합을 뽑아내는데 사용할 수도 있다:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x[x &gt;<span class="st"> </span><span class="dv">7</span>]</code></pre></div>
 <pre class="output"><code>named integer(0)
 </code></pre>
 <aside class="callout panel panel-info">
 <div class="panel-heading">
-<h2 id="tip-chaining-logical-operations"><span class="glyphicon glyphicon-pushpin"></span>Tip: Chaining logical operations</h2>
+<h2 id="tip-논리-연산자-연쇄-체인-구성"><span class="glyphicon glyphicon-pushpin"></span>Tip: 논리 연산자 연쇄 체인 구성</h2>
 </div>
 <div class="panel-body">
-<p>There are many situations in which you will wish to combine multiple conditions. To do so several logical operations exist in R:</p>
+<p>다수 조건을 조합하고자 하는 상황이 많이 있다. 이런 작업을 수행하는데 필요한 논리 연산자가 R에서 지원된다:</p>
 <ul>
-<li><code>|</code> logical OR: returns <code>TRUE</code>, if either the left or right are <code>TRUE</code>.</li>
-<li><code>&amp;</code> logical AND: returns <code>TRUE</code> if both the left and right are <code>TRUE</code></li>
-<li><code>!</code> logical NOT: converts <code>TRUE</code> to <code>FALSE</code> and <code>FALSE</code> to <code>TRUE</code></li>
-<li><code>&amp;&amp;</code> and <code>||</code> compare the individual elements of two vectors. Recycling rules also apply here.</li>
+<li><code>|</code> 논리 OR: 왼쪽 오른쪽 어느 한쪽이 <code>TRUE</code>면, <code>TRUE</code>를 반환한다.</li>
+<li><code>&amp;</code> 논리 AND: 왼쪽 오른쪽 모두가 <code>TRUE</code>면, <code>TRUE</code>를 반환한다.</li>
+<li><code>!</code> 논리 NOT: <code>TRUE</code>는 <code>FALSE</code>로, <code>FALSE</code>는 <code>TRUE</code>로 전환한다.</li>
+<li><code>&amp;&amp;</code> , <code>||</code> 은 두 벡터의 개별 요소를 비교한다. 재활용 규칙은 이곳도 적용된다.</li>
 </ul>
 </div>
 </aside>
 <section class="challenge panel panel-success">
 <div class="panel-heading">
-<h2 id="challenge-3"><span class="glyphicon glyphicon-pencil"></span>Challenge 3</h2>
+<h2 id="도전과제-3"><span class="glyphicon glyphicon-pencil"></span>도전과제 3</h2>
 </div>
 <div class="panel-body">
-<p>Given the following code:</p>
+<p>다음 코드가 주어졌다:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="fl">5.4</span>, <span class="fl">6.2</span>, <span class="fl">7.1</span>, <span class="fl">4.8</span>, <span class="fl">7.5</span>)
 <span class="kw">names</span>(x) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&#39;a&#39;</span>, <span class="st">&#39;b&#39;</span>, <span class="st">&#39;c&#39;</span>, <span class="st">&#39;d&#39;</span>, <span class="st">&#39;e&#39;</span>)
 <span class="kw">print</span>(x)</code></pre></div>
 <pre class="output"><code>  a   b   c   d   e 
 5.4 6.2 7.1 4.8 7.5 
 </code></pre>
-<ol style="list-style-type: decimal">
-<li>Write a subsetting command to return the values in x that are greater than 4 and less than 7.</li>
-</ol>
+<p><code>x</code> 벡터에서 4보다 크고 7보다 적은 값을 부분집합으로 뽑아내는 명령어를 작성한다.</p>
 </div>
 </section>
-<h2 id="handling-special-values">Handling special values</h2>
-<p>At some point you will encounter functions in R which cannot handle missing, infinite, or undefined data.</p>
-<p>There are a number of special functions you can use to filter out this data:</p>
+<h2 id="특수값-처리하기">특수값 처리하기</h2>
+<p>어느 지점에 다다르면, R 함수에 처리할 수 없는 결측값, 무한값, 정의되지 않는 값을 갖는 데이터와 마주하게 된다.</p>
+<p>이런 유형의 데이터를 필터링하는데 사용되는 특수 함수가 있다:</p>
 <ul>
-<li><code>is.na</code> will return all positions in a vector, matrix, or data.frame containing <code>NA</code>.</li>
-<li>likewise, <code>is.nan</code>, and <code>is.infinite</code> will do the same for <code>NaN</code> and <code>Inf</code>.</li>
-<li><code>is.finite</code> will return all positions in a vector, matrix, or data.frame that do not contain <code>NA</code>, <code>NaN</code> or <code>Inf</code>.</li>
-<li><code>na.omit</code> will filter out all missing values from a vector</li>
+<li><code>is.na</code>는 벡터, 행렬, 데이터프레임에 포함된 <code>NA</code> 위치를 반환한다.</li>
+<li>마찬가지로, <code>is.nan</code> 와 <code>is.infinite</code> 함수도 <code>NaN</code> 와 <code>Inf</code> 값에 대한 동일한 작업을 수행한다.</li>
+<li><code>is.finite</code> 함수는 <code>NA</code>, <code>NaN</code>, <code>Inf</code> 값을 포함하지 않는 벡터, 행렬, 데이터프레임에 대한 모든 위치정보를 반환한다.</li>
+<li><code>na.omit</code>는 벡터에서 모든 결측값을 필터링해서 제외시키다.</li>
 </ul>
-<h2 id="factor-subsetting">Factor subsetting</h2>
-<p>Now that we’ve explored the different ways to subset vectors, how do we subset the other data structures?</p>
-<p>Factor subsetting works the same way as vector subsetting.</p>
+<h2 id="요인-부분집합으로-뽑아내기">요인 부분집합으로 뽑아내기</h2>
+<p>지금까지 벡터 부분집합을 뽑아내는 다양한 방식을 탐색했다. 다른 자료구조에 대한 부분집합은 어떻게 뽑아낼 수 있을까?</p>
+<p>요인 부분집합 뽑아내기는 벡터 부분집합 뽑아내기와 동일한 방식으로 동작한다.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">f &lt;-<span class="st"> </span><span class="kw">factor</span>(<span class="kw">c</span>(<span class="st">&quot;a&quot;</span>, <span class="st">&quot;a&quot;</span>, <span class="st">&quot;b&quot;</span>, <span class="st">&quot;c&quot;</span>, <span class="st">&quot;c&quot;</span>, <span class="st">&quot;d&quot;</span>))
 f[f ==<span class="st"> &quot;a&quot;</span>]</code></pre></div>
 <pre class="output"><code>[1] a a
@@ -351,12 +348,12 @@ Levels: a b c d
 <pre class="output"><code>[1] a a b
 Levels: a b c d
 </code></pre>
-<p>An important note is that skipping elements will not remove the level even if no more of that category exists in the factor:</p>
+<p>중요한 주의점 하나는 건너뛰는 요소가 설사 해당 범주가 요인으로 존재하지 않더라도, 수준(level)을 제거하지 않는다는 점이다:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">f[-<span class="dv">3</span>]</code></pre></div>
 <pre class="output"><code>[1] a a c c d
 Levels: a b c d
 </code></pre>
-<h2 id="matrix-subsetting">Matrix subsetting</h2>
+<h2 id="행렬-부분집합-뽑아내기">행렬 부분집합 뽑아내기</h2>
 <p>Matrices are also subsetted using the <code>[</code> function. In this case it takes two arguments: the first applying to the rows, the second to its columns:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">1</span>)
 m &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">rnorm</span>(<span class="dv">6</span>*<span class="dv">4</span>), <span class="dt">ncol=</span><span class="dv">4</span>, <span class="dt">nrow=</span><span class="dv">6</span>)
