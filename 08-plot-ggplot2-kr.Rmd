@@ -34,9 +34,11 @@ R에는 세가지 주류 도식화 시스템이 존재한다: [기본 도식화 
 
 `ggplot2` 팩키지를 학습하는데 이유는 논문품질 그래프 생성에 있어 가장 효과적이기 때문이다.
 
-`ggplot2`는 그래픽 문법에 기반했다. 즉, 어떤 그래프도 동일한 구성요소 집합으로 표현된다: **데이터** 집합, **좌표 시스템**, **geoms** 집합 -- 데이터 점에 대한 시각적 표현.
+`ggplot2`는 그래픽 문법에 기반했다. 즉, 어떤 그래프도 동일한 구성요소 집합으로 표현된다: 
+**데이터** 집합, **좌표 시스템**, **geoms** 집합 -- 데이터 점에 대한 시각적 표현.
 
-`ggplot2`를 이해하는 핵심은 그림을 계층으로 사고하는 것이다: 포토샵, 일러스트레이터, 잉크스케이프 같은 이미지 편집 프로그램으로 작업하는 것과 같다.
+`ggplot2`를 이해하는 핵심은 그림을 계층으로 사고하는 것이다: 
+포토샵, 일러스트레이터, 잉크스케이프 같은 이미지 편집 프로그램으로 작업하는 것과 같다.
 
 예제를 가지고 시작해본다:
 
@@ -46,11 +48,19 @@ ggplot(data = gapminder, aes(x = lifeExp, y = gdpPercap)) +
   geom_point()
 ```
 
-그래서, 처음으로 수행하는 작업은 `ggplot` 함수를 호출하는 것이다. 이 함수가 R에게 새로운 그림을 생성하고, `ggplot` 함수에 전달하는 어떤 인자도 해당 그림에 *전역* 선택옵션(그림에 있는 모든 계층에 적용)임을 전달한다.
+그래서, 처음으로 수행하는 작업은 `ggplot` 함수를 호출하는 것이다. 
+이 함수가 R에게 새로운 그림을 생성하고, 
+`ggplot` 함수에 전달하는 어떤 인자도 해당 그림에 *전역* 선택옵션(그림에 있는 모든 계층에 적용)임을 전달한다.
 
 `ggplot`에 인자를 두개 전달했다.
-먼저, `ggplot`에 그림에 사용할 데이터가 무엇인지 전달한다; 이번 예제에서 앞에서 불러온 `gapminder`데이터.
-두번째 인자를 `aes`함수에 전달했는데, `ggplot`에게 **데이터**에 나온 변수를 도식화하는 그림의 *미학적인* 속성에 매핑하는 방법을 전달한다; 이번 경우에는 **x**와 **y** 위치. 여기서 `ggplot`에 `gapminder`데이터프레임 "lifeExp" 칼럼을 **x**-축에, "gdpPercap" 칼럼을 **y**-축에 도식화한다. 명시적으로 `aes`에 칼럼명을 전달(예를 들어, x = gapminder[, "lifeExp"]`)하지 않은 것에 주목한다. 이것이 가능한 이유는 `ggplot` 함수가 **데이터**에 존재하는 칼럼을 식별할만큼 똑똑하기 때문이다!
+먼저, `ggplot`에 그림에 사용할 데이터가 무엇인지 전달한다; 
+번 예제에서 앞에서 불러온 `gapminder`데이터.
+두번째 인자를 `aes`함수에 전달했는데, 
+`ggplot`에게 **데이터**에 나온 변수를 도식화하는 그림의 *미학적인* 속성에 매핑하는 방법을 전달한다; 
+이번 경우에는 **x**와 **y** 위치. 여기서 `ggplot`에 `gapminder`데이터프레임 "lifeExp" 칼럼을 **x**-축에, 
+"gdpPercap" 칼럼을 **y**-축에 도식화한다. 
+명시적으로 `aes`에 칼럼명을 전달(예를 들어, x = gapminder[, "lifeExp"]`)하지 않은 것에 주목한다. 
+이것이 가능한 이유는 `ggplot` 함수가 **데이터**에 존재하는 칼럼을 식별할만큼 똑똑하기 때문이다!
 
 그 자체로, `ggplot`함수를 호출한다고 도식화가 바로 되는 것은 아니다:
 
@@ -58,7 +68,9 @@ ggplot(data = gapminder, aes(x = lifeExp, y = gdpPercap)) +
 ggplot(data = gapminder, aes(x = lifeExp, y = gdpPercap))
 ```
 
-`ggplot` 함수에 데이터를 시각적으로 표현하는 방법을 전달할 필요가 있다. **geom** 계층을 추가해서 작업이 수행된다. 본 사례에서, `geom_point`를 사용했다; **x**와 **y** 사이 관계를 시각적으로 산점도 형태로 표현하도록 `ggplot`에게 전달한다:
+`ggplot` 함수에 데이터를 시각적으로 표현하는 방법을 전달할 필요가 있다. 
+**geom** 계층을 추가해서 작업이 수행된다. 본 사례에서, `geom_point`를 사용했다; 
+**x**와 **y** 사이 관계를 시각적으로 산점도 형태로 표현하도록 `ggplot`에게 전달한다:
 
 ```{r lifeExp-vs-gdpPercap-scatter2}
 ggplot(data = gapminder, aes(x = lifeExp, y = gdpPercap)) +
@@ -79,70 +91,66 @@ ggplot(data = gapminder, aes(x = lifeExp, y = gdpPercap)) +
 
 > ## 도전과제 2 {.challenge}
 >
-> 
-In the previous examples and challenge we've used the `aes` function to tell
-> the scatterplot **geom** about the **x** and **y** locations of each point.
-> Another *aesthetic* property we can modify is the point *color*. Modify the
-> code from the previous challenge to **color** the points by the "continent"
-> column. What trends do you see in the data? Are they what you expected?
+> 이전 예제와 도전과제에서, `aes` 함수를 사용해서 **geom** 산점도로 **x** 와 **y** 지점을 
+> 각 점에 대해 표현했다.
+> 변경할 수 있는 또다른 *미학적* 속성은 각 점에 대한 *색깔*이다.
+> 앞선 도전과제 코드를 변경해서 "continent" 대륙별로 각 점에 **색**을 입힌다.
+> 데이터에서 어떤 경향성을 볼 수 있는가? 예상했던 경향성인가?
 >
 
-## Layers
+## 계층
 
-Using a scatterplot probably isn't the best for visualising change over time.
-Instead, let's tell `ggplot` to visualise the data as a line plot:
+산점도가 아마도 시간에 따라 변하는 정보를 시각화하는데 최선은 아니다.
+대신에, `ggplot`에 선그림(line plot)으로 데이터를 시각화한다:
 
 ```{r lifeExp-line}
 ggplot(data = gapminder, aes(x=year, y=lifeExp, by=country, color=continent)) +
   geom_line()
 ```
 
-Instead of adding a `geom_point` layer, we've added a `geom_line` layer. We've
-added the **by** *aesthetic*, which tells `ggplot` to draw a line for each
-country.
+`geom_point` 계층을 추가하는 대신에, `geom_line` 계층을 추가했다.
+*미학적*으로 **by**를 추가해서, `ggplot`이 각 국가를 직선으로 연결해서 도식화한다.
 
-But what if we want to visualise both lines and points on the plot? We can
-simply add another layer to the plot:
+하지만, 직선과 점을 함께 시각화하려고 하면 어떨까?
+단순히, 또다른 계층을 그림에 추가하면 된다:
 
 ```{r lifeExp-line-point}
 ggplot(data = gapminder, aes(x=year, y=lifeExp, by=country, color=continent)) +
   geom_line() + geom_point()
 ```
 
-It's important to note that each layer is drawn on top of the previous layer. In
-this example, the points have been drawn *on top of* the lines. Here's a
-demonstration:
+각 계층은 이전 계층 위에 도식화됨에 주목한다.
+이번 예제에서, 점이 직선 *위에* 도식화되었다.
+다음에 도식화한 시연이 나와있다:
+
 
 ```{r lifeExp-layer-example-1}
 ggplot(data = gapminder, aes(x=year, y=lifeExp, by=country)) +
   geom_line(aes(color=continent)) + geom_point()
 ```
 
-In this example, the *aesthetic* mapping of **color** has been moved from the
-global plot options in `ggplot` to the `geom_line` layer so it no longer applies
-to the points. Now we can clearly see that the points are drawn on top of the
-lines.
+이번 예제에서, *미학적*인 **색상** 매핑이 `ggplot`에 전역으로 설정된 점 선택옵션에서 
+`geom_line` 계층으로 이동했다. 그래서, 해당 점에는 더이상 적용되지 않는다.
+이제 분명하게 직선 위에 점이 도식화된 것을 확인할 수 있다.
 
-> ## Challenge 3 {.challenge}
+> ## 도전과제 3 {.challenge}
 >
-> Switch the order of the point and line layers from the previous example. What
-> happened?
+> 앞선 예제에서 점과 직선 계층을 뒤바꾼다. 어떻게 될까요?
 >
 
-## Transformations and statistics
+## 변환과 통계량
 
-Ggplot also makes it easy to overlay statistical models over the data. To
-demonstrate we'll go back to our first example:
+`ggplot`으로 데이터 위에 통계적 모형을 쉽게 겹치게 할 수 있다.
+이를 시연하기 위해서, 첫번째 예제로 되돌아간다:
 
 ```{r lifeExp-vs-gdpPercap-scatter3, message=FALSE}
 ggplot(data = gapminder, aes(x = lifeExp, y = gdpPercap, color=continent)) +
   geom_point()
 ```
 
-Currently it's hard to see the relationship between the points due to some strong
-outliers in GDP per capita. We can change the scale of units on the y axis using
-the *scale* functions. These control the mapping between the data values and
-visual values of an aesthetic.
+현재, 일인당 GDP에 일부 심각한 이상점이 있어 점사이 내재된 관계를 보기 힘들다.
+*scale* 척도함수를 사용해서 y-축 척도를 변경한다.
+이러한 제어를 통해 데이터 값과 *미학적인* 시각값 사이 매핑을 제어한다.
 
 ```{r axis-scale}
 ggplot(data = gapminder, aes(x = lifeExp, y = gdpPercap)) +
