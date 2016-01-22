@@ -157,67 +157,58 @@ ggplot(data = gapminder, aes(x = lifeExp, y = gdpPercap)) +
   geom_point() + scale_y_log10()
 ```
 
-The `log10` function applied a transformation to the values of the gdpPercap
-column before rendering them on the plot, so that each multiple of 10 now only
-corresponds to an increase in 1 on the transformed scale, e.g. a GDP per capita
-of 1,000 is now 3 on the y axis, a value of 10,000 corresponds to 4 on the y
-axis and so on. This makes it easier to visualise the spread of data on the
-y-axis.
+그림에 렌더링하기 전에 `log10` 함수가 `gdpPercap` 칼럼값에 변환을 시켰다.
+그래서, 각 자리수 10은 변환된 척도에 1씩 증가에 대응된다. 
+예를 들어, 1인당 GDP 1,000은 y-축에 3, 10,000은 y-축에 4에 대응된다.
+로그 변환은 y-축에 흩어진 데이터 시각화를 쉽게 도와준다.
 
-We can fit a simple relationship to the data by adding another layer,
-`geom_smooth`:
+또다른 계층(`geom_smooth`)을 추가해서 관계를 단순히 적합시킬 수 있다:
 
 ```{r lm-fit}
 ggplot(data = gapminder, aes(x = lifeExp, y = gdpPercap)) +
   geom_point() + scale_y_log10() + geom_smooth(method="lm")
 ```
 
-We can make the line thicker by *setting* the **size** aesthetic in the
-`geom_smooth` layer:
+굵은 선은 `geom_smooth` 계층에 *미학적인* **크기**를 설정해서 조정할 수 있다:
 
 ```{r lm-fit2}
 ggplot(data = gapminder, aes(x = lifeExp, y = gdpPercap)) +
   geom_point() + scale_y_log10() + geom_smooth(method="lm", size=1.5)
 ```
 
-There are two ways an *aesthetic* can be specified. Here we *set* the **size**
-aesthetic by passing it as an argument to `geom_smooth`. Previously in the
-lesson we've used the `aes` function to define a *mapping* between data
-variables and their visual representation.
+*미학적인* 항목을 명세할 수 있는 방식이 두개 있다.
+바로 앞에서 `geom_smooth` 함수에 인자로 전달해서 **크기**에 대한 미학적인 설정을 했다.
+앞에서는 `aes` 함수를 사용해서 데이터 변수와 시각적 표현 사이 *매핑*으로 정의했다.
 
-> ## Challenge 4 {.challenge}
+> ## 도전과제 4 {.challenge}
 >
-> Modify the color and size of the points on the point layer in the previous
-> example.
+> 바로 앞 예제에서 점 계층에 나온 점 크기와 색상을 변경하라.
 >
-> Hint: do not use the `aes` function.
+> **힌트:** `aes` 함수를 사용하지 않는다.
 >
 
-## Multi-panel figures
+## 다중-창 그림
 
-Earlier we visualised the change in life expectancy over time across all
-countries in one plot. Alternatively, we can split this out over multiple panels
-by adding a layer of **facet** panels:
+앞에서 그림 하나에 모든 국가에 대해 시간의 변화에 따른 기대수명 변화를 시각화했다.
+대안으로, **패싯(facet)** 창 계층을 추가해서, 그림을 여러개 창으로 쪼갤 수도 있다:
 
 ```{r facet}
 ggplot(data = gapminder, aes(x = year, y = lifeExp, color=continent)) +
   geom_line() + facet_wrap( ~ country)
 ```
 
-The `facet_wrap` layer took a "formula" as its argument, denoted by the tilde
-(~). This tells R to draw a panel for each unique value in the country column
-of the gapminder dataset.
+`facet_wrap` 계층은 "공식"을 인자로 받는데, (~) 틸드로 표기한다.
+`gapminder` 데이터셋 국가별 칼럼에 유일한 값 각각에 대해 별도 창에 도식화하게 한다.
 
-## Modifying text
+## 텍스트 변경하기
 
-To clean this figure up for a publication we need to change some of the text
-elements. The x-axis is way too cluttered, and the y axis should read
-"Life expectancy", rather than the column name in the data frame.
+논문 출판으로 그림을 깔끔하게 만들려면, 텍스트 요소를 일부 변경할 필요가 있다.
+x-축이 너무 난잡하고, y-축은 데이터프레임 칼럼명이 아닌 "Life expectancy"으로 적혀야 된다.
 
-We can do this by adding a couple of different layers. The **theme** layer
-controls the axis text, and overall text size, and there are special layers
-for changing the axis labels. To change the legend title, we need to use the
-**scales** layer.
+몇개 다른 계층을 추가함으로써 텍스트를 변경할 수 있다.
+**theme** 계층이 각 축에 대한 텍스트, 전반적인 텍스트 크기를  제어한다.
+축 라벨을 변경하는 특수 계층도 있다.
+범례 제목을 변경하려면, **scales** 계층을 사용한다.
 
 ```{r theme}
 ggplot(data = gapminder, aes(x = year, y = lifeExp, color=continent)) +
@@ -227,46 +218,45 @@ ggplot(data = gapminder, aes(x = year, y = lifeExp, color=continent)) +
   theme(axis.text.x=element_blank(), axis.ticks.x=element_blank())
 ```
 
-
-This is just a taste of what you can do with `ggplot2`. RStudio provides a
-really useful [cheat sheet][cheat] of the different layers available, and more
-extensive documentation is available on the [ggplot2 website][ggplot-doc].
-Finally, if you have no idea how to change something, a quick google search will
-usually send you to a relevant question and answer on Stack Overflow with reusable
-code to modify!
+지금까지 `ggplot2`로 작업할 수 있는 것을 살짝 맛봤다.
+RStudio는 다양한 계층에 대한 정말 유용한 [cheat sheet][cheat]를 제공한다.
+더 자세한 문서는 [ggplot2 웹사이트][ggplot-doc]에 공개되어 있다.
+마지막으로, 무언가 변경하는 방법에 대해 잘 모르겠으면,
+구글 검색창에 연관된 질문을 올리면, 변경해서 바로 사용할 수 있는
+재사용가능한 코드가 StackOverflow 사이트에 올라와 있을 것이다!
 
 [cheat]: http://www.rstudio.com/wp-content/uploads/2015/03/ggplot2-cheatsheet.pdf
 [ggplot-doc]: http://docs.ggplot2.org/current/
 
 
-> ## Challenge 5 {.challenge}
+> ## 도전과제 5 {.challenge}
 >
-> Create a density plot of GDP per capita, filled by continent.
+> 대륙별로 채워진 1인당 GPD 밀도 그래프를 생성하라.
 >
-> Advanced:
->  - Transform the x axis to better visualise the data spread.
->  - Add a facet layer to panel the density plots by year.
+> 고급:
+> - x-축을 변경해서 쭉 펼쳐진 데이터를 좀더 보기좋게 시각화하라.
+> - 패싯 계층을 추가해서 연도별로 밀도 그래프를 창에 도식화하라.
 >
 
-## Challenge solutions
+## 도전과제 해답
 
-> ## Solution to challenge 1 {.challenge}
+> ## 도전과제 1에 대한 해답 {.challenge}
 >
-> Modify the example so that the figure visualise how life expectancy has
-> changed over time:
+> 상기예제를 변경해서, 기대수명이 시간에 따라 어떻게 
+> 변해왔는지 시각화하는 그림을 생성한다:
 >
 > ```{r ch1-sol}
 > ggplot(data = gapminder, aes(x = year, y = lifeExp)) + geom_point()
 > ```
 >
 
-> ## Solution to challenge 2 {.challenge}
+> ## 도전과제 2에 대한 해답 {.challenge}
 >
-> In the previous examples and challenge we've used the `aes` function to tell
-> the scatterplot **geom** about the **x** and **y** locations of each point.
-> Another *aesthetic* property we can modify is the point *color*. Modify the
-> code from the previous challenge to **color** the points by the "continent"
-> column. What trends do you see in the data? Are they what you expected?
+> 이전 예제와 도전과제에서, `aes` 함수를 사용해서 **geom** 산점도로 **x** 와 **y** 지점을 
+> 각 점에 대해 표현했다.
+> 변경할 수 있는 또다른 *미학적* 속성은 각 점에 대한 *색깔*이다.
+> 앞선 도전과제 코드를 변경해서 "continent" 대륙별로 각 점에 **색**을 입힌다.
+> 데이터에서 어떤 경향성을 볼 수 있는가? 예상했던 경향성인가?
 >
 > ```{r ch2-sol}
 > ggplot(data = gapminder, aes(x = year, y = lifeExp, color=continent)) +
@@ -274,26 +264,24 @@ code to modify!
 > ```
 >
 
-> ## Solution to challenge 3 {.challenge}
+> ## 도전과제 3에 대한 해답 {.challenge}
 >
-> Switch the order of the point and line layers from the previous example. What
-> happened?
+> 앞선 예제에서 점과 직선 계층을 뒤바꾼다. 어떻게 될까요?
 >
 > ```{r ch3-sol}
 > ggplot(data = gapminder, aes(x=year, y=lifeExp, by=country)) +
 >  geom_point() + geom_line(aes(color=continent))
 > ```
 > 
-> The lines now get drawn over the points!
+> 이제야 비로소 직선이 점위에 그려진다!
 >
 
 
-> ## Solution to challenge 4 {.challenge}
+> ## 도전과제 4에 대한 해답 {.challenge}
 >
-> Modify the color and size of the points on the point layer in the previous
-> example.
+> 바로 앞 예제에서 점 계층에 나온 점 크기와 색상을 변경하라.
 >
-> Hint: do not use the `aes` function.
+> **힌트:** `aes` 함수를 사용하지 않는다.
 >
 > ```{r ch4-sol}
 > ggplot(data = gapminder, aes(x = lifeExp, y = gdpPercap)) +
@@ -302,13 +290,13 @@ code to modify!
 > ```
 >
 
-> ## Solution to challenge 5 {.challenge}
+> ## 도전과제 5에 대한 해답 {.challenge}
 >
-> Create a density plot of GDP per capita, filled by continent.
+> 대륙별로 채워진 1인당 GPD 밀도 그래프를 생성하라.
 >
-> Advanced:
->  - Transform the x axis to better visualise the data spread.
->  - Add a facet layer to panel the density plots by year.
+> 고급:
+> - x-축을 변경해서 쭉 펼쳐진 데이터를 좀더 보기좋게 시각화하라.
+> - 패싯 계층을 추가해서 연도별로 밀도 그래프를 창에 도식화하라.
 >
 > ```{r ch5-sol}
 > ggplot(data = gapminder, aes(x = gdpPercap, fill=continent)) +
