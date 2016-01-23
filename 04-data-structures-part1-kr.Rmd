@@ -295,109 +295,101 @@ str(x)
 
 ## 요인
 
+요인(factor)은 범주형 데이터를 표현하는 특수한 벡터다.
+요인은 순서를 갖을 수도, 순서를 갖지 않을 수도 있다.
+요인은 `aov()`, `lm()`, `glm()` 같은 모형화 함수와 도식화 방법에도 요긴하다.
 
-
-Factors are special vectors that represent categorical data. Factors can be
-ordered or unordered and are important when for modeling functions such as
-`aov()`, `lm()` and `glm()` and also in plot methods.
-
-Factors can only contain predefined values, and we can create one with the
-`factor` function:
+요인은 사전에 정의된 값만 포함할 수 있다.
+`factor` 함수로 요인을 생성할 수 있다:
 
 ```{r}
 x <- factor(c("yes", "no", "no", "yes", "yes"))
 x
 ```
 
-So we can see that the output is very similar to a character vector, but with an
-attached levels component. This becomes clearer when we look at its structure:
+그래서, 출력결과는 문자 벡터와 매우 유사함을 볼 수 있다.
+하지만, 첨부된 수준 구성요소가 있다.
+요인 구조를 살펴보면, 좀더 명확하다:
 
 ```{r}
 str(x)
 ```
 
-This reveals something important: while factors look (and often behave) like
-character vectors, they are actually integers under the hood, and here, we can
-see that "no" is represented by a 1, and "yes" a 2.
+구조를 통해 중요한 점이 밝혀진다:
+요인이 문자 벡터 처럼 보이지만 (종종 동작하지만), 내부를 까보면 실제로 정수다.
+상기 예제에서, "no"는 1로, "yes"는 2로 표현됨을 확인할 수 있다.
 
-In modeling functions, important to know what baseline levels is.  This is the
-first factor but by default the ordering is determined by alphabetical order of
-words entered. You can change this by specifying the levels:
+모형화 함수에서, 기준 수준이 무엇인지 확인하는 것이 중요하다.
+기준 수준은 첫번째 요인이지만, 기본디폴트로 순서는 입력된 단어 알파벳 순서로 결정된다.
+수준을 명세함으로써 순서를 변경할 수 있다:
 
 ```{r}
 x <- factor(c("case", "control", "control", "case"), levels = c("control", "case"))
 str(x)
 ```
 
-In this case, we've explicitly told R that "control" should represented by 1, and
-"case" by 2. This designation can be very important for interpreting the
-results of statistical models!
+이번 경우에, 명시적으로, "control" 이 1 로, "case" 가 2 로 표현되도록 R에 지정했다.
+통계적 모형에서 나온 결과를 해석할 때, 이러한 지정이 매우 중요하다!
 
-## Lists
 
-If you want to combine different types of data, you will need to use lists.
-Lists act as containers, and can contain any type of data structure, even
-themselves!
+## 리스트
 
-Lists can be created using `list` or coerced from other objects using `as.list()`:
+다양한 자료형을 조합할 때, 리스트 사용이 필요하다.
+리스트는 컨테이너처럼 동작한다.
+어떤 유형의 자료구조도 포함할 수 있고, 심지어 본인도 포함될 수 있다!
+
+리스트는 `list` 를 사용해서 생성되거나, 
+`as.list()` 를 사용해서 다른 객체를 강제로 전환할 수도 있다:
 
 ```{r}
 x <- list(1, "a", TRUE, 1+4i)
 x
 ```
 
-Each element of the list is denoted by a `[[` in the output. Inside
-each list element is an atomic vector of length one containing
+리스트 각 요인은 출력결과에 `[[` 으로 표기된다.
+리스트 내부 각 요소는 길이 1 인 원자 벡터다.
 
-Lists can contain more complex objects:
+리스트는 더 복잡한 객체를 담을 수 있다:
 
 ```{r}
 xlist <- list(a = "Research Bazaar", b = 1:10, data = head(iris))
 xlist
 ```
 
-In this case our list contains a character vector of length one,
-a numeric vector with 10 entries, and a small data frame from
-one of R's many preloaded datasets (see `?data`). We've also given
-each list element a name, which is why you see `$a` instead of `[[1]]`.
+이번 경우에, 리스트는 길이 1 인 문자 벡터, 10개 항목을 갖는 숫자 벡터,
+사전에 R에 적재된 데이터셋(`?data`를 참조) 중에서 하나에서 나온 작은 데이터프레임을 포함하고 있다.
+각 리스트 요소에 명칭을 부여해서, `[[1]]` 대신에 `$a`을 볼 수 있는 이유를 알 수 있다.
 
-Lists can also contain themselves:
+리스트는 또한 리스트 자신도 담을 수 있다:
 
 ```{r}
 list(list(list(list())))
 ```
 
-> ## Challenge 5 {.challenge}
+> ## 도전과제 5 {.challenge}
 >
-> Create a list of length two containing a character vector for each of the 
-> sections in this part of the workshop:
+> 길이 2 를 갖는 리스트를 생성한다.
+> 이번에 학습하면서 각 절에 대한 제목을 리스트에 문자 벡터 형태로 포함시킨다:
 >
-> * Data types
-> * Data structures
+> * 자료형
+> * 자료구조
 >
-> Populate each character vector with the names of the data types and data
-> structures we've seen so far.
->
+> 지금까지 살펴본 자료형과 자료구조 이름을 각 문자 벡터에 덧붙인다.
 
-Lists are extremely useful inside functions. You can "staple" together lots of
-different kinds of results into a single object that a function can return. In
-fact many R functions which return complex output store their results in a list.
+## 도전과제 해답
 
-## Challenge solutions
-
-> ## Solution to challenge 1: Data types {.challenge}
+> ## 도전과제 1 에 대한 해답 : Data types {.challenge}
 >
-> Use your knowledge of how to assign a value to
-> a variable, to create examples of data with the
-> following characteristics:
+> 지금까지 지식을 총동원해서 변수에 값을 대입한다.
+> 다음 특징을 갖는 데이터 예제를 생성한다:
 >
-> 1) Variable name: 'answer', Type: logical
-> 2) Variable name: 'height', Type: numeric
-> 3) Variable name: 'dog_name', Type: character
+> 1) 변수명: 'answer', 자료형: 논리형
+> 2) 변수명: 'height', 자료형: 숫자형
+> 3) 변수명: 'dog_name', 자료형: 문자형
 >
-> For each variable you've created, test that it
-> has the data type you intended. Do you find
-> anything unexpected?
+> 생성한 각 변수에 대해서, 의도한 데이터가 생성되었는지 테스트한다.
+> 예상한지 못한 것을 발견했는가?
+>
 >
 > ```{r}
 > answer <- TRUE
@@ -415,11 +407,13 @@ fact many R functions which return complex output store their results in a list.
 > ```
 >
 
-> ## Solution to challenge 2 {.challenge}
+> ## 도전과제 2 에 대한 해답  {.challenge}
 >
-> Vectors can only contain one atomic type. If you try to combine different
-> types, R will create a vector that is the least common denominator: the
-> type that is easiest to coerce to.
+> 벡터에는 한가지 원자 자료형만 담길 수 있다.
+> 만약 다른 자료형을 조합하려하면, 
+> R은 최소공배수(가장 쉽게 강제해서 우겨넣을 수 있는 자료형) 벡터를 생성한다.
+>
+> **우선 실행하지 말고, 다음 명령어가 어떤 작업을 수행할지 추측해 보라:**
 >
 > ```{r}
 > xx <- c(1.7, "a")
@@ -441,47 +435,45 @@ fact many R functions which return complex output store their results in a list.
 >
 
 >
-> ## Solution to challenge 3 {.challenge}
+> ## 도전과제 3 에 대한 해답  {.challenge}
 >
-> What do you think will be the result of
-> `length(x)`?
+> `length(x)` 결과는 무엇이라고 생각합니까?
+> 직접 실행해 보세요. 맞췄나요? 왜 그런지/ 왜 그렇지 않나요?
 >
 > ```{r}
 > x <- matrix(rnorm(18), ncol=6, nrow=3)
 > length(x)
 > ```
 > 
-> Because a matrix is really just a vector with added dimension attributes, `length`
-> gives you the total number of elements in the matrix.
+> 행렬은 단지 추가된 차원 속성만 갖는 벡터로,
+> `length` 함수는 행렬에 전체 요소 갯수를 반환한다.
 >
 
 >
-> ## Solution to challenge 4 {.challenge}
+> ## 도전과제 4 에 대한 해답  {.challenge}
 >
-> Make another matrix, this time containing the numbers 1:50,
-> with 5 columns and 10 rows.
-> Did the `matrix` function fill your matrix by column, or by
-> row, as its default behaviour?
-> See if you can figure out how to change this.
-> (hint: read the documentation for `matrix`!)
+> 또다른 행렬을 생성한다.
+> 이번에는 1:50 까지 숫자를 포함하는 10 개 행과 5 개 칼럼을 갖춘다.
+> `matrix` 함수는 기본디폴트로 처음 생성시 행과 열로 행렬을 채울 수 있나요?
+> 행렬 변경에 대한 방법을 해결할 수 있는지 살펴보라.
+> (**힌트:** `matrix`에 대한 문서를 읽어보다!)
 >
 > ```{r, eval=FALSE}
 > x <- matrix(1:50, ncol=5, nrow=10)
-> x <- matrix(1:50, ncol=5, nrow=10, byrow = TRUE) # to fill by row
+> x <- matrix(1:50, ncol=5, nrow=10, byrow = TRUE) # 행 기준으로 채워넣는다.
 > ```
 >
 
 
-> ## Solution to challenge 5 {.challenge}
+> ## 도전과제 5 에 대한 해답  {.challenge}
 >
-> Create a list of length two containing a character vector for each of the 
-> sections in this part of the workshop:
+> 길이 2 를 갖는 리스트를 생성한다.
+> 이번에 학습하면서 각 절에 대한 제목을 리스트에 문자 벡터 형태로 포함시킨다:
 >
-> * Data types
-> * Data structures
+> * 자료형
+> * 자료구조
 >
-> Populate each character vector with the names of the data types and data
-> structures we've seen so far.
+> 지금까지 살펴본 자료형과 자료구조 이름을 각 문자 벡터에 덧붙인다.
 >
 > ```{r, eval=FALSE}
 > my_list <- list(
