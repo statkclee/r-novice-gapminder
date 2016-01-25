@@ -449,6 +449,7 @@ summary(reg)
 
 ## 도전과제 해답
 
+
 > ## Solution to Challenge 2 {.challenge}
 >
 > 여러분에 대한 다음 정보가 담긴 데이터프레임을 생성한다:

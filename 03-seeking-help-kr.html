@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="generator" content="pandoc">
+    <title>Software Carpentry: 재현가능한 과학적 분석을 위한 R</title>
+    <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="css/bootstrap/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="css/bootstrap/bootstrap-theme.css" />
+    <link rel="stylesheet" type="text/css" href="css/swc.css" />
+    <link rel="alternate" type="application/rss+xml" title="Software Carpentry Blog" href="http://software-carpentry.org/feed.xml"/>
+    <meta charset="UTF-8" />
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body class="lesson">
+    <div class="container card">
+      <div class="banner">
+        <a href="http://software-carpentry.org" title="Software Carpentry">
+          <img alt="Software Carpentry banner" src="img/software-carpentry-banner.png" />
+        </a>
+      </div>
+      <article>
+      <div class="row">
+        <div class="col-md-10 col-md-offset-1">
+                    <a href="index.html"><h1 class="title">재현가능한 과학적 분석을 위한 R</h1></a>
+          <h2 class="subtitle">도움말 찾기</h2>
+          <section class="objectives panel panel-warning">
+<div class="panel-heading">
+<h2 id="학습-목표"><span class="glyphicon glyphicon-certificate"></span>학습 목표</h2>
+</div>
+<div class="panel-body">
+<ul>
+<li>함수와 특수 연산자에 대한 R 도움말 파일을 불러 읽어온다.</li>
+<li>CRAN 작업화면(task view)을 사용해서 문제를 해결하는 팩키지를 식별해 낸다.</li>
+<li>동료로부터 도움을 구한다.</li>
+</ul>
+</div>
+</section>
+<h2 id="도움말-파일-불러-읽어오기">도움말 파일 불러 읽어오기</h2>
+<p>R과 모든 팩키지는 함수에 대한 도움말 파일을 제공한다. 네임스페이스(인터랙티브 R 세션)에 적재된 팩키지에 있는 특정 함수에 대한 도움말은 다음과 같이 찾는다:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">?function_name
+<span class="kw">help</span>(function_name)</code></pre></div>
+<p>RStudio에 도움말 페이지에 도움말이 표시된다. (혹은 R 자체로 일반 텍스트로 표시된다)</p>
+<p>각 도움말 페이지는 절(section)로 구분된다:</p>
+<ul>
+<li>기술(Description): 함수가 어떤 작업을 수행하는가에 대한 충분한 기술</li>
+<li>사용법(Usage): 함수 인자와 기본디폴트 설정값</li>
+<li>인자(Arguments): 각 인자가 예상하는 데이터 설명</li>
+<li>상세 설명(Details): 알아야 만 되는 중요한 구체적인 설명</li>
+<li>값(Value): 함수가 반환하는 데이터</li>
+<li>함께 보기(See Also): 유용할 수 있는 연관된 함수.</li>
+<li>예제(Examples): 함수 사용법에 대한 예제들.</li>
+</ul>
+<p>함수마다 상이한 절을 갖추고 있다. 하지만, 상기 항목이 알고 있어야 하는 핵심 내용이다.</p>
+<aside class="callout panel panel-info">
+<div class="panel-heading">
+<h2 id="tip-도움말-파일-불러-읽어오기"><span class="glyphicon glyphicon-pushpin"></span>Tip: 도움말 파일 불러 읽어오기</h2>
+</div>
+<div class="panel-body">
+<p>R에 대해 가장 기죽게 되는 한 측면이 엄청난 함수 갯수다. 모든 함수에 대한 올바른 사용법을 기억하지 못하면, 엄두가 나지 않을 것이다. 운좋게도, 도움말 파일로 인해 기억할 필요가 없다!</p>
+</div>
+</aside>
+<h2 id="특수-연산자">특수 연산자</h2>
+<p>특수 연산자에 대한 도움말을 찾으려면, 인용부호를 사용한다:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">?<span class="st">&quot;+&quot;</span></code></pre></div>
+<h2 id="팩키지에-대한-도움말-얻기">팩키지에 대한 도움말 얻기</h2>
+<p>많은 팩키지에 “소품문(vignettes)”이 따라온다: 활용법과 풍부한 예제를 담은 문서. 어떤 인자도 없이, <code>vignette()</code> 명령어를 입력하면 설치된 모든 팩키지에 대한 모든 소품문 목록이 출력된다; <code>vignette(package=&quot;package-name&quot;)</code> 명령어는 <code>package-name</code> 팩키지명에 대한 이용가능한 모든 소품문 목록을 출력하고, <code>vignette(&quot;vignette-name&quot;)</code> 명령어는 특정된 소품문을 연다.</p>
+<p>팩키지에 어떤 소품문도 포함되지 않는다면, 일반적으로 <code>help(&quot;package-name&quot;)</code> 명령어를 타이핑해서 도움말을 얻는다.</p>
+<h2 id="함수가-정확하게-기억나지-않을-때">함수가 정확하게 기억나지 않을 때</h2>
+<p>함수가 어느 팩키지에 있는지 확신을 못하거나, 구체적인 철자법을 모르는 경우, 퍼지 검색을 실행한다:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">??function_name</code></pre></div>
+<h2 id="어디서-시작해야-될지-아무-생각이-없을-때">어디서 시작해야 될지 아무 생각이 없을 때</h2>
+<p>어떤 함수 혹은 팩키지가 필요한지 모르는 경우, <a href="http://cran.at.r-project.org/web/views">CRAN Task Views</a> 사이트가 좋은 시작점이 된다. 유지관리되는 팩키지 목록이 필드로 묶여 잘 정리되어 있다.</p>
+<h2 id="코드가-동작하지-않을-때-동료로부터-도움을-구한다">코드가 동작하지 않을 때: 동료로부터 도움을 구한다</h2>
+<p>함수 사용에 어려움이 있는 경우, 10 에 9 경우에 찾는 정답이 이미 <a href="http://stackoverflow.com/">Stack Overflow</a>에 답글이 달려 있다. 검색할 때 <code>[r]</code> 태그를 사용한다:</p>
+<p>원하는 답을 찾지 못한 경우, 동료에게 질문을 만드는데 몇가지 유용한 함수가 있다:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">?dput</code></pre></div>
+<p><code>dput()</code> 함수는 작업하고 있는 데이터를 텍스트 파일 형식으로 덤프해서 저장한다. 그래서 다른 사람 R 세션으로 복사해서 붙여넣기 좋게 돕는다.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sessionInfo</span>()</code></pre></div>
+<pre class="output"><code>R version 3.2.3 (2015-12-10)
+Platform: x86_64-apple-darwin13.4.0 (64-bit)
+Running under: OS X 10.11.2 (El Capitan)
+
+locale:
+[1] ko_KR.UTF-8/ko_KR.UTF-8/ko_KR.UTF-8/C/ko_KR.UTF-8/ko_KR.UTF-8
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  base     
+
+other attached packages:
+[1] knitr_1.12
+
+loaded via a namespace (and not attached):
+[1] magrittr_1.5  formatR_1.2.1 tools_3.2.3   stringi_1.0-1 methods_3.2.3
+[6] stringr_1.0.0 evaluate_0.8 
+</code></pre>
+<p><code>sessionInfo()</code>는 R 현재 버젼 정보과 함께 적재된 팩키지 정보를 출력한다. 이 정보가 다른 사람이 여러분 문제를 재현하고 디버그하는데 유용할 수 있다.</p>
+<section class="challenge panel panel-success">
+<div class="panel-heading">
+<h2 id="도전과제-1"><span class="glyphicon glyphicon-pencil"></span>도전과제 1</h2>
+</div>
+<div class="panel-body">
+<p><code>c</code> 연결함수에 대한 도움말을 살펴본다. 다음 명령어를 실행하면, 어떤 종류 벡터가 생성될 것으로 예상되는가:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>)
+<span class="kw">c</span>(<span class="st">&#39;d&#39;</span>, <span class="st">&#39;e&#39;</span>, <span class="st">&#39;f&#39;</span>)
+<span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="st">&#39;f&#39;</span>)<span class="st">`</span></code></pre></div>
+</div>
+</section>
+<section class="challenge panel panel-success">
+<div class="panel-heading">
+<h2 id="도전과제-2"><span class="glyphicon glyphicon-pencil"></span>도전과제 2</h2>
+</div>
+<div class="panel-body">
+<p><code>paste</code> 함수에 대한 도움말을 살펴본다. 나중에 이 함수를 사용할 것이다. <code>sep</code> 와 <code>collapse</code> 인자 사이에 차이는 무엇인가?</p>
+</div>
+</section>
+<h2 id="다른-유용한-도움말-기항지">다른 유용한 도움말 기항지</h2>
+<ul>
+<li><a href="http://www.statmethods.net/">Quick R</a></li>
+<li><a href="http://www.rstudio.com/resources/cheatsheets/">RStudio cheat sheets</a></li>
+<li><a href="http://www.cookbook-r.com/">Cookbook for R</a></li>
+</ul>
+<h2 id="도전과제-해답">도전과제 해답</h2>
+<section class="challenge panel panel-success">
+<div class="panel-heading">
+<h2 id="도전과제-1-에-대한-해답"><span class="glyphicon glyphicon-pencil"></span>도전과제 1 에 대한 해답</h2>
+</div>
+<div class="panel-body">
+<p><code>c</code> 함수는 벡터를 생성한다. 이 경우 모든 요소는 동일한 자료형이 된다. - c(1, 2, 3) : 숫자형<br />
+- c(‘d’, ‘e’, ‘f’) : 문자형<br />
+- c(1, 2, ‘f’) : 문자형 - 숫자값이 문자로 “강제 전환”되었다.</p>
+</div>
+</section>
+<section class="challenge panel panel-success">
+<div class="panel-heading">
+<h2 id="도전과제-2-에-대한-해답"><span class="glyphicon glyphicon-pencil"></span>도전과제 2 에 대한 해답</h2>
+</div>
+<div class="panel-body">
+<p><code>paste</code> 함수에 대한 도움말을 살펴본다. 나중에 이 함수를 사용할 것이다.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">help</span>(<span class="st">&quot;paste&quot;</span>)
+?paste</code></pre></div>
+</div>
+</section>
+        </div>
+      </div>
+      </article>
+      <div class="footer">
+        <a class="label swc-blue-bg" href="http://software-carpentry.org">Software Carpentry</a>
+        <a class="label swc-blue-bg" href="https://github.com/swcarpentry/lesson-template">Source</a>
+        <a class="label swc-blue-bg" href="mailto:admin@software-carpentry.org">Contact</a>
+        <a class="label swc-blue-bg" href="LICENSE.html">License</a>
+      </div>
+    </div>
+    <!-- Javascript placed at the end of the document so the pages load faster -->
+    <script src="http://software-carpentry.org/v5/js/jquery-1.9.1.min.js"></script>
+    <script src="css/bootstrap/bootstrap-js/bootstrap.js"></script>
+    <script src='https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
+  </body>
+</html>

@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="generator" content="pandoc">
+    <title>Software Carpentry: 재현가능한 과학적 분석을 위한 R</title>
+    <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="css/bootstrap/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="css/bootstrap/bootstrap-theme.css" />
+    <link rel="stylesheet" type="text/css" href="css/swc.css" />
+    <link rel="alternate" type="application/rss+xml" title="Software Carpentry Blog" href="http://software-carpentry.org/feed.xml"/>
+    <meta charset="UTF-8" />
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body class="lesson">
+    <div class="container card">
+      <div class="banner">
+        <a href="http://software-carpentry.org" title="Software Carpentry">
+          <img alt="Software Carpentry banner" src="img/software-carpentry-banner.png" />
+        </a>
+      </div>
+      <article>
+      <div class="row">
+        <div class="col-md-10 col-md-offset-1">
+                    <a href="index.html"><h1 class="title">재현가능한 과학적 분석을 위한 R</h1></a>
+          <h2 class="subtitle">벡터화</h2>
+          <section class="objectives panel panel-warning">
+<div class="panel-heading">
+<h2 id="학습-목표"><span class="glyphicon glyphicon-certificate"></span>학습 목표</h2>
+</div>
+<div class="panel-body">
+<ul>
+<li>R에 나오는 벡터화 연산 이해한다.</li>
+</ul>
+</div>
+</section>
+<p>R 함수 대부분은 벡터화되었다. 즉, 한번에 각 요소에 대해 연산을 수행하도록 루프를 돌릴 필요없이 함수가 벡터 모든 요소에 대해 연산작업을 수행한다. 이렇게 되면 코드는 더욱 간결해지고, 가독성이 높아지고, 오류에 덜 노출된다.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="dv">1</span>:<span class="dv">4</span>
+x *<span class="st"> </span><span class="dv">2</span></code></pre></div>
+<pre class="output"><code>[1] 2 4 6 8
+</code></pre>
+<p>곱하기는 벡터 모든 요소에 일어난다.</p>
+<p>벡터를 두개 더할 수도 있다:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">y &lt;-<span class="st"> </span><span class="dv">6</span>:<span class="dv">9</span>
+x +<span class="st"> </span>y</code></pre></div>
+<pre class="output"><code>[1]  7  9 11 13
+</code></pre>
+<p><code>x</code> 벡터 각 요소가 <code>y</code> 벡터 대응되는 요소에 더해진다:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x:<span class="st">  </span><span class="dv">1</span>  <span class="dv">2</span>  <span class="dv">3</span>  <span class="dv">4</span>
+    +<span class="st">  </span>+<span class="st">  </span>+<span class="st">  </span>+
+y:<span class="st">  </span><span class="dv">6</span>  <span class="dv">7</span>  <span class="dv">8</span>  <span class="dv">9</span>
+---------------
+<span class="st">    </span><span class="dv">7</span>  <span class="dv">9</span> <span class="dv">11</span> <span class="dv">13</span></code></pre></div>
+<section class="challenge panel panel-success">
+<div class="panel-heading">
+<h2 id="도전과제-1"><span class="glyphicon glyphicon-pencil"></span>도전과제 1</h2>
+</div>
+<div class="panel-body">
+<p><code>gapminder</code> 데이터셋 <code>pop</code> 칼럼에 벡터 연산을 시도해 본다.</p>
+<p><code>gapminder</code> 데이터프레임에 신규 칼럼을 생성하는데, 백만명 단위로 인구정보를 표현한다. 데이터프레임에 <code>head</code> 혹은 <code>tail</code> 명령어를 적용해서 실제로 제대로 동작하는지 확인한다.</p>
+</div>
+</section>
+<section class="challenge panel panel-success">
+<div class="panel-heading">
+<h2 id="도전과제-2"><span class="glyphicon glyphicon-pencil"></span>도전과제 2</h2>
+</div>
+<div class="panel-body">
+<p>그래프 하나에, 모든 국가에 대해 백만 단위로 인구를 연도별로 도식화한다. 어느 국가인지 식별하는 것은 신경쓰지 않는다.</p>
+<p>상기 연습문제를 반복하면서, 중국(China), 인도(India), 인니(Indonesia)에 대해서만 도식화한다. 마찬가지로, 어는 국가인지 식별하는 것은 신경쓰지 않는다.</p>
+</div>
+</section>
+<p>비교 연산자, 논리 연산자, 그리고 많은 함수도 벡터화를 지원한다:</p>
+<p><strong>비교 연산자</strong></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x &gt;<span class="st"> </span><span class="dv">2</span></code></pre></div>
+<pre class="output"><code>[1] FALSE FALSE  TRUE  TRUE
+</code></pre>
+<p><strong>논리 연산자</strong></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">a &lt;-<span class="st"> </span>x &gt;<span class="st"> </span><span class="dv">3</span>  <span class="co"># 혹은 명확하게, a &lt;- (x &gt; 3)</span>
+a</code></pre></div>
+<pre class="output"><code>[1] FALSE FALSE FALSE  TRUE
+</code></pre>
+<aside class="callout panel panel-info">
+<div class="panel-heading">
+<h2 id="tip-논리-벡터에-대한-유용한-일부-함수"><span class="glyphicon glyphicon-pushpin"></span>Tip: 논리 벡터에 대한 유용한 일부 함수</h2>
+</div>
+<div class="panel-body">
+<p><code>any()</code> 함수는 벡터 요소 <em>어떤 것</em>이든 <code>TRUE</code> 참이면, <code>TRUE</code>를 반환한다. <code>all()</code>함수는 벡터 요소 <em>모두</em>가 <code>TRUE</code> 참이면, <code>TRUE</code>를 반환한다.</p>
+</div>
+</aside>
+<p>함수 대부분은 또한 벡터에 요소별(element-wise)로 연산작업을 수행한다:</p>
+<p><strong>Functions</strong></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="dv">1</span>:<span class="dv">4</span>
+<span class="kw">log</span>(x)</code></pre></div>
+<pre class="output"><code>[1] 0.0000000 0.6931472 1.0986123 1.3862944
+</code></pre>
+<p>벡터화 연산은 행렬에 요소별로 연산작업을 수행한다:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">m &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="dv">1</span>:<span class="dv">12</span>, <span class="dt">nrow=</span><span class="dv">3</span>, <span class="dt">ncol=</span><span class="dv">4</span>)
+m *<span class="st"> </span>-<span class="dv">1</span>  </code></pre></div>
+<pre class="output"><code>     [,1] [,2] [,3] [,4]
+[1,]   -1   -4   -7  -10
+[2,]   -2   -5   -8  -11
+[3,]   -3   -6   -9  -12
+</code></pre>
+<aside class="callout panel panel-info">
+<div class="panel-heading">
+<h2 id="tip-요소별element-wise-곱셈-vs.행렬-곱셈"><span class="glyphicon glyphicon-pushpin"></span>Tip: 요소별(element-wise) 곱셈 vs. 행렬 곱셈</h2>
+</div>
+<div class="panel-body">
+<p>매우 중요: <code>*</code> 곱하기 연산은 요소별 곱셈 결과를 전달한다! 행렬 곱셈을 하려면, <code>%*%</code> 연산자를 사용한다:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">m %*%<span class="st"> </span><span class="kw">matrix</span>(<span class="dv">1</span>, <span class="dt">nrow=</span><span class="dv">4</span>, <span class="dt">ncol=</span><span class="dv">1</span>)</code></pre></div>
+<pre class="output"><code>     [,1]
+[1,]   22
+[2,]   26
+[3,]   30
+</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">matrix</span>(<span class="dv">1</span>:<span class="dv">4</span>, <span class="dt">nrow=</span><span class="dv">1</span>) %*%<span class="st"> </span><span class="kw">matrix</span>(<span class="dv">1</span>:<span class="dv">4</span>, <span class="dt">ncol=</span><span class="dv">1</span>)</code></pre></div>
+<pre class="output"><code>     [,1]
+[1,]   30
+</code></pre>
+<p>행렬 대수에 관한 더 많은 정보는 <a href="http://www.statmethods.net/advstats/matrix.html">Quick-R reference guide</a>을 참조한다.</p>
+</div>
+</aside>
+<section class="challenge panel panel-success">
+<div class="panel-heading">
+<h2 id="도전과제-3"><span class="glyphicon glyphicon-pencil"></span>도전과제 3</h2>
+</div>
+<div class="panel-body">
+<p>다음과 같은 행렬이 주어졌다:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">m &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="dv">1</span>:<span class="dv">12</span>, <span class="dt">nrow=</span><span class="dv">3</span>, <span class="dt">ncol=</span><span class="dv">4</span>)
+m</code></pre></div>
+<pre class="output"><code>     [,1] [,2] [,3] [,4]
+[1,]    1    4    7   10
+[2,]    2    5    8   11
+[3,]    3    6    9   12
+</code></pre>
+<p>다음 명령어를 실행하면, 연산작업 결과가 어떻게 될지 생각한 것을 적어본다:</p>
+<ol style="list-style-type: decimal">
+<li><code>m ^ -1</code></li>
+<li><code>m * c(1, 0, -1)</code></li>
+<li><code>m &gt; c(0, 20)</code></li>
+<li><code>m * c(1, 0, -1, 2)</code></li>
+</ol>
+<p>예상한 출력결과가 나왔나요? 만약 그렇지 않다면, 도우미를 부르세요!</p>
+</div>
+</section>
+<section class="challenge panel panel-success">
+<div class="panel-heading">
+<h2 id="도전과제-4"><span class="glyphicon glyphicon-pencil"></span>도전과제 4</h2>
+</div>
+<div class="panel-body">
+<p>다음 연속된 분수 합계를 구하는데 관심이 있다:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"> x =<span class="st"> </span><span class="dv">1</span>/(<span class="dv">1</span>^<span class="dv">2</span>) +<span class="st"> </span><span class="dv">1</span>/(<span class="dv">2</span>^<span class="dv">2</span>) +<span class="st"> </span><span class="dv">1</span>/(<span class="dv">3</span>^<span class="dv">2</span>) +<span class="st"> </span>... +<span class="st"> </span><span class="dv">1</span>/(n^<span class="dv">2</span>)</code></pre></div>
+<p>이 모두를 타이핑하는 것은 지루하고, <code>n</code> 값이 매우 큰 경우 불가능하다. 벡터화를 사용해서 <code>n</code>=100 일 때 <code>x</code>를 계산한다. <code>n</code>=10,000 일 때, 합은 얼마나 될까?</p>
+</div>
+</section>
+<h2 id="도전과제-해답">도전과제 해답</h2>
+<section class="challenge panel panel-success">
+<div class="panel-heading">
+<h2 id="도전과제-1-에-대한-해답"><span class="glyphicon glyphicon-pencil"></span>도전과제 1 에 대한 해답</h2>
+</div>
+<div class="panel-body">
+<p><code>gapminder</code> 데이터셋 <code>pop</code> 칼럼에 벡터 연산을 시도해 본다.</p>
+<p><code>gapminder</code> 데이터프레임에 신규 칼럼을 생성하는데, 백만명 단위로 인구정보를 표현한다. 데이터프레임에 <code>head</code> 혹은 <code>tail</code> 명령어를 적용해서 실제로 제대로 동작하는지 확인한다.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">gapminder$pop_millions &lt;-<span class="st"> </span>gapminder$pop /<span class="st"> </span><span class="fl">1e6</span>
+<span class="kw">head</span>(gapminder)</code></pre></div>
+<pre class="output"><code>      country year      pop continent lifeExp gdpPercap pop_millions
+1 Afghanistan 1952  8425333      Asia  28.801  779.4453     8.425333
+2 Afghanistan 1957  9240934      Asia  30.332  820.8530     9.240934
+3 Afghanistan 1962 10267083      Asia  31.997  853.1007    10.267083
+4 Afghanistan 1967 11537966      Asia  34.020  836.1971    11.537966
+5 Afghanistan 1972 13079460      Asia  36.088  739.9811    13.079460
+6 Afghanistan 1977 14880372      Asia  38.438  786.1134    14.880372
+</code></pre>
+</div>
+</section>
+<section class="challenge panel panel-success">
+<div class="panel-heading">
+<h2 id="도전과제-2-에-대한-해답"><span class="glyphicon glyphicon-pencil"></span>도전과제 2 에 대한 해답</h2>
+</div>
+<div class="panel-body">
+<p>백만단위 인구를 연도에 대해 도식화해서 도식화 기술을 상기한다.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(gapminder$year, gapminder$pop_millions)</code></pre></div>
+<p><img src="fig/09-vectorisation-ch2-sol-1.png" title="plot of chunk ch2-sol" alt="plot of chunk ch2-sol" style="display: block; margin: auto;" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">countryset &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&#39;China&#39;</span>, <span class="st">&#39;India&#39;</span>, <span class="st">&#39;Indonesia&#39;</span>)
+y &lt;-<span class="st"> </span>gapminder[gapminder$country %in%<span class="st"> </span>countryset, ]
+<span class="kw">plot</span>(y$year, y$pop_millions)</code></pre></div>
+<p><img src="fig/09-vectorisation-ch2-sol-2.png" title="plot of chunk ch2-sol" alt="plot of chunk ch2-sol" style="display: block; margin: auto;" /></p>
+</div>
+</section>
+<section class="challenge panel panel-success">
+<div class="panel-heading">
+<h2 id="도전과제-3-에-대한-해답"><span class="glyphicon glyphicon-pencil"></span>도전과제 3 에 대한 해답</h2>
+</div>
+<div class="panel-body">
+<p>다음과 같은 행렬이 주어졌다:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">m &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="dv">1</span>:<span class="dv">12</span>, <span class="dt">nrow=</span><span class="dv">3</span>, <span class="dt">ncol=</span><span class="dv">4</span>)
+m</code></pre></div>
+<pre class="output"><code>     [,1] [,2] [,3] [,4]
+[1,]    1    4    7   10
+[2,]    2    5    8   11
+[3,]    3    6    9   12
+</code></pre>
+<p>다음 명령어를 실행하면, 연산작업 결과가 어떻게 될지 생각한 것을 적어본다:</p>
+<ol style="list-style-type: decimal">
+<li><code>m ^ -1</code></li>
+</ol>
+<pre class="output"><code>          [,1]      [,2]      [,3]       [,4]
+[1,] 1.0000000 0.2500000 0.1428571 0.10000000
+[2,] 0.5000000 0.2000000 0.1250000 0.09090909
+[3,] 0.3333333 0.1666667 0.1111111 0.08333333
+</code></pre>
+<ol start="2" style="list-style-type: decimal">
+<li><code>m * c(1, 0, -1)</code></li>
+</ol>
+<pre class="output"><code>     [,1] [,2] [,3] [,4]
+[1,]    1    4    7   10
+[2,]    0    0    0    0
+[3,]   -3   -6   -9  -12
+</code></pre>
+<ol start="3" style="list-style-type: decimal">
+<li><code>m &gt; c(0, 20)</code></li>
+</ol>
+<pre class="output"><code>      [,1]  [,2]  [,3]  [,4]
+[1,]  TRUE FALSE  TRUE FALSE
+[2,] FALSE  TRUE FALSE  TRUE
+[3,]  TRUE FALSE  TRUE FALSE
+</code></pre>
+<ol start="4" style="list-style-type: decimal">
+<li><code>m * c(1, 0, -1, 2)</code></li>
+</ol>
+<pre class="output"><code>     [,1] [,2] [,3] [,4]
+[1,]    1    8   -7    0
+[2,]    0    5   16  -11
+[3,]   -3    0    9   24
+</code></pre>
+</div>
+</section>
+<section class="challenge panel panel-success">
+<div class="panel-heading">
+<h2 id="도전과제-4-에-대한-해답"><span class="glyphicon glyphicon-pencil"></span>도전과제 4 에 대한 해답</h2>
+</div>
+<div class="panel-body">
+<p>다음 연속된 분수 합계를 구하는데 관심이 있다:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"> x =<span class="st"> </span><span class="dv">1</span>/(<span class="dv">1</span>^<span class="dv">2</span>) +<span class="st"> </span><span class="dv">1</span>/(<span class="dv">2</span>^<span class="dv">2</span>) +<span class="st"> </span><span class="dv">1</span>/(<span class="dv">3</span>^<span class="dv">2</span>) +<span class="st"> </span>... +<span class="st"> </span><span class="dv">1</span>/(n^<span class="dv">2</span>)</code></pre></div>
+<p>이 모두를 타이핑하는 것은 지루하고, <code>n</code> 값이 매우 큰 경우 불가능하다. 벡터화를 사용해서 <code>n</code>=100 일 때 <code>x</code>를 계산한다. <code>n</code>=10,000 일 때, 합은 얼마나 될까?</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sum</span>(<span class="dv">1</span>/(<span class="dv">1</span>:<span class="dv">100</span>)^<span class="dv">2</span>)</code></pre></div>
+<pre class="output"><code>[1] 1.634984
+</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sum</span>(<span class="dv">1</span>/(<span class="dv">1</span>:<span class="fl">1e04</span>)^<span class="dv">2</span>)</code></pre></div>
+<pre class="output"><code>[1] 1.644834
+</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">n &lt;-<span class="st"> </span><span class="dv">10000</span>
+<span class="kw">sum</span>(<span class="dv">1</span>/(<span class="dv">1</span>:n)^<span class="dv">2</span>)</code></pre></div>
+<pre class="output"><code>[1] 1.644834
+</code></pre>
+<p>함수를 사용해서 동일한 결과를 얻을 수도 있다:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">inverse_sum_of_squares &lt;-<span class="st"> </span>function(n) {
+  <span class="kw">sum</span>(<span class="dv">1</span>/(<span class="dv">1</span>:n)^<span class="dv">2</span>)
+}
+<span class="kw">inverse_sum_of_squares</span>(<span class="dv">100</span>)</code></pre></div>
+<pre class="output"><code>[1] 1.634984
+</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">inverse_sum_of_squares</span>(<span class="dv">10000</span>)</code></pre></div>
+<pre class="output"><code>[1] 1.644834
+</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">n &lt;-<span class="st"> </span><span class="dv">10000</span>
+<span class="kw">inverse_sum_of_squares</span>(n)</code></pre></div>
+<pre class="output"><code>[1] 1.644834
+</code></pre>
+</div>
+</section>
+        </div>
+      </div>
+      </article>
+      <div class="footer">
+        <a class="label swc-blue-bg" href="http://software-carpentry.org">Software Carpentry</a>
+        <a class="label swc-blue-bg" href="https://github.com/swcarpentry/lesson-template">Source</a>
+        <a class="label swc-blue-bg" href="mailto:admin@software-carpentry.org">Contact</a>
+        <a class="label swc-blue-bg" href="LICENSE.html">License</a>
+      </div>
+    </div>
+    <!-- Javascript placed at the end of the document so the pages load faster -->
+    <script src="http://software-carpentry.org/v5/js/jquery-1.9.1.min.js"></script>
+    <script src="css/bootstrap/bootstrap-js/bootstrap.js"></script>
+    <script src='https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
+  </body>
+</html>

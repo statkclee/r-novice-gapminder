@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="generator" content="pandoc">
+    <title>Software Carpentry: 재현가능한 과학적 분석을 위한 R</title>
+    <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="css/bootstrap/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="css/bootstrap/bootstrap-theme.css" />
+    <link rel="stylesheet" type="text/css" href="css/swc.css" />
+    <link rel="alternate" type="application/rss+xml" title="Software Carpentry Blog" href="http://software-carpentry.org/feed.xml"/>
+    <meta charset="UTF-8" />
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body class="lesson">
+    <div class="container card">
+      <div class="banner">
+        <a href="http://software-carpentry.org" title="Software Carpentry">
+          <img alt="Software Carpentry banner" src="img/software-carpentry-banner.png" />
+        </a>
+      </div>
+      <article>
+      <div class="row">
+        <div class="col-md-10 col-md-offset-1">
+                    <a href="index.html"><h1 class="title">재현가능한 과학적 분석을 위한 R</h1></a>
+          <h2 class="subtitle">제어 흐름</h2>
+          <section class="objectives panel panel-warning">
+<div class="panel-heading">
+<h2 id="학습-목표"><span class="glyphicon glyphicon-certificate"></span>학습 목표</h2>
+</div>
+<div class="panel-body">
+<ul>
+<li><code>if</code> 와 <code>else</code> 를 갖는 조건문을 작성한다.</li>
+<li><code>for</code> 루프를 이해하고 작성한다.</li>
+</ul>
+</div>
+</section>
+<p>종종 코딩할 때, 동작 흐름을 제어하고 싶을 때가 있다. 한 조건 혹은 조건 집합이 만족될 때만 동작이 일어나게 설정함으로써 이런 작업을 수행한다. 또 다른 방식으로, 특정 횟수만큼 동작이 일어나도록 설정할 수도 있다.</p>
+<p>R에서 흐름을 제어하는 방식이 몇가지 있다. 조건문에 대해서, 가장 흔히 사용되는 접근법이 루프 구성체(loop construct)다:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># if</span>
+if (condition is true) {
+  perform action
+}
+
+<span class="co"># if ... else</span>
+if (condition is true) {
+  perform action
+} else {  <span class="co"># that is, if the condition is false,</span>
+  perform alternative action
+}</code></pre></div>
+<p>예를 들어, 변수 <code>x</code>가 특정값을 갖게 되면, 메시지를 출력하게 R에게 지시할 수도 있다:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># sample a random number from a Poisson distribution</span>
+<span class="co"># with a mean (lambda) of 8</span>
+
+x &lt;-<span class="st"> </span><span class="kw">rpois</span>(<span class="dv">1</span>, <span class="dt">lambda=</span><span class="dv">8</span>)
+
+if (x &gt;=<span class="st"> </span><span class="dv">10</span>) {
+  <span class="kw">print</span>(<span class="st">&quot;x is greater than or equal to 10&quot;</span>)
+}
+
+x</code></pre></div>
+<pre class="output"><code>[1] 8
+</code></pre>
+<p>옆사람과 동일하지 않는 출력결과를 같지 않음에 주목한다. 왜냐하면, 동일한 분포에서 다른 난수가 표집되어서 그렇다.</p>
+<p>초기 숫자를 설정해서 모두 동일한 ’의사 난수’를 생성하고 나서, 더 많은 정보를 출력하자:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="kw">rpois</span>(<span class="dv">1</span>, <span class="dt">lambda=</span><span class="dv">8</span>)
+
+if (x &gt;=<span class="st"> </span><span class="dv">10</span>) {
+  <span class="kw">print</span>(<span class="st">&quot;x is greater than or equal to 10&quot;</span>)
+} else if (x &gt;<span class="st"> </span><span class="dv">5</span>) {
+  <span class="kw">print</span>(<span class="st">&quot;x is greater than 5&quot;</span>)
+} else {
+  <span class="kw">print</span>(<span class="st">&quot;x is less than 5&quot;</span>)
+}</code></pre></div>
+<pre class="output"><code>[1] &quot;x is greater than 5&quot;
+</code></pre>
+<aside class="callout panel panel-info">
+<div class="panel-heading">
+<h2 id="tip-의사-난수pseudo-random-numbers"><span class="glyphicon glyphicon-pushpin"></span>Tip: 의사 난수(pseudo-random numbers)</h2>
+</div>
+<div class="panel-body">
+<p>상기 경우에, <code>rpois</code> 함수는 평균(즉 람다) 8을 갖는 포아송 분포를 따르는 난수를 생성한다. <code>set.seed</code> 함수는 모든 컴퓨터가 정확하게 동일한 ‘의사 난수’(<a href="http://en.wikibooks.org/wiki/R_Programming/Random_Number_Generation">more about pseudo-random numbers</a>)를 생성하도록 보장한다. 그래서, <code>set.seed(10)</code>으로 설정하면, <code>x</code> 에는 값 8 이 대입된다. 정확하게 동일한 숫자를 얻어야만 된다.</p>
+</div>
+</aside>
+<p><strong>중요:</strong> R이 <code>if</code> 문 내부 조건을 평가할 때, 논리적 요소를 찾는다, 즉 <code>TRUE</code> 혹은 <code>FALSE</code>. 이것이 초보자에게 두통을 유발할 수 있다. 예를 들어:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x  &lt;-<span class="st">  </span><span class="dv">4</span> ==<span class="st"> </span><span class="dv">3</span>
+if (x) {
+  <span class="st">&quot;4 equals 3&quot;</span>
+}</code></pre></div>
+<p>실행하면, 벡터 <code>x</code> 가 <code>FALSE</code> 라서 메시지가 출력되지 않는다.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="dv">4</span> ==<span class="st"> </span><span class="dv">3</span>
+x</code></pre></div>
+<pre class="output"><code>[1] FALSE
+</code></pre>
+<section class="challenge panel panel-success">
+<div class="panel-heading">
+<h2 id="도전과제-1"><span class="glyphicon glyphicon-pencil"></span>도전과제 1</h2>
+</div>
+<div class="panel-body">
+<p><code>if</code> 문을 사용해서 <code>gapminder</code> 데이터셋에서 2002 년부터 어떤 레코드가 있는지 보고하도록 메시지를 출력하게 한다. 2012 년에 대해서도 동일한 작업을 수행한다.</p>
+</div>
+</section>
+<p>다음과 같은 경고 메시지가 나오는 사람이 있나요?</p>
+<pre class="error"><code>Warning in if (gapminder$year == 2012) {: length &gt; 1 이라는 조건이 있고, 첫
+번째 요소만이 사용될 것입니다
+</code></pre>
+<p>작성한 조건문이 하나 이상 논리 요소를 갖는 벡터를 평가하게 되면, <code>if</code> 함수는 쭉 실행되지만, 첫번째 요소에 대한 조건만 평가한다. 따라서, 조건문이 길이 1 이 되도록 확실히 할 필요가 있다.</p>
+<aside class="callout panel panel-info">
+<div class="panel-heading">
+<h2 id="tip-any-와-all-함수"><span class="glyphicon glyphicon-pushpin"></span>Tip: <code>any</code> 와 <code>all</code> 함수</h2>
+</div>
+<div class="panel-body">
+<p><code>any</code> 함수는 벡터에 적어도 값 하나가 <code>TRUE</code> 가 되어야만 <code>TRUE</code> 값을 반환한다. 그렇지 않은 경우 <code>FALSE</code> 값을 반환한다. 이런 점은 <code>%in%</code> 연산자에 유사한 방식으로 적용된다. <code>all</code> 함수는 명칭에서 나타나듯이, 벡터에 모든 값이 <code>TRUE</code> 인 경우에만 <code>TRUE</code> 값을 반환한다.</p>
+</div>
+</aside>
+<h2 id="반복-연산자">반복 연산자</h2>
+<p>값 집합에 반복 작업을 수행하고, 반복 순서가 중요하고, 각각에 대해 동일한 연산을 수행하는 경우, <code>for</code> 루프가 해당 작업을 실행한다. 앞선 쉘 수업에서 <code>for</code> 루프를 살펴봤다. <code>for</code> 루프는 가장 유연한 루프를 도는 연산이지만, 유연성으로 인해 올바르게 사용하기 가장 어렵기도 하다. 반복 순서가 중요하지 않는 경우, <code>for</code> 루프 사용을 회피한다: 즉, 반복할 때마다 연산작업은 이전 반복작업 결과에 의존하게 된다.</p>
+<p><code>for</code> 루프에 대한 기본 구조는 다음과 같다:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">for(iterator in set of values){
+  do a thing
+}</code></pre></div>
+<p>예를 들어:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">for(i in <span class="dv">1</span>:<span class="dv">10</span>){
+  <span class="kw">print</span>(i)
+}</code></pre></div>
+<pre class="output"><code>[1] 1
+[1] 2
+[1] 3
+[1] 4
+[1] 5
+[1] 6
+[1] 7
+[1] 8
+[1] 9
+[1] 10
+</code></pre>
+<p><code>1:10</code> 은 즉석에서 벡터를 생성한다; 또한, 다른 벡터도 반복할 수 있다.</p>
+<p>두개 이상을 반복하는데 또다른 <code>for</code> 루프를 중첩할 수도 있다.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">for (i in <span class="dv">1</span>:<span class="dv">5</span>){
+  for(j in <span class="kw">c</span>(<span class="st">&#39;a&#39;</span>, <span class="st">&#39;b&#39;</span>, <span class="st">&#39;c&#39;</span>, <span class="st">&#39;d&#39;</span>, <span class="st">&#39;e&#39;</span>)){
+    <span class="kw">print</span>(<span class="kw">paste</span>(i,j))
+  }
+}</code></pre></div>
+<pre class="output"><code>[1] &quot;1 a&quot;
+[1] &quot;1 b&quot;
+[1] &quot;1 c&quot;
+[1] &quot;1 d&quot;
+[1] &quot;1 e&quot;
+[1] &quot;2 a&quot;
+[1] &quot;2 b&quot;
+[1] &quot;2 c&quot;
+[1] &quot;2 d&quot;
+[1] &quot;2 e&quot;
+[1] &quot;3 a&quot;
+[1] &quot;3 b&quot;
+[1] &quot;3 c&quot;
+[1] &quot;3 d&quot;
+[1] &quot;3 e&quot;
+[1] &quot;4 a&quot;
+[1] &quot;4 b&quot;
+[1] &quot;4 c&quot;
+[1] &quot;4 d&quot;
+[1] &quot;4 e&quot;
+[1] &quot;5 a&quot;
+[1] &quot;5 b&quot;
+[1] &quot;5 c&quot;
+[1] &quot;5 d&quot;
+[1] &quot;5 e&quot;
+</code></pre>
+<p>결과를 바로 출력하는 대신에, 루프 출력결과를 새로운 객체에 대입할 수도 있다.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">output_vector &lt;-<span class="st"> </span><span class="kw">c</span>()
+for (i in <span class="dv">1</span>:<span class="dv">5</span>){
+  for(j in <span class="kw">c</span>(<span class="st">&#39;a&#39;</span>, <span class="st">&#39;b&#39;</span>, <span class="st">&#39;c&#39;</span>, <span class="st">&#39;d&#39;</span>, <span class="st">&#39;e&#39;</span>)){
+    temp_output &lt;-<span class="st"> </span><span class="kw">paste</span>(i, j)
+    output_vector &lt;-<span class="st"> </span><span class="kw">c</span>(output_vector, temp_output)
+  }
+}
+output_vector</code></pre></div>
+<pre class="output"><code> [1] &quot;1 a&quot; &quot;1 b&quot; &quot;1 c&quot; &quot;1 d&quot; &quot;1 e&quot; &quot;2 a&quot; &quot;2 b&quot; &quot;2 c&quot; &quot;2 d&quot; &quot;2 e&quot; &quot;3 a&quot;
+[12] &quot;3 b&quot; &quot;3 c&quot; &quot;3 d&quot; &quot;3 e&quot; &quot;4 a&quot; &quot;4 b&quot; &quot;4 c&quot; &quot;4 d&quot; &quot;4 e&quot; &quot;5 a&quot; &quot;5 b&quot;
+[23] &quot;5 c&quot; &quot;5 d&quot; &quot;5 e&quot;
+</code></pre>
+<p>이러한 접근법은 유용할 수도 있지만, ‘실행결과를 키워나감’ (실행결과 객체를 점진적으로 키워나감) 이런 전략은 컴퓨터 계산 측면으로 보면 비효율적이다. 그래서, 많은 값을 반복할 때는 회피한다.</p>
+<aside class="callout panel panel-info">
+<div class="panel-heading">
+<h2 id="tip-실행결과를-키워나가지-말라"><span class="glyphicon glyphicon-pushpin"></span>Tip: 실행결과를 키워나가지 말라!</h2>
+</div>
+<div class="panel-body">
+<p>초보자나 경험많은 R 사용자 모두 저지르는 가장 큰 실수 중 하나가 실행결과 객체(벡터, 리스트, 행렬, 데이터프레임)를 루프를 돌리면서 키워나가는 것이다. 컴퓨터는 이런 것을 처리하는데 매우 좋지 못하다. 그래서 연산 속도가 급격히 늦어질 수 있다. 미리 적절한 차원을 갖는 빈 연산결과 저장 객체를 정의하는 것이 훨씬 낫다. 그래서, 상기처럼 실행결과를 저장할 행렬을 미리 알고 있다면, 5 칼럼과 5 열로 구성된 빈 행렬를 생성하고 나서, 매번 반복을 돌릴 때마다 적절한 위치에 실행결과를 저장한다.</p>
+</div>
+</aside>
+<p>더 좋은 방식은 값을 채워넣기 전에 (빈) 출력결과를 저장할 객체를 정의하는 것이다. 이번 예제의 경우, 더 많은 관련성이 보이지만, 여전히 더 효율적이다.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">output_matrix &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="dt">nrow=</span><span class="dv">5</span>, <span class="dt">ncol=</span><span class="dv">5</span>)
+j_vector &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&#39;a&#39;</span>, <span class="st">&#39;b&#39;</span>, <span class="st">&#39;c&#39;</span>, <span class="st">&#39;d&#39;</span>, <span class="st">&#39;e&#39;</span>)
+for (i in <span class="dv">1</span>:<span class="dv">5</span>){
+  for(j in <span class="dv">1</span>:<span class="dv">5</span>){
+    temp_j_value &lt;-<span class="st"> </span>j_vector[j]
+    temp_output &lt;-<span class="st"> </span><span class="kw">paste</span>(i, temp_j_value)
+    output_matrix[i, j] &lt;-<span class="st"> </span>temp_output
+  }
+}
+output_vector2 &lt;-<span class="st"> </span><span class="kw">as.vector</span>(output_matrix)
+output_vector2</code></pre></div>
+<pre class="output"><code> [1] &quot;1 a&quot; &quot;2 a&quot; &quot;3 a&quot; &quot;4 a&quot; &quot;5 a&quot; &quot;1 b&quot; &quot;2 b&quot; &quot;3 b&quot; &quot;4 b&quot; &quot;5 b&quot; &quot;1 c&quot;
+[12] &quot;2 c&quot; &quot;3 c&quot; &quot;4 c&quot; &quot;5 c&quot; &quot;1 d&quot; &quot;2 d&quot; &quot;3 d&quot; &quot;4 d&quot; &quot;5 d&quot; &quot;1 e&quot; &quot;2 e&quot;
+[23] &quot;3 e&quot; &quot;4 e&quot; &quot;5 e&quot;
+</code></pre>
+<aside class="callout panel panel-info">
+<div class="panel-heading">
+<h2 id="tip-while-루프"><span class="glyphicon glyphicon-pushpin"></span>Tip: While 루프</h2>
+</div>
+<div class="panel-body">
+<p>때로는 특정 조건이 만족될 때까지 연산작업을 반복할 필요도 있다. 이런 작업은 <code>while</code> 루프로 수행한다.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">while(this condition is true){
+  do a thing
+}</code></pre></div>
+<p>예제로, 0.1 보다 작은 난수가 나올 때까지 0 과 1 사이 균등 분포(<code>runif</code> 함수)에서 난수를 뽑아내는 <code>while</code> 루프가 다음에 나와 있다.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">z &lt;-<span class="st"> </span><span class="dv">1</span>
+while(z &gt;<span class="st"> </span><span class="fl">0.1</span>){
+  z &lt;-<span class="st"> </span><span class="kw">runif</span>(<span class="dv">1</span>)
+  <span class="kw">print</span>(z)
+}</code></pre></div>
+<p><code>while</code> 루프가 항상 적절한 것은 아니다. 조건이 절대로 만족되지 않는 경우, 무한 루프에 빠지지 않도록 특별히 유의해야 된다.</p>
+</div>
+</aside>
+<section class="challenge panel panel-success">
+<div class="panel-heading">
+<h2 id="도전과제-2"><span class="glyphicon glyphicon-pencil"></span>도전과제 2</h2>
+</div>
+<div class="panel-body">
+<p><code>output_vector</code> 와 <code>output_vector2</code> 객체를 비교하라. 두 객체는 동일한가? 만약 동일하지 않나면, 왜 동일하지 않을까? 코드 마지막 블록을 변경해서 어떻게 <code>output_vector2</code> 를 <code>output_vector</code> 와 같도록 만들 수 있을까?</p>
+</div>
+</section>
+<section class="challenge panel panel-success">
+<div class="panel-heading">
+<h2 id="도전과제-3"><span class="glyphicon glyphicon-pencil"></span>도전과제 3</h2>
+</div>
+<div class="panel-body">
+<p><code>gapminder</code> 데이터 루프를 대륙별로 돌리는 스크립트를 작성한다. 그리고 나서 평균 기대수명이 50년 보다 길거나 짧은지 결과를 출력한다.</p>
+</div>
+</section>
+<section class="challenge panel panel-success">
+<div class="panel-heading">
+<h2 id="도전과제-4"><span class="glyphicon glyphicon-pencil"></span>도전과제 4</h2>
+</div>
+<div class="panel-body">
+<p>도전과제 3 에서 나온 스크립트를 변경해서 각 국각별로 루프를 돌린다. 이번에는 예상수명이 50 년보다 짧은지, 50 년에서 70 년 사이, 70 년 이상인지 결과를 출력한다.</p>
+</div>
+</section>
+<section class="challenge panel panel-success">
+<div class="panel-heading">
+<h2 id="도전과제-5---advanced"><span class="glyphicon glyphicon-pencil"></span>도전과제 5 - Advanced</h2>
+</div>
+<div class="panel-body">
+<p><code>gapminder</code> 데이터셋에서 각 국가별로 루프를 돌리는 스크립트를 작성한다. 국가명이 ‘B’ 로 시작하는지 테스트하고, 만약 평균 기대수명이 50 년보다 작은 경우 선그래프로 시간에 대해 기대수명을 그래프를 그린다.</p>
+</div>
+</section>
+        </div>
+      </div>
+      </article>
+      <div class="footer">
+        <a class="label swc-blue-bg" href="http://software-carpentry.org">Software Carpentry</a>
+        <a class="label swc-blue-bg" href="https://github.com/swcarpentry/lesson-template">Source</a>
+        <a class="label swc-blue-bg" href="mailto:admin@software-carpentry.org">Contact</a>
+        <a class="label swc-blue-bg" href="LICENSE.html">License</a>
+      </div>
+    </div>
+    <!-- Javascript placed at the end of the document so the pages load faster -->
+    <script src="http://software-carpentry.org/v5/js/jquery-1.9.1.min.js"></script>
+    <script src="css/bootstrap/bootstrap-js/bootstrap.js"></script>
+    <script src='https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
+  </body>
+</html>

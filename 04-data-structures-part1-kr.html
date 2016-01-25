@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="generator" content="pandoc">
+    <title>Software Carpentry: 재현가능한 과학적 분석을 위한 R</title>
+    <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="css/bootstrap/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="css/bootstrap/bootstrap-theme.css" />
+    <link rel="stylesheet" type="text/css" href="css/swc.css" />
+    <link rel="alternate" type="application/rss+xml" title="Software Carpentry Blog" href="http://software-carpentry.org/feed.xml"/>
+    <meta charset="UTF-8" />
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body class="lesson">
+    <div class="container card">
+      <div class="banner">
+        <a href="http://software-carpentry.org" title="Software Carpentry">
+          <img alt="Software Carpentry banner" src="img/software-carpentry-banner.png" />
+        </a>
+      </div>
+      <article>
+      <div class="row">
+        <div class="col-md-10 col-md-offset-1">
+                    <a href="index.html"><h1 class="title">재현가능한 과학적 분석을 위한 R</h1></a>
+          <h2 class="subtitle">자료구조</h2>
+          <section class="objectives panel panel-warning">
+<div class="panel-heading">
+<h2 id="학습-목표"><span class="glyphicon glyphicon-certificate"></span>학습 목표</h2>
+</div>
+<div class="panel-body">
+<ul>
+<li>다양한 자료형에 대해 인지한다.</li>
+<li>R에서 흔히 마주하는 다양한 기본 자료구조에 대해 인지한다.</li>
+<li>자료형, 클래스, 객체 구조에 관해 파악하고자 R에 질문을 던진다.</li>
+</ul>
+</div>
+</section>
+<h2 id="자료형">자료형</h2>
+<p>어떤 자료를 분석하기 전에, 기본 자료형과 자료구조에 관해 매우 잘 이해할 필요가 있다. 기본 자료형과 자료구조를 이해하는 것은 <strong>매우 중요</strong>하다. 이유는 R로 매일 솜씨있게 조작하는 것이고, 초보자에게 있어 가장 혼란을 많이 주는 원천이기 때문이다.</p>
+<p>R에는 5가지 원자 자료형(더이상 작은 것으로 쪼갤 수 없다는 의미)이 있다:</p>
+<ul>
+<li>논리형 (예를 들어, <code>TRUE</code>, <code>FALSE</code>)</li>
+<li>숫자형
+<ul>
+<li>정수형 (예를 들어, <code>2L</code>, <code>as.integer(3)</code>)</li>
+<li>실수형 (즉, 소수점) (예를 들어, <code>-24.57</code>, <code>2.0</code>, <code>pi</code>)</li>
+</ul></li>
+<li>복소수형 (즉. 복소수) (예를 들어, <code>1 + 0i</code>, <code>1 + 4i</code>)</li>
+<li>텍스트 (R에서는 “문자(character”라고 부름) (예를 들어, <code>&quot;a&quot;</code>, <code>&quot;swc&quot;</code>, <code>'This is a cat'</code>)</li>
+</ul>
+<p>R에는 데이터를 취조하여 자료형을 파악하는데 사용되는 함수가 몇가지 있다:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">typeof</span>() <span class="co"># 해당 데이터의 원자 자료형이 무엇인가?</span>
+<span class="kw">is.logical</span>() <span class="co"># TRUE/FALSE 논리형 데이터인가?</span>
+<span class="kw">is.numeric</span>() <span class="co"># 숫자형 데이터인가?</span>
+<span class="kw">is.integer</span>() <span class="co"># 정수형 데이터인가?</span>
+<span class="kw">is.complex</span>() <span class="co"># 복소수형 데이터인가?</span>
+<span class="kw">is.character</span>() <span class="co"># 문자형 데이터인가?</span>
+<span class="kw">str</span>()  <span class="co"># 데이터가 뭔지 모르겠다?</span></code></pre></div>
+<section class="challenge panel panel-success">
+<div class="panel-heading">
+<h2 id="도전과제-1-자료형"><span class="glyphicon glyphicon-pencil"></span>도전과제 1: 자료형</h2>
+</div>
+<div class="panel-body">
+<p>지금까지 지식을 총동원해서 변수에 값을 대입한다. 다음 특징을 갖는 데이터 예제를 생성한다:</p>
+<ol style="list-style-type: decimal">
+<li>변수명: ‘answer’, 자료형: 논리형</li>
+<li>변수명: ‘height’, 자료형: 숫자형</li>
+<li>변수명: ‘dog_name’, 자료형: 문자형</li>
+</ol>
+<p>생성한 각 변수에 대해서, 의도한 데이터가 생성되었는지 테스트한다. 예상한지 못한 것을 발견했는가?</p>
+</div>
+</section>
+<h2 id="자료구조">자료구조</h2>
+<p>R에서 흔히 마주치는 5가지 자료구조가 있다:</p>
+<ul>
+<li>벡터(vector)</li>
+<li>요인(factor)</li>
+<li>리스트(list)</li>
+<li>행렬(matrix)</li>
+<li>데이터프레임(data.frame)</li>
+</ul>
+<p>지금은 좀더 구체적으로 벡터만 집중한다. 이유는 자료형에 대해 더 많이 파악할 수 있기 때문이다.</p>
+<h2 id="벡터">벡터</h2>
+<p>벡터는 R에서 가장 흔한 기본 자료구조이며 R의 주된 동력원이기도 하다. 원자 벡터로도 종종 불리는데, 이유는 중요하게 <strong>단지 한가지 자료형만 포함할</strong> 수 있기 때문이다. 벡터는 다른 자료구조의 중요 구성요소다.</p>
+<p>젝터는 앞에서 소개한 5가지 어떤 자료형도 포함할 수 있다:</p>
+<ul>
+<li>논리형 (예를 들어, <code>TRUE</code>, <code>FALSE</code>)</li>
+<li>정수형 (예를 들어, <code>2L</code>, <code>as.integer(3)</code>)</li>
+<li>숫자형 (실수 혹은 소수점) (예를 들어, <code>2</code>, <code>2.0</code>, <code>pi</code>)</li>
+<li>복소수 (예를 들어, <code>1 + 0i</code>, <code>1 + 4i</code>)</li>
+<li>문자형 (예를 들어, <code>&quot;a&quot;</code>, <code>&quot;swc&quot;</code>)</li>
+</ul>
+<aside class="callout panel panel-info">
+<div class="panel-heading">
+<h2 id="tip-문자-벡터"><span class="glyphicon glyphicon-pushpin"></span>Tip: “문자 벡터”</h2>
+</div>
+<div class="panel-body">
+<p>“문자 벡터” 용어를 경고나 오류 메시지에서 들어봤을 수도 있다. 다소 혼동스럽고, 불운한 명칭이다. “문자” 형은 정말 텍스트를 인용부호로 감싼 것을 의미한다는 것을 기억한다.</p>
+</div>
+</aside>
+<p><code>vector()</code> 으로 혹은 연결(concatenate) 함수, <code>c()</code>로 공벡터를 생성한다.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="kw">vector</span>()
+x</code></pre></div>
+<pre class="output"><code>logical(0)
+</code></pre>
+<p>그래서, 기본디폴트 설정으로, “논리” 자료형을 갖는 공벡터(즉, 길이 0)를 생성한다.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="kw">vector</span>(<span class="dt">length =</span> <span class="dv">10</span>) <span class="co"># 사전에 정의된 길이</span>
+x</code></pre></div>
+<pre class="output"><code> [1] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+</code></pre>
+<p><code>FALSE</code> 갯수를 세면, 10 이 된다.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="kw">vector</span>(<span class="st">&quot;character&quot;</span>, <span class="dt">length =</span> <span class="dv">10</span>)  <span class="co"># 서전에 정의된 길이와 자료형</span>
+x</code></pre></div>
+<pre class="output"><code> [1] &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot;
+</code></pre>
+<p>혹은, 연결함수를 사용해서 벡터에 원하는 어떤 값도 결합할 수 있다 (동일한 원자 자료형이기만 하면 된다!).</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">10</span>, <span class="dv">12</span>, <span class="dv">45</span>, <span class="dv">33</span>)
+x</code></pre></div>
+<pre class="output"><code>[1] 10 12 45 33
+</code></pre>
+<p>연속된 숫자로 벡터를 생성할 수도 있다.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">series &lt;-<span class="st"> </span><span class="dv">1</span>:<span class="dv">10</span>
+series</code></pre></div>
+<pre class="output"><code> [1]  1  2  3  4  5  6  7  8  9 10
+</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">seq</span>(<span class="dv">10</span>)</code></pre></div>
+<pre class="output"><code> [1]  1  2  3  4  5  6  7  8  9 10
+</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">seq</span>(<span class="dv">1</span>, <span class="dv">10</span>, <span class="dt">by =</span> <span class="fl">0.1</span>)</code></pre></div>
+<pre class="output"><code> [1]  1.0  1.1  1.2  1.3  1.4  1.5  1.6  1.7  1.8  1.9  2.0  2.1  2.2  2.3
+[15]  2.4  2.5  2.6  2.7  2.8  2.9  3.0  3.1  3.2  3.3  3.4  3.5  3.6  3.7
+[29]  3.8  3.9  4.0  4.1  4.2  4.3  4.4  4.5  4.6  4.7  4.8  4.9  5.0  5.1
+[43]  5.2  5.3  5.4  5.5  5.6  5.7  5.8  5.9  6.0  6.1  6.2  6.3  6.4  6.5
+[57]  6.6  6.7  6.8  6.9  7.0  7.1  7.2  7.3  7.4  7.5  7.6  7.7  7.8  7.9
+[71]  8.0  8.1  8.2  8.3  8.4  8.5  8.6  8.7  8.8  8.9  9.0  9.1  9.2  9.3
+[85]  9.4  9.5  9.6  9.7  9.8  9.9 10.0
+</code></pre>
+<aside class="callout panel panel-info">
+<div class="panel-heading">
+<h2 id="tip-정수-생성하기"><span class="glyphicon glyphicon-pushpin"></span>Tip: 정수 생성하기</h2>
+</div>
+<div class="panel-body">
+<p>연결함수, <code>c()</code>를 사용해서 숫자를 결합할 때, 자료형은 자동적으로 “숫자형”, 즉 실수/소수점 숫자다. 명확하게, 정수형(자연수만) 벡터를 생성하려면, 각 숫자에 L을 추가한다. 즉, <code>c(10L, 12L, 45L, 33L)</code>.</p>
+</div>
+</aside>
+<p>연결함수를 사용해서 벡터에 요소를 추가할 수도 있다:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="kw">c</span>(x, <span class="dv">57</span>)
+x</code></pre></div>
+<pre class="output"><code>[1] 10 12 45 33 57
+</code></pre>
+<section class="challenge panel panel-success">
+<div class="panel-heading">
+<h2 id="도전과제-2"><span class="glyphicon glyphicon-pencil"></span>도전과제 2</h2>
+</div>
+<div class="panel-body">
+<p>벡터에는 한가지 원자 자료형만 담길 수 있다. 만약 다른 자료형을 조합하려하면, R은 최소공배수(가장 쉽게 강제해서 우겨넣을 수 있는 자료형) 벡터를 생성한다.</p>
+<p><strong>우선 실행하지 말고, 다음 명령어가 어떤 작업을 수행할지 추측해 보라:</strong></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">xx &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="fl">1.7</span>, <span class="st">&quot;a&quot;</span>)
+xx &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="ot">TRUE</span>, <span class="dv">2</span>)
+xx &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;a&quot;</span>, <span class="ot">TRUE</span>)</code></pre></div>
+</div>
+</section>
+<p>이것을 묵시적 강제(implicit coerction)라고 부른다.</p>
+<p>강제규칙은 다음과 같이 적용된다: <code>논리형</code> -&gt; <code>정수형</code> -&gt; <code>숫자형</code> -&gt; <code>복소수형</code> -&gt; <code>문자형</code>.</p>
+<p>명시적으로 <code>as.&lt;class_name&gt;</code>을 사용해서 벡터를 강제할 수도 있다. 예를 들어,</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">as.numeric</span>()</code></pre></div>
+<pre class="output"><code>numeric(0)
+</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">as.character</span>()</code></pre></div>
+<pre class="output"><code>character(0)
+</code></pre>
+<p>R은 자동으로 해당 값에 대해 가장 유의미한 어떤 작업도 수행하려 한다:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">as.character</span>(x)</code></pre></div>
+<pre class="output"><code>[1] &quot;10&quot; &quot;12&quot; &quot;45&quot; &quot;33&quot; &quot;57&quot;
+</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">as.complex</span>(x)</code></pre></div>
+<pre class="output"><code>[1] 10+0i 12+0i 45+0i 33+0i 57+0i
+</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="dv">0</span>:<span class="dv">6</span>
+<span class="kw">as.logical</span>(x)</code></pre></div>
+<pre class="output"><code>[1] FALSE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE
+</code></pre>
+<p>이런 점은 많은 프로그래밍 언어에서도 발견되는 특징이다. 0 은 <code>FALSE</code>가 되고 다른 숫자는 <code>TRUE</code>로 처리된다. 종종 강제조차도 터무니 없는 것에는 동작하지 않는다.</p>
+<p>일부 경우에, R은 유의미한 어떤 작업을 수행할 수도 없다:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;a&quot;</span>, <span class="st">&quot;b&quot;</span>, <span class="st">&quot;c&quot;</span>)
+<span class="kw">as.numeric</span>(x)</code></pre></div>
+<pre class="error"><code>Warning: 강제형변환에 의해 생성된 NA 입니다
+</code></pre>
+<pre class="output"><code>[1] NA NA NA
+</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">as.logical</span>(x)</code></pre></div>
+<pre class="output"><code>[1] NA NA NA
+</code></pre>
+<p>양쪽 모든 경우에, “NA” 벡터가 반환된다. 첫번째 경우는 경고도 출력된다.</p>
+<aside class="callout panel panel-info">
+<div class="panel-heading">
+<h2 id="tip-특수-객체"><span class="glyphicon glyphicon-pushpin"></span>Tip: 특수 객체</h2>
+</div>
+<div class="panel-body">
+<p>“NA”는 R에 있어 특수 객체로 결측값을 표기한다. NA 는 벡터 어떤 자료형에도 생겨난다. 다른 특수 객체 자료형도 있다: <code>Inf</code> 는 무한을 표기한다(양수 혹은 음수가 될 수 있다). 반면에 <code>NaN</code>은 “Not a Number”, 정의되지 않는 값(즉, <code>0/0</code>)을 의미한다. <code>NULL</code>은 자료구조가 존재하지 않음(하지만, 리스트 요소로 사용될 수 있음)을 표기한다.</p>
+</div>
+</aside>
+<p>벡터 자료구조에 관해서 질문을 던질 수 있다:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="dv">0</span>:<span class="dv">10</span>
+<span class="kw">tail</span>(x, <span class="dt">n=</span><span class="dv">2</span>) <span class="co"># 마지막 &#39;n&#39; 번째 요소를 뽑아낸다.</span></code></pre></div>
+<pre class="output"><code>[1]  9 10
+</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(x, <span class="dt">n=</span><span class="dv">1</span>) <span class="co"># 첫 &#39;n&#39; 번째 요소를 뽑아낸다.</span></code></pre></div>
+<pre class="output"><code>[1] 0
+</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">length</span>(x)</code></pre></div>
+<pre class="output"><code>[1] 11
+</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">str</span>(x)</code></pre></div>
+<pre class="output"><code> int [1:11] 0 1 2 3 4 5 6 7 8 9 ...
+</code></pre>
+<p>벡터에 명칭을 붙일 수 있다:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="dv">1</span>:<span class="dv">4</span>
+<span class="kw">names</span>(x) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;a&quot;</span>, <span class="st">&quot;b&quot;</span>, <span class="st">&quot;c&quot;</span>, <span class="st">&quot;d&quot;</span>)
+x</code></pre></div>
+<pre class="output"><code>a b c d 
+1 2 3 4 
+</code></pre>
+<aside class="callout panel panel-info">
+<div class="panel-heading">
+<h2 id="프로그래머를-위한-고급-tip"><span class="glyphicon glyphicon-pushpin"></span>프로그래머를 위한 고급 Tip</h2>
+</div>
+<div class="panel-body">
+<p>다른 프로그래밍 언어를 경험했다면, 딕셔너리와 해쉬 테이블과 유사한 유용한 도구로 인식할 수도 있다. 작은 벡터에 대해서는 사실이지만, 정말 해쉬 테이블 기능을 사용하려면, 환경 객체를 사용해야만 된다. <code>?new.env</code>을 참조한다.</p>
+</div>
+</aside>
+<h2 id="행렬">행렬</h2>
+<p>마주칠 것 같은 또다른 자료구조가 행렬이다. 행렬을 까면, 차원 속성이 추가된 정말 원자벡터만 나온다.</p>
+<p><code>matrix</code> 함수로 행렬을 생성한다. 임의 난수 데이터를 생성해보자:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">1</span>) <span class="co"># 난수 생성이 매번 실행될 때마다 같도록 고정시키는 역할을 한다.</span>
+x &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">rnorm</span>(<span class="dv">18</span>), <span class="dt">ncol=</span><span class="dv">6</span>, <span class="dt">nrow=</span><span class="dv">3</span>)
+x</code></pre></div>
+<pre class="output"><code>           [,1]       [,2]      [,3]       [,4]       [,5]        [,6]
+[1,] -0.6264538  1.5952808 0.4874291 -0.3053884 -0.6212406 -0.04493361
+[2,]  0.1836433  0.3295078 0.7383247  1.5117812 -2.2146999 -0.01619026
+[3,] -0.8356286 -0.8204684 0.5757814  0.3898432  1.1249309  0.94383621
+</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">str</span>(x)</code></pre></div>
+<pre class="output"><code> num [1:3, 1:6] -0.626 0.184 -0.836 1.595 0.33 ...
+</code></pre>
+<p><code>rownames</code>, <code>colnames</code>, <code>dimnames</code>을 사용해서 행렬 행과 칼럼 명칭을 설정하거나 불러온다. <code>nrow</code>, <code>ncol</code> 함수(데이터프레임에도 적용됨!)는 행과 열의 갯수를 일러준다. 반면에, <code>length</code> 함수는 요소 갯수를 일러준다.</p>
+<section class="challenge panel panel-success">
+<div class="panel-heading">
+<h2 id="도전과제-3"><span class="glyphicon glyphicon-pencil"></span>도전과제 3</h2>
+</div>
+<div class="panel-body">
+<p><code>length(x)</code> 결과는 무엇이라고 생각합니까? 직접 실행해 보세요. 맞췄나요? 왜 그런지/ 왜 그렇지 않나요?</p>
+</div>
+</section>
+<section class="challenge panel panel-success">
+<div class="panel-heading">
+<h2 id="도전과제-4"><span class="glyphicon glyphicon-pencil"></span>도전과제 4</h2>
+</div>
+<div class="panel-body">
+<p>또다른 행렬을 생성한다. 이번에는 1:50 까지 숫자를 포함하는 10 개 행과 5 개 칼럼을 갖춘다. <code>matrix</code> 함수는 기본디폴트로 처음 생성시 행과 열로 행렬을 채울 수 있나요? 행렬 변경에 대한 방법을 해결할 수 있는지 살펴보라. (<strong>힌트:</strong> <code>matrix</code>에 대한 문서를 읽어보다!)</p>
+</div>
+</section>
+<h2 id="요인">요인</h2>
+<p>요인(factor)은 범주형 데이터를 표현하는 특수한 벡터다. 요인은 순서를 갖을 수도, 순서를 갖지 않을 수도 있다. 요인은 <code>aov()</code>, <code>lm()</code>, <code>glm()</code> 같은 모형화 함수와 도식화 방법에도 요긴하다.</p>
+<p>요인은 사전에 정의된 값만 포함할 수 있다. <code>factor</code> 함수로 요인을 생성할 수 있다:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="kw">factor</span>(<span class="kw">c</span>(<span class="st">&quot;yes&quot;</span>, <span class="st">&quot;no&quot;</span>, <span class="st">&quot;no&quot;</span>, <span class="st">&quot;yes&quot;</span>, <span class="st">&quot;yes&quot;</span>))
+x</code></pre></div>
+<pre class="output"><code>[1] yes no  no  yes yes
+Levels: no yes
+</code></pre>
+<p>그래서, 출력결과는 문자 벡터와 매우 유사함을 볼 수 있다. 하지만, 첨부된 수준 구성요소가 있다. 요인 구조를 살펴보면, 좀더 명확하다:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">str</span>(x)</code></pre></div>
+<pre class="output"><code> Factor w/ 2 levels &quot;no&quot;,&quot;yes&quot;: 2 1 1 2 2
+</code></pre>
+<p>구조를 통해 중요한 점이 밝혀진다: 요인이 문자 벡터 처럼 보이지만 (종종 동작하지만), 내부를 까보면 실제로 정수다. 상기 예제에서, “no”는 1로, “yes”는 2로 표현됨을 확인할 수 있다.</p>
+<p>모형화 함수에서, 기준 수준이 무엇인지 확인하는 것이 중요하다. 기준 수준은 첫번째 요인이지만, 기본디폴트로 순서는 입력된 단어 알파벳 순서로 결정된다. 수준을 명세함으로써 순서를 변경할 수 있다:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="kw">factor</span>(<span class="kw">c</span>(<span class="st">&quot;case&quot;</span>, <span class="st">&quot;control&quot;</span>, <span class="st">&quot;control&quot;</span>, <span class="st">&quot;case&quot;</span>), <span class="dt">levels =</span> <span class="kw">c</span>(<span class="st">&quot;control&quot;</span>, <span class="st">&quot;case&quot;</span>))
+<span class="kw">str</span>(x)</code></pre></div>
+<pre class="output"><code> Factor w/ 2 levels &quot;control&quot;,&quot;case&quot;: 2 1 1 2
+</code></pre>
+<p>이번 경우에, 명시적으로, “control” 이 1 로, “case” 가 2 로 표현되도록 R에 지정했다. 통계적 모형에서 나온 결과를 해석할 때, 이러한 지정이 매우 중요하다!</p>
+<h2 id="리스트">리스트</h2>
+<p>다양한 자료형을 조합할 때, 리스트 사용이 필요하다. 리스트는 컨테이너처럼 동작한다. 어떤 유형의 자료구조도 포함할 수 있고, 심지어 본인도 포함될 수 있다!</p>
+<p>리스트는 <code>list</code> 를 사용해서 생성되거나, <code>as.list()</code> 를 사용해서 다른 객체를 강제로 전환할 수도 있다:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dv">1</span>, <span class="st">&quot;a&quot;</span>, <span class="ot">TRUE</span>, <span class="dv">1</span>+4i)
+x</code></pre></div>
+<pre class="output"><code>[[1]]
+[1] 1
+
+[[2]]
+[1] &quot;a&quot;
+
+[[3]]
+[1] TRUE
+
+[[4]]
+[1] 1+4i
+</code></pre>
+<p>리스트 각 요인은 출력결과에 <code>[[</code> 으로 표기된다. 리스트 내부 각 요소는 길이 1 인 원자 벡터다.</p>
+<p>리스트는 더 복잡한 객체를 담을 수 있다:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">xlist &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">a =</span> <span class="st">&quot;Research Bazaar&quot;</span>, <span class="dt">b =</span> <span class="dv">1</span>:<span class="dv">10</span>, <span class="dt">data =</span> <span class="kw">head</span>(iris))
+xlist</code></pre></div>
+<pre class="output"><code>$a
+[1] &quot;Research Bazaar&quot;
+
+$b
+ [1]  1  2  3  4  5  6  7  8  9 10
+
+$data
+  Sepal.Length Sepal.Width Petal.Length Petal.Width Species
+1          5.1         3.5          1.4         0.2  setosa
+2          4.9         3.0          1.4         0.2  setosa
+3          4.7         3.2          1.3         0.2  setosa
+4          4.6         3.1          1.5         0.2  setosa
+5          5.0         3.6          1.4         0.2  setosa
+6          5.4         3.9          1.7         0.4  setosa
+</code></pre>
+<p>이번 경우에, 리스트는 길이 1 인 문자 벡터, 10개 항목을 갖는 숫자 벡터, 사전에 R에 적재된 데이터셋(<code>?data</code>를 참조) 중에서 하나에서 나온 작은 데이터프레임을 포함하고 있다. 각 리스트 요소에 명칭을 부여해서, <code>[[1]]</code> 대신에 <code>$a</code>을 볼 수 있는 이유를 알 수 있다.</p>
+<p>리스트는 또한 리스트 자신도 담을 수 있다:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">list</span>(<span class="kw">list</span>(<span class="kw">list</span>(<span class="kw">list</span>())))</code></pre></div>
+<pre class="output"><code>[[1]]
+[[1]][[1]]
+[[1]][[1]][[1]]
+list()
+</code></pre>
+<section class="challenge panel panel-success">
+<div class="panel-heading">
+<h2 id="도전과제-5"><span class="glyphicon glyphicon-pencil"></span>도전과제 5</h2>
+</div>
+<div class="panel-body">
+<p>길이 2 를 갖는 리스트를 생성한다. 이번에 학습하면서 각 절에 대한 제목을 리스트에 문자 벡터 형태로 포함시킨다:</p>
+<ul>
+<li>자료형</li>
+<li>자료구조</li>
+</ul>
+<p>지금까지 살펴본 자료형과 자료구조 이름을 각 문자 벡터에 덧붙인다.</p>
+</div>
+</section>
+<h2 id="도전과제-해답">도전과제 해답</h2>
+<section class="challenge panel panel-success">
+<div class="panel-heading">
+<h2 id="도전과제-1-에-대한-해답-data-types"><span class="glyphicon glyphicon-pencil"></span>도전과제 1 에 대한 해답 : Data types</h2>
+</div>
+<div class="panel-body">
+<p>지금까지 지식을 총동원해서 변수에 값을 대입한다. 다음 특징을 갖는 데이터 예제를 생성한다:</p>
+<ol style="list-style-type: decimal">
+<li>변수명: ‘answer’, 자료형: 논리형</li>
+<li>변수명: ‘height’, 자료형: 숫자형</li>
+<li>변수명: ‘dog_name’, 자료형: 문자형</li>
+</ol>
+<p>생성한 각 변수에 대해서, 의도한 데이터가 생성되었는지 테스트한다. 예상한지 못한 것을 발견했는가?</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">answer &lt;-<span class="st"> </span><span class="ot">TRUE</span>
+height &lt;-<span class="st"> </span><span class="dv">150</span>
+dog_name &lt;-<span class="st"> &quot;Snoopy&quot;</span>
+<span class="kw">is.logical</span>(answer)</code></pre></div>
+<pre class="output"><code>[1] TRUE
+</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">is.numeric</span>(height)</code></pre></div>
+<pre class="output"><code>[1] TRUE
+</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">is.character</span>(dog_name)</code></pre></div>
+<pre class="output"><code>[1] TRUE
+</code></pre>
+</div>
+</section>
+<section class="challenge panel panel-success">
+<div class="panel-heading">
+<h2 id="도전과제-2-에-대한-해답"><span class="glyphicon glyphicon-pencil"></span>도전과제 2 에 대한 해답</h2>
+</div>
+<div class="panel-body">
+<p>벡터에는 한가지 원자 자료형만 담길 수 있다. 만약 다른 자료형을 조합하려하면, R은 최소공배수(가장 쉽게 강제해서 우겨넣을 수 있는 자료형) 벡터를 생성한다.</p>
+<p><strong>우선 실행하지 말고, 다음 명령어가 어떤 작업을 수행할지 추측해 보라:</strong></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">xx &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="fl">1.7</span>, <span class="st">&quot;a&quot;</span>)
+xx</code></pre></div>
+<pre class="output"><code>[1] &quot;1.7&quot; &quot;a&quot;  
+</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">typeof</span>(xx)</code></pre></div>
+<pre class="output"><code>[1] &quot;character&quot;
+</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">xx &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="ot">TRUE</span>, <span class="dv">2</span>)
+xx</code></pre></div>
+<pre class="output"><code>[1] 1 2
+</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">typeof</span>(xx)</code></pre></div>
+<pre class="output"><code>[1] &quot;double&quot;
+</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">xx &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;a&quot;</span>, <span class="ot">TRUE</span>)
+xx</code></pre></div>
+<pre class="output"><code>[1] &quot;a&quot;    &quot;TRUE&quot;
+</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">typeof</span>(xx)</code></pre></div>
+<pre class="output"><code>[1] &quot;character&quot;
+</code></pre>
+</div>
+</section>
+<section class="challenge panel panel-success">
+<div class="panel-heading">
+<h2 id="도전과제-3-에-대한-해답"><span class="glyphicon glyphicon-pencil"></span>도전과제 3 에 대한 해답</h2>
+</div>
+<div class="panel-body">
+<p><code>length(x)</code> 결과는 무엇이라고 생각합니까? 직접 실행해 보세요. 맞췄나요? 왜 그런지/ 왜 그렇지 않나요?</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">rnorm</span>(<span class="dv">18</span>), <span class="dt">ncol=</span><span class="dv">6</span>, <span class="dt">nrow=</span><span class="dv">3</span>)
+<span class="kw">length</span>(x)</code></pre></div>
+<pre class="output"><code>[1] 18
+</code></pre>
+<p>행렬은 단지 추가된 차원 속성만 갖는 벡터로, <code>length</code> 함수는 행렬에 전체 요소 갯수를 반환한다.</p>
+</div>
+</section>
+<section class="challenge panel panel-success">
+<div class="panel-heading">
+<h2 id="도전과제-4-에-대한-해답"><span class="glyphicon glyphicon-pencil"></span>도전과제 4 에 대한 해답</h2>
+</div>
+<div class="panel-body">
+<p>또다른 행렬을 생성한다. 이번에는 1:50 까지 숫자를 포함하는 10 개 행과 5 개 칼럼을 갖춘다. <code>matrix</code> 함수는 기본디폴트로 처음 생성시 행과 열로 행렬을 채울 수 있나요? 행렬 변경에 대한 방법을 해결할 수 있는지 살펴보라. (<strong>힌트:</strong> <code>matrix</code>에 대한 문서를 읽어보다!)</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="dv">1</span>:<span class="dv">50</span>, <span class="dt">ncol=</span><span class="dv">5</span>, <span class="dt">nrow=</span><span class="dv">10</span>)
+x &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="dv">1</span>:<span class="dv">50</span>, <span class="dt">ncol=</span><span class="dv">5</span>, <span class="dt">nrow=</span><span class="dv">10</span>, <span class="dt">byrow =</span> <span class="ot">TRUE</span>) <span class="co"># 행 기준으로 채워넣는다.</span></code></pre></div>
+</div>
+</section>
+<section class="challenge panel panel-success">
+<div class="panel-heading">
+<h2 id="도전과제-5-에-대한-해답"><span class="glyphicon glyphicon-pencil"></span>도전과제 5 에 대한 해답</h2>
+</div>
+<div class="panel-body">
+<p>길이 2 를 갖는 리스트를 생성한다. 이번에 학습하면서 각 절에 대한 제목을 리스트에 문자 벡터 형태로 포함시킨다:</p>
+<ul>
+<li>자료형</li>
+<li>자료구조</li>
+</ul>
+<p>지금까지 살펴본 자료형과 자료구조 이름을 각 문자 벡터에 덧붙인다.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">my_list &lt;-<span class="st"> </span><span class="kw">list</span>(
+  <span class="dt">data_types =</span> <span class="kw">c</span>(<span class="st">&quot;logical&quot;</span>, <span class="st">&quot;integer&quot;</span>, <span class="st">&quot;double&quot;</span>, <span class="st">&quot;complex&quot;</span>, <span class="st">&quot;character&quot;</span>),
+  <span class="dt">data_structures =</span> <span class="kw">c</span>(<span class="st">&quot;vector&quot;</span>, <span class="st">&quot;matrix&quot;</span>, <span class="st">&quot;factor&quot;</span>, <span class="st">&quot;list&quot;</span>)
+)</code></pre></div>
+</div>
+</section>
+        </div>
+      </div>
+      </article>
+      <div class="footer">
+        <a class="label swc-blue-bg" href="http://software-carpentry.org">Software Carpentry</a>
+        <a class="label swc-blue-bg" href="https://github.com/swcarpentry/lesson-template">Source</a>
+        <a class="label swc-blue-bg" href="mailto:admin@software-carpentry.org">Contact</a>
+        <a class="label swc-blue-bg" href="LICENSE.html">License</a>
+      </div>
+    </div>
+    <!-- Javascript placed at the end of the document so the pages load faster -->
+    <script src="http://software-carpentry.org/v5/js/jquery-1.9.1.min.js"></script>
+    <script src="css/bootstrap/bootstrap-js/bootstrap.js"></script>
+    <script src='https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
+  </body>
+</html>
