@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="generator" content="pandoc">
+    <title>Software Carpentry: 재현가능한 과학적 분석을 위한 R</title>
+    <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="css/bootstrap/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="css/bootstrap/bootstrap-theme.css" />
+    <link rel="stylesheet" type="text/css" href="css/swc.css" />
+    <link rel="alternate" type="application/rss+xml" title="Software Carpentry Blog" href="http://software-carpentry.org/feed.xml"/>
+    <meta charset="UTF-8" />
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body class="lesson">
+    <div class="container card">
+      <div class="banner">
+        <a href="http://software-carpentry.org" title="Software Carpentry">
+          <img alt="Software Carpentry banner" src="img/software-carpentry-banner.png" />
+        </a>
+      </div>
+      <article>
+      <div class="row">
+        <div class="col-md-10 col-md-offset-1">
+                    <a href="index.html"><h1 class="title">재현가능한 과학적 분석을 위한 R</h1></a>
+          <h2 class="subtitle">마무리</h2>
+          <section class="objectives panel panel-warning">
+<div class="panel-heading">
+<h2 id="학습-목표"><span class="glyphicon glyphicon-certificate"></span>학습 목표</h2>
+</div>
+<div class="panel-body">
+<ul>
+<li>과학적 분석에 R을 사용한 것에 대한 모범 활용사례를 검토한다.</li>
+</ul>
+</div>
+</section>
+<h2 id="멋진-코드를-작성하는-모범-활용사례">멋진 코드를 작성하는 모범 활용사례</h2>
+<h2 id="가독성-높은-코드를-생성한다.">가독성 높은 코드를 생성한다.</h2>
+<p>코드 작성에 있어 가장 중요한 부분이 코드를 가독성 있고 이해가능하게 작성하는 것이다. 누군가 여러분이 작성한 코드를 골라 이해할 수 있으면 한다: 흔히 누군가는 6개월 후에 <strong>바로 당신</strong>이 될 수 있고, 만약 그렇게 작성하지 않았다면 과거 자신에 대해 저주할 것이다.</p>
+<h2 id="문서화-왜why-그리고-무엇what은-ok-어떻게how는-no.">문서화: 왜(why) 그리고 무엇(what)은 OK, 어떻게(how)는 No.</h2>
+<p>처음 코드를 작성할 때, 주석은 명령어가 무엇을 수행하는지 기술한다. 왜냐하면, 여전히 학습중으로 개념을 명확히 하고, 나중에 다시 상기하는데 도움이 된다. 하지만, 이러한 주석은 나중에 작성한 코드가 어떤 문제를 해결하고자 하는지 기억을 하지 못하면 그다지 도움이 되지 못한다. <em>왜(why)</em> 문제를 해결하려고 하는지, 그리고 <em>어떤(what)</em> 문제인지 전달하는 주석을 달려고 노력한다. <em>어떻게(how)</em>는 그 다음에 온다: 정말 걱정하지 말하야 되는 사항은 구체적인 구현이다.</p>
+<h2 id="코드를-모듈화-하라">코드를 모듈화 하라</h2>
+<p>소프트웨어 카펜트리에서 추천하는 것은 작성한 함수와 분석 스크립트를 구별해서 별도 파일에 저장한다. 프로젝트 R세션을 열 때, <code>source</code> 함수로 불러온다. 분석 스크립트를 너저분하지 않게 하고, 유용한 함수 저장소를 프로젝트 분석 스크립트에 적재할 수 있게 함으로써 이러한 접근법이 깔끔하다. 또한 관련된 함수를 쉽게 무리지어 묶는다.</p>
+<h2 id="문제를-한입크기-조각으로-쪼갠다.">문제를 한입크기 조각으로 쪼갠다.</h2>
+<p>처음 시작할 때, 문제 해결과 함수 작성은 어마어마한 작업이고, 코드를 쪼개는 것도 힘들다. 문제를 소화가능한 덩어리로 쪼개고, 나중에 구현에 관한 구체적인 사항을 걱정한다: 해결책을 코드로 작성할 수 있는 지점까지 문제를 더 작게 그리고 더 작은 함수로 계속 쪼개 나간다. 그리고 나서 다시 거꾸로 빌드해서 만들어 낸다.</p>
+<h2 id="작성한-코드가-올바른-작업을-수행하도록-만든다">작성한 코드가 올바른 작업을 수행하도록 만든다</h2>
+<p>작성한 함수를 테스트해서 확실히 동작하게 만든다.</p>
+<h2 id="여러분이-반복하지-마라">여러분이 반복하지 마라!</h2>
+<p>함수는 프로젝트 내부에서 재사용을 쉽게 한다. 프로젝트를 통해서 유사한 코드 라인 덩어리를 보게 되면, 대체로 함수로 옮겨져야 되는 대상을 찾은 것이다.</p>
+<p>연산작업이 연속된 함수를 통해 실행되면, 프로젝트는 모듈로 만들기 쉽고, 변경하기 쉽다. 항상 특정한 입력값을 넣으면 특정한 출력값이 나오는 경우에 특히 그렇다.</p>
+<h2 id="스타일을-고집하라">스타일을 고집하라</h2>
+<p>코드에 일관된 스타일을 지킨다.</p>
+        </div>
+      </div>
+      </article>
+      <div class="footer">
+        <a class="label swc-blue-bg" href="http://software-carpentry.org">Software Carpentry</a>
+        <a class="label swc-blue-bg" href="https://github.com/swcarpentry/lesson-template">Source</a>
+        <a class="label swc-blue-bg" href="mailto:admin@software-carpentry.org">Contact</a>
+        <a class="label swc-blue-bg" href="LICENSE.html">License</a>
+      </div>
+    </div>
+    <!-- Javascript placed at the end of the document so the pages load faster -->
+    <script src="http://software-carpentry.org/v5/js/jquery-1.9.1.min.js"></script>
+    <script src="css/bootstrap/bootstrap-js/bootstrap.js"></script>
+    <script src='https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
+  </body>
+</html>

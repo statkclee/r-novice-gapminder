@@ -1,67 +1,66 @@
 ---
 layout: page
-title: 재현가능한 과학적 분석을 위한 R
-subtitle: 마무리
+title: R for reproducible scientific analysis
+subtitle: Wrapping up
 minutes: 15
 ---
 
-> ## 학습 목표 {.objectives}
+> ## Learning Objectives {.objectives}
 >
-> * 과학적 분석에 R을 사용한 것에 대한 모범 활용사례를 검토한다.
+> * To review the best practices for using R for
+>   scientific analysis.
 >
 
-## 멋진 코드를 작성하는 모범 활용사례
+## Best practices for writing nice code
 
-## 가독성 높은 코드를 생성한다.
+## Make code readable
 
-코드 작성에 있어 가장 중요한 부분이 코드를 가독성 있고 이해가능하게 작성하는 것이다.
-누군가 여러분이 작성한 코드를 골라 이해할 수 있으면 한다:
-흔히 누군가는 6개월 후에 **바로 당신**이 될 수 있고, 만약 그렇게 작성하지 않았다면
-과거 자신에 대해 저주할 것이다.
+The most important part of writing code is making it readable and understandable.
+You want someone else to be able to pick up your code and be able to understand
+what it does: more often than not this someone will be you 6 months down the line,
+who will otherwise be cursing past-self.
 
-## 문서화: 왜(why) 그리고 무엇(what)은 OK, 어떻게(how)는 No.
+## Documentation: tell us what and why, not how
 
-처음 코드를 작성할 때, 주석은 명령어가 무엇을 수행하는지 기술한다.
-왜냐하면, 여전히 학습중으로 개념을 명확히 하고, 나중에 다시 상기하는데 도움이 된다.
-하지만, 이러한 주석은 나중에 작성한 코드가 어떤 문제를 해결하고자 하는지
-기억을 하지 못하면 그다지 도움이 되지 못한다.
-*왜(why)* 문제를 해결하려고 하는지, 그리고 *어떤(what)* 문제인지 전달하는 
-주석을 달려고 노력한다.
-*어떻게(how)*는 그 다음에 온다: 정말 걱정하지 말하야 되는 사항은 구체적인 구현이다.
+When you first start out, your comments will often describe what a command does,
+since you're still learning yourself and it can help to clarify concepts and
+remind you later. However, these comments aren't particularly useful later on
+when you don't remember what problem your code is trying to solve. Try to also
+include comments that tell you *why* you're solving a problem, and *what* problem
+that is. The *how* can come after that: it's an implementation detail you ideally
+shouldn't have to worry about.
 
-## 코드를 모듈화 하라
+## Keep your code modular
 
-소프트웨어 카펜트리에서 추천하는 것은 작성한 함수와 분석 스크립트를 
-구별해서 별도 파일에 저장한다. 프로젝트 R세션을 열 때,
-`source` 함수로 불러온다.
-분석 스크립트를 너저분하지 않게 하고, 유용한 함수 저장소를 
- 프로젝트 분석 스크립트에 적재할 수 있게 함으로써 이러한 접근법이 깔끔하다.
- 또한 관련된 함수를 쉽게 무리지어 묶는다.
+Our recommendation is that you should separate your functions from your analysis
+scripts, and store them in a separate file that you `source` when you open the R
+session in your project. This approach is nice because it leaves you with an
+uncluttered analysis script, and a repository of useful functions that can be
+loaded into any analysis script in your project. It also lets you group related
+functions together easily.
 
-## 문제를 한입크기 조각으로 쪼갠다.
+## Break down problem into bite size pieces
 
-처음 시작할 때, 문제 해결과 함수 작성은 어마어마한 작업이고,
-코드를 쪼개는 것도 힘들다.
-문제를 소화가능한 덩어리로 쪼개고,
-나중에 구현에 관한 구체적인 사항을 걱정한다:
-해결책을 코드로 작성할 수 있는 지점까지 
-문제를 더 작게 그리고 더 작은 함수로 계속 쪼개 나간다.
-그리고 나서 다시 거꾸로 빌드해서 만들어 낸다.
+When you first start out, problem solving and function writing can be daunting
+tasks, and hard to separate from code inexperience. Try to break down your
+problem into digestible chunks and worry about the implementation details later:
+keep breaking down the problem into smaller and smaller functions until you
+reach a point where you can code a solution, and build back up from there.
 
-## 작성한 코드가 올바른 작업을 수행하도록 만든다
+## Know that your code is doing the right thing
 
-작성한 함수를 테스트해서 확실히 동작하게 만든다.
+Make sure to test your functions!
 
-## 여러분이 반복하지 마라!
+## Don't repeat yourself
 
-함수는 프로젝트 내부에서 재사용을 쉽게 한다.
-프로젝트를 통해서 유사한 코드 라인 덩어리를 보게 되면,
-대체로 함수로 옮겨져야 되는 대상을 찾은 것이다.
+Functions enable easy reuse within a project. If you see blocks of similar
+lines of code through your project, those are usually candidates for being
+moved into functions.
 
-연산작업이 연속된 함수를 통해 실행되면,
-프로젝트는 모듈로 만들기 쉽고, 변경하기 쉽다.
-항상 특정한 입력값을 넣으면 특정한 출력값이 나오는 경우에 특히 그렇다.
+If your calculations are performed through a series of functions, then the
+project becomes more modular and easier to change. This is especially the case
+for which a particular input always gives a particular output.
 
-## 스타일을 고집하라
+## Remember to be stylish
 
-코드에 일관된 스타일을 지킨다.
+Apply consistent style to your code.
